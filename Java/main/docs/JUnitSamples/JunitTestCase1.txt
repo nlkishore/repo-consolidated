@@ -1,0 +1,492 @@
+public boolean checkCompanyExists(DatabaseUtilService databaseUtil, String companyName){
+	Strig company = null;
+	log.debug("Checking Company Name"+companyName)
+	try {
+		company = databaseUtil.getSequencesCIFNumber( "select date from Dual",companyName);
+	} catch(Exception e){
+	    log.error("Exception  "+e);
+	}
+	retrun (companyName !=null && company !=null && companyName.equals(company));
+}
+
+
+
+
+
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class CompanyServiceTest {
+
+    private static final Logger log = LoggerFactory.getLogger(CompanyServiceTest.class);
+
+    @Test
+    public void testCheckCompanyExists() {
+        DatabaseUtilService databaseUtil = mock(DatabaseUtilService.class);
+        CompanyService companyService = new CompanyService();
+
+        // Test case where companyName is null
+        assertFalse(companyService.checkCompanyExists(databaseUtil, null));
+
+        // Test case where companyName is not null but company is null
+        when(databaseUtil.getSequencesCIFNumber(anyString(), anyString())).thenReturn(null);
+        assertFalse(companyService.checkCompanyExists(databaseUtil, "TestCompany"));
+
+        // Test case where companyName is not null and company is not null but not equal
+        when(databaseUtil.getSequencesCIFNumber(anyString(), anyString())).thenReturn("DifferentCompany");
+        assertFalse(companyService.checkCompanyExists(databaseUtil, "TestCompany"));
+
+        // Test case where companyName is not null and company is not null and equal
+        when(databaseUtil.getSequencesCIFNumber(anyString(), anyString())).thenReturn("TestCompany");
+        assertTrue(companyService.checkCompanyExists(databaseUtil, "TestCompany"));
+    }
+
+    private class CompanyService {
+        public boolean checkCompanyExists(DatabaseUtilService databaseUtil, String companyName) {
+            String company = null;
+            log.debug("Checking Company Name" + companyName);
+            try {
+                company = databaseUtil.getSequencesCIFNumber("select date from Dual", companyName);
+            } catch (Exception e) {
+                log.error("Exception  " + e);
+            }
+            return (companyName != null && company != null && companyName.equals(company));
+        }
+    }
+}
+
+
+public Properties loadConfig() {
+
+ File dbConfig;
+ propertyService.putProperty(BATCH_HOME, System.getendv(BATCH_HOME));
+ propertyService.loadDefaultPropertyFile(CONFIG_FILE)
+ 
+ Properties properties = PropertyService.getPropertiesBean();
+ 
+ String batchHome = propertyService.getProperty(BATCH_HOME)
+ dbConfig = new File(batchHome,PropertyService.getProperty("dbConfig.file"));
+ 
+ returm properties;
+ }
+
+
+}
+
+
+
+
+
+
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import java.util.Properties;
+import java.io.File;
+
+public class ConfigServiceTest {
+
+    @Test
+    public void testLoadConfig() {
+        PropertyService propertyService = mock(PropertyService.class);
+        ConfigService configService = new ConfigService(propertyService);
+
+        // Mocking the environment variable and property service methods
+        when(System.getenv("BATCH_HOME")).thenReturn("/path/to/batch/home");
+        doNothing().when(propertyService).putProperty(anyString(), anyString());
+        doNothing().when(propertyService).loadDefaultPropertyFile(anyString());
+        Properties mockProperties = new Properties();
+        when(propertyService.getPropertiesBean()).thenReturn(mockProperties);
+        when(propertyService.getProperty("BATCH_HOME")).thenReturn("/path/to/batch/home");
+        when(propertyService.getProperty("dbConfig.file")).thenReturn("dbConfig.properties");
+
+        // Calling the method to test
+        Properties properties = configService.loadConfig();
+
+        // Verifying the interactions and assertions
+        verify(propertyService).putProperty("BATCH_HOME", "/path/to/batch/home");
+        verify(propertyService).loadDefaultPropertyFile("CONFIG_FILE");
+        verify(propertyService).getPropertiesBean();
+        verify(propertyService).getProperty("BATCH_HOME");
+        verify(propertyService).getProperty("dbConfig.file");
+
+        assertNotNull(properties);
+        File dbConfig = new File("/path/to/batch/home", "dbConfig.properties");
+        assertTrue(dbConfig.exists());
+    }
+
+    private class ConfigService {
+        private PropertyService propertyService;
+
+        public ConfigService(PropertyService propertyService) {
+            this.propertyService = propertyService;
+        }
+
+        public Properties loadConfig() {
+            File dbConfig;
+            propertyService.putProperty("BATCH_HOME", System.getenv("BATCH_HOME"));
+            propertyService.loadDefaultPropertyFile("CONFIG_FILE");
+            
+            Properties properties = propertyService.getPropertiesBean();
+            
+            String batchHome = propertyService.getProperty("BATCH_HOME");
+            dbConfig = new File(batchHome, propertyService.getProperty("dbConfig.file"));
+            
+            return properties;
+        }
+    }
+}
+
+
+
+public static void main(String[] args){
+try{
+System.exit(new InflightMigrationLauncher(args).run(args));
+}catch(SQLException | IOException e){
+log.error("Exception "+e);
+}catch(Exception ex){
+log.error(:Exception ex " +ex);
+}
+
+
+}
+
+
+
+
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import java.sql.SQLException;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class InflightMigrationLauncherTest {
+
+    private static final Logger log = LoggerFactory.getLogger(InflightMigrationLauncherTest.class);
+
+    @Test
+    public void testMainMethod() throws Exception {
+        // Mocking the InflightMigrationLauncher class
+        InflightMigrationLauncher launcher = mock(InflightMigrationLauncher.class);
+        when(launcher.run(any(String[].class))).thenReturn(0);
+
+        // Mocking the System.exit method
+        SystemExitMock systemExitMock = new SystemExitMock();
+        System.setSecurityManager(systemExitMock);
+
+        try {
+            // Calling the main method
+            InflightMigrationLauncher.main(new String[]{"arg1", "arg2"});
+
+            // Verifying the interactions and assertions
+            verify(launcher).run(any(String[].class));
+            assertEquals(0, systemExitMock.getStatus());
+        } finally {
+            System.setSecurityManager(null); // Resetting the security manager
+        }
+    }
+
+    @Test
+    public void testMainMethodWithSQLException() throws Exception {
+        // Mocking the InflightMigrationLauncher class
+        InflightMigrationLauncher launcher = mock(InflightMigrationLauncher.class);
+        when(launcher.run(any(String[].class))).thenThrow(new SQLException("SQL Exception"));
+
+        // Mocking the System.exit method
+        SystemExitMock systemExitMock = new SystemExitMock();
+        System.setSecurityManager(systemExitMock);
+
+        try {
+            // Calling the main method
+            InflightMigrationLauncher.main(new String[]{"arg1", "arg2"});
+
+            // Verifying the interactions and assertions
+            verify(launcher).run(any(String[].class));
+            assertEquals(1, systemExitMock.getStatus());
+        } finally {
+            System.setSecurityManager(null); // Resetting the security manager
+        }
+    }
+
+    @Test
+    public void testMainMethodWithIOException() throws Exception {
+        // Mocking the InflightMigrationLauncher class
+        InflightMigrationLauncher launcher = mock(InflightMigrationLauncher.class);
+        when(launcher.run(any(String[].class))).thenThrow(new IOException("IO Exception"));
+
+        // Mocking the System.exit method
+        SystemExitMock systemExitMock = new SystemExitMock();
+        System.setSecurityManager(systemExitMock);
+
+        try {
+            // Calling the main method
+            InflightMigrationLauncher.main(new String[]{"arg1", "arg2"});
+
+            // Verifying the interactions and assertions
+            verify(launcher).run(any(String[].class));
+            assertEquals(1, systemExitMock.getStatus());
+        } finally {
+            System.setSecurityManager(null); // Resetting the security manager
+        }
+    }
+
+    @Test
+    public void testMainMethodWithGeneralException() throws Exception {
+        // Mocking the InflightMigrationLauncher class
+        InflightMigrationLauncher launcher = mock(InflightMigrationLauncher.class);
+        when(launcher.run(any(String[].class))).thenThrow(new Exception("General Exception"));
+
+        // Mocking the System.exit method
+        SystemExitMock systemExitMock = new SystemExitMock();
+        System.setSecurityManager(systemExitMock);
+
+        try {
+            // Calling the main method
+            InflightMigrationLauncher.main(new String[]{"arg1", "arg2"});
+
+            // Verifying the interactions and assertions
+            verify(launcher).run(any(String[].class));
+            assertEquals(1, systemExitMock.getStatus());
+        } finally {
+            System.setSecurityManager(null); // Resetting the security manager
+        }
+    }
+
+    // Mock class for System.exit
+    private class SystemExitMock extends SecurityManager {
+        private int status;
+
+        @Override
+        public void checkExit(int status) {
+            this.status = status;
+            throw new SecurityException();
+        }
+
+        @Override
+        public void checkPermission(java.security.Permission perm) {
+            // Allow other activities by default
+        }
+
+        public int getStatus() {
+            return status;
+        }
+    }
+}
+
+
+public int processFile(DatabaseUtilService databaseUtil, String[] args) throws SQLException,IOException {
+try{
+if("1".equals(cewStatus !=null ? cewStatus.trim() :"")){
+	cewStatus = "PASS";
+}elsie if("2".equals(cewStatus !=null ? cewStatus.trim() :"")){
+	cewStatus = "SUCCESS";
+}
+}catch(SQLException | IOException){
+	log.error("Error Reakding input File :"+inputFile));
+	return 1;
+}
+
+}
+
+
+
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import java.sql.SQLException;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ProcessFileTest {
+
+    private static final Logger log = LoggerFactory.getLogger(ProcessFileTest.class);
+
+    @Test
+    public void testProcessFilePass() throws SQLException, IOException {
+        DatabaseUtilService databaseUtil = mock(DatabaseUtilService.class);
+        ProcessFile processFile = new ProcessFile();
+
+        // Test case where cewStatus is "1"
+        String[] args = {};
+        String cewStatus = "1";
+        assertEquals(0, processFile.processFile(databaseUtil, args));
+        assertEquals("PASS", cewStatus);
+    }
+
+    @Test
+    public void testProcessFileSuccess() throws SQLException, IOException {
+        DatabaseUtilService databaseUtil = mock(DatabaseUtilService.class);
+        ProcessFile processFile = new ProcessFile();
+
+        // Test case where cewStatus is "2"
+        String[] args = {};
+        String cewStatus = "2";
+        assertEquals(0, processFile.processFile(databaseUtil, args));
+        assertEquals("SUCCESS", cewStatus);
+    }
+
+    @Test
+    public void testProcessFileSQLException() throws SQLException, IOException {
+        DatabaseUtilService databaseUtil = mock(DatabaseUtilService.class);
+        ProcessFile processFile = new ProcessFile();
+
+        // Test case where SQLException is thrown
+        doThrow(new SQLException("SQL Exception")).when(databaseUtil).someMethod();
+        String[] args = {};
+        assertEquals(1, processFile.processFile(databaseUtil, args));
+    }
+
+    @Test
+    public void testProcessFileIOException() throws SQLException, IOException {
+        DatabaseUtilService databaseUtil = mock(DatabaseUtilService.class);
+        ProcessFile processFile = new ProcessFile();
+
+        // Test case where IOException is thrown
+        doThrow(new IOException("IO Exception")).when(databaseUtil).someMethod();
+        String[] args = {};
+        assertEquals(1, processFile.processFile(databaseUtil, args));
+    }
+}
+
+
+
+PoolDataSevice Class of GST UserProfile
+
+
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.Before;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import oracle.ucp.jdbc.PoolDataSource;
+import oracle.ucp.jdbc.PoolDataSourceFactory;
+
+public class DatabaseUtilsServiceTest {
+
+    private DatabaseUtilsService databaseUtilsService;
+    private Properties properties;
+    private PoolDataSource mockPds;
+    private Connection mockConnection;
+    private Logger mockLogger;
+
+    @Before
+    public void setUp() throws Exception {
+        databaseUtilsService = new DatabaseUtilsService();
+        properties = new Properties();
+        properties.setProperty("BATCH_HOME", "/path/to/batch/home");
+        properties.setProperty("dbConfig.file", "dbConfig.xml");
+
+        mockPds = mock(PoolDataSource.class);
+        mockConnection = mock(Connection.class);
+        mockLogger = mock(Logger.class);
+
+        DatabaseUtilsService.pds = mockPds;
+        DatabaseUtilsService.LOG = mockLogger;
+    }
+
+    @Test
+    public void testGetConnection() throws Exception {
+        when(mockPds.getConnection()).thenReturn(mockConnection);
+
+        Connection connection = databaseUtilsService.getConnection(properties);
+
+        assertNotNull(connection);
+        verify(mockPds).getConnection();
+        verify(mockLogger).trace(anyString());
+        verify(mockLogger).info(anyString());
+    }
+
+    @Test
+    public void testGetConnectionWithException() throws Exception {
+        DatabaseUtilsService.pds = null; // Reset the PoolDataSource to null
+        doThrow(new SQLException("SQL Exception")).when(mockPds).getConnection();
+
+        try {
+            databaseUtilsService.getConnection(properties);
+            fail("Expected an Exception to be thrown");
+        } catch (Exception e) {
+            assertEquals("java.sql.SQLException: SQL Exception", e.getMessage());
+            verify(mockLogger).error(anyString(), any(Exception.class));
+        }
+    }
+
+    @Test
+    public void testReleaseConnection() throws SQLException {
+        databaseUtilsService.releaseConnection(mockConnection);
+        verify(mockConnection).close();
+    }
+
+    @Test
+    public void testReleaseConnectionWithException() throws SQLException {
+        doThrow(new SQLException("SQL Exception")).when(mockConnection).close();
+
+        databaseUtilsService.releaseConnection(mockConnection);
+
+        verify(mockLogger).error(anyString(), any(SQLException.class));
+    }
+}
+
+
+
+
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+public class SimpleBeanTest {
+
+    @Test
+    public void testGettersAndSetters() {
+        SimpleBean bean = new SimpleBean();
+        bean.setName("John Doe");
+        bean.setAge(30);
+        bean.setEmail("john.doe@example.com");
+
+        assertEquals("John Doe", bean.getName());
+        assertEquals(30, bean.getAge());
+        assertEquals("john.doe@example.com", bean.getEmail());
+    }
+
+    @Test
+    public void testToString() {
+        SimpleBean bean = new SimpleBean("John Doe", 30, "john.doe@example.com");
+        String expected = "SimpleBean{name='John Doe', age=30, email='john.doe@example.com'}";
+        assertEquals(expected, bean.toString());
+    }
+
+    @Test
+    public void testEquals() {
+        SimpleBean bean1 = new SimpleBean("John Doe", 30, "john.doe@example.com");
+        SimpleBean bean2 = new SimpleBean("John Doe", 30, "john.doe@example.com");
+        SimpleBean bean3 = new SimpleBean("Jane Doe", 25, "jane.doe@example.com");
+
+        assertTrue(bean1.equals(bean2));
+        assertFalse(bean1.equals(bean3));
+    }
+
+    @Test
+    public void testHashCode() {
+        SimpleBean bean1 = new SimpleBean("John Doe", 30, "john.doe@example.com");
+        SimpleBean bean2 = new SimpleBean("John Doe", 30, "john.doe@example.com");
+        SimpleBean bean3 = new SimpleBean("Jane Doe", 25, "jane.doe@example.com");
+
+        assertEquals(bean1.hashCode(), bean2.hashCode());
+        assertNotEquals(bean1.hashCode(), bean3.hashCode());
+    }
+}

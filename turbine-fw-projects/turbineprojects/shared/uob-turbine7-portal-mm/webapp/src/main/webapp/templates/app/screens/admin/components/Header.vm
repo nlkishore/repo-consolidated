@@ -1,0 +1,14 @@
+## Header Component
+## Modularized header component for Admin Dashboard
+## Matches legacy application appearance
+
+<div class="admin-header">
+    <div class="header-left">
+        <h2>Admin Dashboard</h2>
+    </div>
+    <div class="header-right">
+        #if ($data.getUser().hasLoggedIn())
+            <span class="welcome-text">Welcome, $!data.getUser().FirstName</span>
+        #end
+    </div>
+</div>

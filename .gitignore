@@ -14,3 +14,10 @@ __pycache__/
 *.so
 *.dll
 *.exe
+turbine-fw-projects/main/apps/turbine-archetype.tar
+
+.env
+.env.*
+*.pem
+*.key
+credentials.json

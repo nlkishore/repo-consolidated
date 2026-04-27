@@ -1,0 +1,55 @@
+## Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements.
+## See the NOTICE file distributed with this work for additional information regarding copyright ownership.
+## The ASF licenses this file to you under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+## Velocity Layout Template for Apache Turbine
+
+$page.addStyleSheet("http://www.w3schools.com/lib/w3.css")
+$page.addStyleSheet("http://www.w3schools.com/lib/w3-theme-blue-grey.css")
+$page.setTitle("Sample Apache Turbine Application")
+$page.addScript($ui.getScript("page.js"))
+
+<html lang="$l10n.Locale">
+  <head>
+    <meta http-equiv="Content-type" content="$data.ContentType" />
+    #TurbineHtmlHead()
+    <link href="$ui.getStylecss()" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body #TurbineHtmlBodyAttributes() class="w3-theme-l4">
+    <div class="w3-wrapper">
+
+      <!-- Header -->
+      <header class="w3-container w3-center w3-padding-32 w3-theme">
+        <img class="w3-right" src="$ui.image('turbine4-project.png')" />
+
+        #set ($user = $data.getUser())
+        #if ($user && $user.hasLoggedIn())
+          <div class="w3-right">
+            <h5>Hello $!user.FirstName</h5>
+          </div>
+        #else
+          <div class="w3-right">
+            <h5>Welcome, Guest</h5>
+          </div>
+        #end
+      </header>
+
+      <!-- Default Menu -->
+      $navigation.setTemplate("/Menu.vm")
+
+      <!-- Content -->
+      <div class="w3-left w3-padding" id="content">
+        $screen_placeholder
+      </div>
+
+      <!-- Footer -->
+      <footer class="w3-bottom w3-container w3-padding-small w3-theme-d5">
+        <p>Powered by <img src="$ui.image('pb-turbine100px.png')" alt="Turbine Logo"/></p>
+      </footer>
+
+    </div>
+  </body>
+</html>

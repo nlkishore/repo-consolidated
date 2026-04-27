@@ -1,0 +1,9 @@
+<html>
+<body>
+  <h1>Hello $name!</h1>
+  <form action="$link.setAction('HelloAction')" method="post">
+    <input type="text" name="name" placeholder="Enter your name"/>
+    <input type="submit" value="Submit"/>
+  </form>
+</body>
+</html>

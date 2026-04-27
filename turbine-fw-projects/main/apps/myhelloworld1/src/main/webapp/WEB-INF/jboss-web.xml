@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss Web Configuration for myhelloworld1
+    This file configures the web application context for JBoss/WildFly.
+-->
+<jboss-web xmlns="https://jakarta.ee/xml/ns/jakartaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+           https://jakarta.ee/xml/ns/jakartaee/jboss-web_14_0.xsd"
+           version="14.0">
+    
+    <!-- Context root for the application -->
+    <context-root>/myhelloworld1-1.0</context-root>
+    
+    <!-- Disable JBoss welcome page -->
+    <enable-welcome-root>false</enable-welcome-root>
+    
+    <!-- Resource references for database connections -->
+    <!-- Configure datasource in JBoss standalone.xml or via CLI -->
+    <!-- Example:
+    <resource-ref>
+        <res-ref-name>jdbc/MyDataSource</res-ref-name>
+        <jndi-name>java:jboss/datasources/MyDataSource</jndi-name>
+    </resource-ref>
+    -->
+    
+</jboss-web>

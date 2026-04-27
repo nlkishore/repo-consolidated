@@ -1,0 +1,48 @@
+kubectl apply -f mysql-pv.yaml
+kubectl apply -f mysql-pvc.yaml
+kubectl apply -f mysql-deployment.yaml
+kubectl apply -f mysql-service.yaml
+kubectl get deployments
+kubectl get pods
+kubectl get services
+
+kubectl get service -o wide
+
+kubectl delete --all services --namespace=*here-you-enter-namespace
+kubectl delete deployment deployment-name
+kubectl delete service/myhttpd-clusterip service/myhttpd-nodeport
+kubectl delete service/myhttpd-lb deployment/myhttpd
+
+kubectl run -it --rm --image=mysql --restart=Never mysql-client -- mysql -h 127.0.0.1 -u root -p password
+
+
+
+kubectl exec -it mysql-d6f56dd44-d4597  -- sh  /dev
+
+mysql -u root  -p password
+
+kubectl cp /Users/yaswitha/datafiles/  mysql-d6f56dd44-d4597:/tmp
+
+
+LOAD DATA INFILE '/var/lib/mysql-files/movie_data.csv'
+INTO TABLE movie
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+
+LOAD DATA INFILE '/var/lib/mysql-files/genres_data.csv'
+INTO TABLE genres
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+
+LOAD DATA INFILE '/var/lib/mysql-files/movie_genres_data.csv'
+INTO TABLE movie_genres
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;

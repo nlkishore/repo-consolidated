@@ -1,0 +1,1 @@
+pmd -d /path/to/your/source/code -f text -R /path/to/your/ruleset.xml

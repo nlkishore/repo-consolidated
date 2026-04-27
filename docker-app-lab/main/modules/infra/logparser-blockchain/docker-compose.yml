@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  logparser:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: logparser
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - ENV=production

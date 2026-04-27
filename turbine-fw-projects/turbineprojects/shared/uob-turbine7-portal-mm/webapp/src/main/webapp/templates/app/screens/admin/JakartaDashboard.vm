@@ -1,0 +1,280 @@
+## Jakarta UI Dashboard - Admin Dashboard Content with Jakarta UI Layout
+## Displays Users, Groups, Roles, Permissions with Jakarta UI styling
+## URL: /app/admin/JakartaDashboard.vm
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jakarta Dashboard - UOB Turbine Portal</title>
+    <link rel="stylesheet" href="$link.getContextPath()/templates/app/jakarta/styles/jakarta-dashboard.css?v=${DateTool.getSystemTime()}">
+</head>
+<body class="jakarta-body">
+
+<div class="jakarta-container">
+    ## Header
+    <header class="jakarta-header">
+        <div class="header-content">
+            <h1 class="header-title">Admin Dashboard</h1>
+            <div class="header-actions">
+                #if ($user && $user.hasLoggedIn())
+                    <span class="user-info">Welcome, $!user.FirstName</span>
+                    <a href="$link.setAction("LogoutUser")" class="logout-link">Logout</a>
+                #end
+            </div>
+        </div>
+    </header>
+
+    ## Main Content Area
+    <main class="jakarta-main">
+        ## Left Navigation Sidebar
+        <aside class="jakarta-sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item active">
+                        <a href="#user-details" class="nav-link" onclick="showSection('user-details'); return false;">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-label">User Details</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#group-details" class="nav-link" onclick="showSection('group-details'); return false;">
+                            <span class="nav-icon">👥</span>
+                            <span class="nav-label">Group Details</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#roles-details" class="nav-link" onclick="showSection('roles-details'); return false;">
+                            <span class="nav-icon">🔑</span>
+                            <span class="nav-label">Roles Details</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#permission-details" class="nav-link" onclick="showSection('permission-details'); return false;">
+                            <span class="nav-icon">🔐</span>
+                            <span class="nav-label">Permission Details</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        ## Work Area
+        <div class="jakarta-workarea" id="workarea">
+            ## Floating Navigation Dropdown (Reference UI Style)
+            <div class="jakarta-dropdown-widget" id="dropdown-widget">
+                <button class="dropdown-toggle" id="dropdown-toggle" onclick="toggleDropdown()">
+                    <span class="dropdown-icon">☰</span>
+                    <span class="dropdown-label">Navigation</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
+                    <ul class="dropdown-list">
+                        <li><a href="#" onclick="toggleFormSummary(); return false;"><span id="form-summary-text">Hide Form Summary</span> | Top</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a href="#" onclick="showSection('user-details'); hideDropdown(); return false;">User Details</a></li>
+                        <li><a href="#" onclick="showSection('group-details'); hideDropdown(); return false;">Group Details</a></li>
+                        <li><a href="#" onclick="showSection('roles-details'); hideDropdown(); return false;">Roles Details</a></li>
+                        <li><a href="#" onclick="showSection('permission-details'); hideDropdown(); return false;">Permission Details</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a href="#" onclick="scrollToTop(); hideDropdown(); return false;">Top</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            ## User Details Section
+            <section class="jakarta-section" id="user-details">
+                <div class="section-header">
+                    <h2 class="section-title">User Details</h2>
+                </div>
+                <div class="section-content">
+                    ## Search Box
+                    <div class="search-box">
+                        <input type="text" id="user-search" class="search-input" placeholder="Search users by name, email, or login..." onkeyup="searchUsers()">
+                        <button class="btn-primary" onclick="searchUsers()">Search</button>
+                    </div>
+                    
+                    ## Results Grid
+                    <div class="results-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Login Name</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-grid-body">
+                                #if ($allUsers && !$allUsers.isEmpty())
+                                    #foreach ($userItem in $allUsers)
+                                        <tr>
+                                            <td>$!userItem.getId()</td>
+                                            <td>$!userItem.getName()</td>
+                                            <td>$!userItem.getFirstName()</td>
+                                            <td>$!userItem.getLastName()</td>
+                                            <td>$!userItem.getEmail()</td>
+                                            <td>
+                                                <a href="$link.setPage("user,FluxUserForm.vm").addPathInfo("username", $userItem.getName())" class="action-link">Edit</a>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr>
+                                        <td colspan="6" class="empty-message">No users found</td>
+                                    </tr>
+                                #end
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            ## Group Details Section
+            <section class="jakarta-section" id="group-details" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Group Details</h2>
+                </div>
+                <div class="section-content">
+                    ## Search Box
+                    <div class="search-box">
+                        <input type="text" id="group-search" class="search-input" placeholder="Search groups by name..." onkeyup="searchGroups()">
+                        <button class="btn-primary" onclick="searchGroups()">Search</button>
+                    </div>
+                    
+                    ## Results Grid
+                    <div class="results-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Group ID</th>
+                                    <th>Group Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="group-grid-body">
+                                #if ($allGroups && !$allGroups.isEmpty())
+                                    #foreach ($group in $allGroups)
+                                        <tr>
+                                            <td>$!group.getId()</td>
+                                            <td>$!group.getName()</td>
+                                            <td>
+                                                <a href="$link.setPage("group,FluxGroupForm.vm").addPathInfo("groupId", $group.getId())" class="action-link">Edit</a>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr>
+                                        <td colspan="3" class="empty-message">No groups found</td>
+                                    </tr>
+                                #end
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            ## Roles Details Section
+            <section class="jakarta-section" id="roles-details" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Roles Details</h2>
+                </div>
+                <div class="section-content">
+                    ## Search Box
+                    <div class="search-box">
+                        <input type="text" id="role-search" class="search-input" placeholder="Search roles by name..." onkeyup="searchRoles()">
+                        <button class="btn-primary" onclick="searchRoles()">Search</button>
+                    </div>
+                    
+                    ## Results Grid
+                    <div class="results-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Role ID</th>
+                                    <th>Role Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="role-grid-body">
+                                #if ($allRoles && !$allRoles.isEmpty())
+                                    #foreach ($role in $allRoles)
+                                        <tr>
+                                            <td>$!role.getId()</td>
+                                            <td>$!role.getName()</td>
+                                            <td>
+                                                <a href="$link.setPage("role,FluxRoleForm.vm").addPathInfo("roleId", $role.getId())" class="action-link">Edit</a>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr>
+                                        <td colspan="3" class="empty-message">No roles found</td>
+                                    </tr>
+                                #end
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            ## Permission Details Section
+            <section class="jakarta-section" id="permission-details" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Permission Details</h2>
+                </div>
+                <div class="section-content">
+                    ## Search Box
+                    <div class="search-box">
+                        <input type="text" id="permission-search" class="search-input" placeholder="Search permissions by name..." onkeyup="searchPermissions()">
+                        <button class="btn-primary" onclick="searchPermissions()">Search</button>
+                    </div>
+                    
+                    ## Results Grid
+                    <div class="results-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Permission ID</th>
+                                    <th>Permission Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="permission-grid-body">
+                                #if ($allPermissions && !$allPermissions.isEmpty())
+                                    #foreach ($permission in $allPermissions)
+                                        <tr>
+                                            <td>$!permission.getId()</td>
+                                            <td>$!permission.getName()</td>
+                                            <td>
+                                                <a href="$link.setPage("permission,FluxPermissionForm.vm").addPathInfo("permissionId", $permission.getId())" class="action-link">Edit</a>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr>
+                                        <td colspan="3" class="empty-message">No permissions found</td>
+                                    </tr>
+                                #end
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    ## Footer
+    <footer class="jakarta-footer">
+        <div class="footer-content">
+            <span>Powered by Apache Turbine</span>
+        </div>
+    </footer>
+</div>
+
+<script src="$link.getContextPath()/templates/app/jakarta/scripts/jakarta-dashboard.js?v=${DateTool.getSystemTime()}"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.uob.turbine</groupId>
+  <artifactId>turbine-multi-module-project</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>My Multi-Module Project</name>
+
+  <modules>
+    <!--<module>common</module>
+    <module>service</module>
+    <module>web</module>-->
+    <module>torque-orm</module>
+    <module>torque-query</module>
+    <module>turbine-demo</module>
+    <module>torque-custom-orm</module>
+  </modules>
+
+  <properties>
+        <maven.compile.source>17</maven.compile.source>
+        <maven.compile.target>17</maven.compile.target>
+        <maven.surefire.version>3.5.3</maven.surefire.version>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <log4j2.version>2.25.1</log4j2.version>
+        <mysql.version>8.3.0</mysql.version>
+        <mariadb.version>3.5.4</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
+        <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
+        <fulcrum.intake>4.0.0</fulcrum.intake>
+        <fulcrum.parser>4.0.0</fulcrum.parser>
+        <fulcrum.security>4.0.0</fulcrum.security>
+        <fulcrum.yaafi>2.0.1</fulcrum.yaafi>
+        <fulcrum.json>2.0.1</fulcrum.json>
+        <fulcrum.cache>2.0.1</fulcrum.cache>
+        <fulcrum.testcontainer>2.0.1</fulcrum.testcontainer>
+        <torque.version>6.0</torque.version> <!-- stable version is 6.0, 7.0-SNAPSHOT next  -->
+        <turbine.core>7.0</turbine.core>     
+        <skipTests>true</skipTests>
+        <docker>false</docker>
+        <turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
+        <turbine_database_name>helloworld</turbine_database_name>
+        <app_volume_local_repo>NOT_USED</app_volume_local_repo>
+    </properties>
+
+  <dependencyManagement>
+	  <dependencies>
+    <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jakarta-web</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+          <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>jakarta.servlet</groupId>
+          <artifactId>jakarta.servlet-api</artifactId>
+          <version>6.1.0</version>
+          <scope>provided</scope>
+       </dependency>
+       <dependency>
+          <groupId>org.apache.torque</groupId>
+          <artifactId>torque-runtime</artifactId>   
+          <version>${torque.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.turbine</groupId>
+          <artifactId>turbine</artifactId>
+          <version>${turbine.core}</version>
+          <!-- should be resolved after upgrade to torque-4.1 -->
+           <exclusions>
+            <!--exclusion>
+                <groupId>org.apache.fulcrum</groupId>
+              <artifactId>fulcrum-quartz</artifactId>   
+            </exclusion-->
+            <exclusion>
+                <groupId>org.apache.commons</groupId>
+              <artifactId>commons-email</artifactId>   
+            </exclusion>
+          </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.fulcrum</groupId>
+        <artifactId>fulcrum-yaafi</artifactId>
+        <version>${fulcrum.yaafi}</version>
+      </dependency>
+      <!-- if using intake -->
+      <dependency>
+        <groupId>org.apache.fulcrum</groupId>
+        <artifactId>fulcrum-intake</artifactId>
+        <version>${fulcrum.intake}</version>
+       </dependency>
+
+      <dependency>
+        <groupId>org.apache.fulcrum</groupId>
+        <artifactId>fulcrum-cache</artifactId>
+        <version>${fulcrum.cache}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.fulcrum</groupId>
+        <artifactId>fulcrum-security-memory</artifactId>
+        <version>${fulcrum.security}</version>
+      </dependency>
+       <dependency>             
+        <groupId>org.apache.fulcrum</groupId>
+        <artifactId>fulcrum-security-torque</artifactId>
+        <version>${fulcrum.security}</version>
+        <exclusions>
+         <exclusion><!-- will we mapped in jcl-over-slf4j -->
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.fulcrum</groupId>
+        <artifactId>fulcrum-security-api</artifactId>
+        <version>${fulcrum.security}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.fulcrum</groupId>
+        <artifactId>fulcrum-json-jackson2</artifactId>
+        <version>${fulcrum.json}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-json-org</artifactId>
+        <version>2.17.2</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.fulcrum</groupId>
+          <artifactId>fulcrum-testcontainer</artifactId>
+          <version>${fulcrum.testcontainer}</version>
+          <scope>test</scope>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <!-- Compiler plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.11.0</version>
+          <configuration>
+            <source>${maven.compile.source}</source>
+            <target>${maven.compile.target}</target>
+          </configuration>
+        </plugin>
+
+        <!-- Surefire for unit tests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
+ 
+</project>

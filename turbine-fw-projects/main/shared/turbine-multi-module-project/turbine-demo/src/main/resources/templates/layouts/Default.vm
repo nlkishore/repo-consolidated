@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>$title</title>
+  </head>
+  <body>
+    <h1>My Turbine App</h1>
+    <div id="content">
+      #parse($screen_template)   ## injects screen content here
+    </div>
+    <footer>Footer goes here</footer>
+  </body>
+</html>

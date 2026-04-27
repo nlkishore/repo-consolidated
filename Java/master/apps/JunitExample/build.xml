@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Example" default="rebuild" xmlns:jacoco="antlib:org.jacoco.ant"
+>
+    <!-- Define properties -->
+    <property name="src.dir" location="src/main/java"/>
+    <property name="result.dir" location="target"/>
+    <property name="result.classes.dir" location="${result.dir}/classes"/>
+    <property name="result.exec.file" location="${result.dir}/jacoco.exec"/>
+    <property name="result.report.dir" location="${result.dir}/site/jacoco"/>
+
+    <!-- Import JaCoCo Ant tasks -->
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/org.jacoco.ant-0.8.11.jar"/>
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/org.jacoco.agent-0.8.11.jar"/>
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/org.jacoco.agent-0.8.11-runtime.jar"/>
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/org.jacoco.core-0.8.11.jar"/>
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/org.jacoco.report-0.8.11.jar"/>
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/asm-9.6.jar"/>
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/asm-tree-9.6.jar"/>
+        <classpath path="/Users/yaswitha/Java-Examples/JunitExample/lib/asm-commons-9.6.jar"/>
+    </taskdef>
+    <!-- Clean target directory -->
+    <target name="clean">
+        <delete dir="${result.dir}"/>
+    </target>
+
+    <!-- Compile Java sources -->
+    <target name="compile" depends="clean">
+        <mkdir dir="${result.classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${result.classes.dir}" debug="true" includeantruntime="false"/>
+    </target>
+
+    <!-- Run tests with JaCoCo coverage -->
+    <target name="test" depends="compile">
+        <jacoco:coverage destfile="${result.exec.file}">
+            <java classname="com.example.Calculator" fork="true">
+                <classpath path="${result.classes.dir}"/>
+                <arg value="arg1"/>
+                <arg value="arg2"/>
+            </java>
+        </jacoco:coverage>
+    </target>
+
+    <!-- Generate coverage report -->
+    <target name="report" depends="test">
+        <jacoco:report>
+            <executiondata>
+                <fileset dir="${result.dir}" includes="jacoco.exec"/>
+            </executiondata>
+            <structure name="Example">
+                <classfiles>
+                    <fileset dir="${result.classes.dir}"/>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="${src.dir}"/>
+                </sourcefiles>
+            </structure>
+            <html destdir="${result.report.dir}"/>
+            <csv destfile="${result.report.dir}/report.csv"/>
+            <xml destfile="${result.report.dir}/report.xml"/>
+        </jacoco:report>
+    </target>
+
+    <!-- Rebuild target -->
+    <target name="rebuild" depends="clean,compile,test,report"/>
+</project>

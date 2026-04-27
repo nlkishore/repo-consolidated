@@ -1,0 +1,8 @@
+<ruleset name="Custom Rules"
+         xmlns="https://pmd.github.io/ruleset/2.0.0"
+         xsi:schemaLocation="https://pmd.github.io/ruleset/2.0.0 https://pmd.github.io/ruleset_2_0_0.xsd">
+    <description>Custom rules for call hierarchy</description>
+    <rule name="CallHierarchyRule"
+          language="java"
+          class="your.package.CallHierarchyRule" />
+</ruleset>

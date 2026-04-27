@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<turbine>
+  <!-- Default Settings -->
+  <default>
+    <layout>DefaultLayout</layout>
+    <screen>DefaultScreen</screen>
+    <error-screen>ErrorScreen</error-screen>
+    <message>Welcome to Turbine Security Demo</message>
+    <locale>en_US</locale>
+    <charset>UTF-8</charset>
+  </default>
+
+  <!-- Module Packages -->
+  <packages>
+    <screen>com.example.screens</screen>
+    <layout>org.apache.turbine.modules.layouts</layout>
+    <navigation>org.apache.turbine.modules.navigation</navigation>
+    <action>org.apache.turbine.modules.actions</action>
+    <page>org.apache.turbine.modules.pages</page>
+  </packages>
+
+  <!-- Services -->
+  <services>
+    <service name="LoggingService" classname="org.apache.turbine.services.logging.Log4J2Service"/>
+    <service name="LocalizationService" classname="org.apache.turbine.services.localization.LocalizationService"/>
+    <service name="SchedulerService" classname="org.apache.fulcrum.quartz.QuartzSchedulerService"/>
+    <service name="SecurityService" classname="org.apache.turbine.services.security.TurbineSecurityService"/>
+    <service name="TorqueService" classname="org.apache.turbine.services.torque.TorqueService"/>
+    <service name="TemplateService" classname="org.apache.turbine.services.template.VelocityService"/>
+    <service name="IntakeService" classname="org.apache.fulcrum.intake.IntakeService"/>
+    <service name="UploadService" classname="org.apache.fulcrum.upload.DefaultUploadService"/>
+    <service name="CryptoService" classname="org.apache.fulcrum.crypto.DefaultCryptoService"/>
+  </services>
+</turbine>

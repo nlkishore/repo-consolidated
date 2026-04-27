@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+    <description>Custom ruleset to find call hierarchy using Java 8 and external dependencies.</description>
+    <rule name="CallHierarchyRule"
+          message="Custom rule to find call hierarchy"
+          class="com.example.CallHierarchyRule"/>
+</ruleset>

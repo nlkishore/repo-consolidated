@@ -1,0 +1,20 @@
+<!-- views/layout.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('topnav') %>
+  <div class="container">
+    <%- include('sidenav') %>
+    <div class="intersection">
+      <img src="https://img.icons8.com/ios-filled/50/000000/link.png" alt="Intersection" style="width:24px;height:24px;margin:8px auto;display:block;" />
+    </div>
+    <div class="workarea">
+      <%- body %>
+    </div>
+  </div>
+</body>
+</html>

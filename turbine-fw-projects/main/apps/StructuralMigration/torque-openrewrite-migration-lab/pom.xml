@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.uob.portal.structural</groupId>
+    <artifactId>torque-openrewrite-migration-lab</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>torque-openrewrite-migration-lab</name>
+    <description>Sample Torque 3.x-style sources to run OpenRewrite Torque inventory recipes (not a runnable Torque 7 app).</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>8</maven.compiler.release>
+        <rewrite.version>5.42.0</rewrite.version>
+        <torque.version>3.3</torque.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.torque</groupId>
+            <artifactId>torque-runtime</artifactId>
+            <version>${torque.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+                <version>${rewrite.version}</version>
+                <configuration>
+                    <configLocation>${project.basedir}/../openrewrite-torque3-to-7/rewrite.yml</configLocation>
+                    <activeRecipes>
+                        <recipe>com.uob.openrewrite.torque.Torque3ToTorque7Inventory</recipe>
+                    </activeRecipes>
+                    <exportDatatables>true</exportDatatables>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-migrate-java</artifactId>
+                        <version>2.26.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,6 @@
+folder_name,java_file_name,package_name,type_kind,type_name,modifiers,extends,implements
+src/test/java/com/uob/portal/torque3,GtpUserLegacyCrudServiceIT.java,com.uob.portal.torque3,class,GtpUserLegacyCrudServiceIT,,,
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,com.uob.portal.torque3,class,GtpUserLegacyCrudService,final public,,
+src/main/java/com/uob/portal/torque3,Torque3RuntimeBootstrap.java,com.uob.portal.torque3,class,Torque3RuntimeBootstrap,final public,,
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,com.uob.portal.torque3.dto,class,GtpUserRow,final public,,
+src/main/java/com/uob/portal/torque3/map,GtpUserMapBuilder.java,com.uob.portal.torque3.map,class,GtpUserMapBuilder,final public,,MapBuilder

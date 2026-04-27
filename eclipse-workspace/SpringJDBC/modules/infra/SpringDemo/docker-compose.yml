@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+    #service 1: Spring Demo
+    spring-demo-v1:
+        image: spring-demp-v1               #name of the image after dockerfile executes
+        container_name: spring-demo-v1  #name of the container created from docker image
+        build:
+          context: .                          #docker file path (. means root directory)
+          dockerfile: Dockerfile              #docker file name
+        ports:
+          - "8888:8888"                       #docker containter port with your os port
+          #restart: always

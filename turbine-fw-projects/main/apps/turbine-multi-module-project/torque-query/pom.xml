@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.uob.turbine</groupId>
+		<artifactId>turbine-multi-module-project</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>torque-query</artifactId>
+	<name>To create DataAccess Layer using Torque ORM classes</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.uob.turbine</groupId>
+			<artifactId>torque-orm</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.torque</groupId>
+			<artifactId>torque-runtime</artifactId>
+		</dependency>
+	</dependencies>
+</project>

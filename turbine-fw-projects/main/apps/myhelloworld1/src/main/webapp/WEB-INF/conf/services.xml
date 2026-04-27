@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://jakarta.apache.org/turbine/services" version="1.0">
+  <!-- Custom Fulcrum Services -->
+  <service name="HelloService" classname="org.example.services.HelloServiceImpl"/>
+
+  <!-- Optional: Add other services like SchedulerService, IntakeService, etc. -->
+  <!--
+  <service name="SchedulerService" classname="org.apache.fulcrum.scheduler.impl.SchedulerServiceImpl"/>
+  -->
+</services>

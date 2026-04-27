@@ -1,0 +1,540 @@
+/**
+ * Admin Dashboard Styles
+ * Modularized CSS for Admin Dashboard
+ * Isolated from main application styles
+ */
+
+/* Container */
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    /* Account for footer if present */
+    padding-bottom: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
+.admin-header {
+    background-color: #424242; /* Dark gray to match legacy */
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.header-right {
+    flex: 1;
+    text-align: right;
+}
+
+.admin-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: white;
+}
+
+.welcome-text {
+    font-size: 14px;
+    color: white;
+}
+
+/* Body Layout */
+.admin-body {
+    display: flex !important;
+    flex-direction: row !important;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0; /* Allow flexbox to shrink */
+    /* Account for footer height */
+    max-height: calc(100vh - 60px); /* Subtract header height */
+    box-sizing: border-box;
+}
+
+/* Sidebar - Left Navigation */
+.admin-sidebar {
+    width: 180px !important; /* Reduced width to fit menu items */
+    min-width: 180px !important;
+    max-width: 180px !important;
+    background-color: #F5F5F5 !important; /* Light gray background */
+    border-right: 1px solid #E0E0E0 !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0; /* Remove vertical padding to eliminate white space */
+    flex-shrink: 0 !important; /* Don't shrink */
+    display: flex !important; /* Use flex for proper display */
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0; /* Remove margins */
+}
+
+.sidebar-nav {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.sidebar-menu-item {
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+}
+
+.sidebar-menu-item a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px; /* Reduced padding to minimize white space */
+    text-decoration: none;
+    color: #000000;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sidebar-menu-item:hover {
+    background-color: #E3F2FD; /* Light blue on hover */
+}
+
+.sidebar-menu-item.active {
+    background-color: #2196F3; /* Blue background for active */
+}
+
+.sidebar-menu-item.active a {
+    color: #FFFFFF; /* White text when active */
+}
+
+.menu-icon {
+    margin-right: 8px; /* Reduced spacing */
+    font-size: 16px;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.menu-text {
+    font-size: 14px;
+    font-weight: normal;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show ellipsis if text too long */
+}
+
+/* Work Area - Main Content */
+.admin-workarea {
+    flex: 1;
+    overflow-y: scroll; /* Always show vertical scrollbar at bottom */
+    overflow-x: auto; /* Show horizontal scrollbar when needed */
+    padding: 20px;
+    padding-bottom: 50px; /* Extra padding at bottom to avoid footer overlap */
+    position: relative !important; /* Required for absolute positioning of tooltip */
+    background-color: #FAFAFA; /* Light gray background for work area */
+    min-width: 0; /* Allow flexbox to shrink */
+    display: block; /* Always visible */
+    max-width: calc(100vw - 180px); /* Adjusted for new sidebar width */
+    /* Ensure scrollbars are always visible - Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+    /* Ensure content doesn't overlap footer */
+    box-sizing: border-box;
+    margin-bottom: 0;
+    /* Account for footer when scrolling */
+    max-height: calc(100vh - 60px - 40px); /* Subtract header (60px) and footer (40px) */
+}
+
+.workarea-section {
+    margin-bottom: 40px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    max-width: 100%; /* Prevent overflow */
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2196F3;
+}
+
+.section-header h3 {
+    margin: 0;
+    color: #2196F3;
+    font-size: 20px;
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-box button {
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-box button:hover {
+    background-color: #1976D2;
+}
+
+/* Results Grid */
+.results-grid {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    table-layout: auto;
+    box-sizing: border-box;
+}
+
+.results-grid th {
+    background-color: #f5f5f5;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    color: #333;
+}
+
+.results-grid td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.results-grid tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Floating Navigation Widget (Reference UI Style) */
+.floating-nav-widget {
+    position: fixed !important;
+    z-index: 2000 !important;
+    bottom: 20px;
+    right: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Toggle Button */
+.floating-nav-toggle {
+    background-color: #FF9800; /* Orange background */
+    color: #000000;
+    border: 2px solid #F57C00;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.floating-nav-toggle:hover {
+    background-color: #FB8C00; /* Slightly darker orange */
+}
+
+.floating-nav-toggle .nav-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.floating-nav-toggle .nav-text {
+    font-size: 14px;
+}
+
+/* Dropdown Menu */
+.floating-nav-menu {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 5px;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 250px;
+    max-width: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.floating-nav-list {
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+}
+
+.floating-nav-list li {
+    margin: 0;
+    padding: 0;
+}
+
+.floating-nav-list li a {
+    display: block;
+    padding: 10px 15px;
+    color: #000000;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.floating-nav-list li a:hover {
+    background-color: #F5F5F5;
+    color: #2196F3;
+}
+
+.floating-nav-list li a:visited {
+    color: #000000;
+}
+
+.nav-divider {
+    height: 1px;
+    background-color: #E0E0E0;
+    margin: 5px 0;
+}
+
+/* Slider Container */
+.floating-nav-slider {
+    padding: 10px 15px;
+    border-top: 1px solid #E0E0E0;
+    background-color: #FAFAFA;
+}
+
+.floating-nav-slider label {
+    display: block;
+    color: #666666;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.nav-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #E0E0E0;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.nav-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #2196F3;
+    cursor: pointer;
+}
+
+.nav-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #2196F3;
+    cursor: pointer;
+    border: none;
+}
+
+/* Section visibility toggle */
+.workarea-section.hidden {
+    display: none !important;
+}
+
+/* Form Summary visibility */
+.form-summary-hidden .workarea-section {
+    display: none !important;
+}
+
+.form-summary-hidden .workarea-section:first-child {
+    display: block !important;
+}
+
+/* Contextual Menu */
+.contextual-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 2px solid #2196F3;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.contextual-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contextual-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.contextual-menu li:last-child {
+    border-bottom: none;
+}
+
+.contextual-menu li:hover {
+    background-color: #f5f5f5;
+    color: #2196F3;
+}
+
+.contextual-menu li a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Scrollbar Styling - Vertical and Horizontal */
+.admin-workarea::-webkit-scrollbar {
+    width: 12px; /* Vertical scrollbar width */
+    height: 12px; /* Horizontal scrollbar height */
+}
+
+.admin-workarea::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 6px;
+}
+
+.admin-workarea::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+    border: 2px solid #f1f1f1; /* Add border for better visibility */
+}
+
+.admin-workarea::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Horizontal scrollbar corner */
+.admin-workarea::-webkit-scrollbar-corner {
+    background: #f1f1f1;
+}
+
+/* Scrollbar visibility is handled in .admin-workarea definition above */
+
+/* Ensure body and html take full height */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Footer styling if footer exists */
+.admin-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background-color: #9C27B0; /* Purple footer background */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+/* Adjust admin-container when footer is present */
+.admin-container.has-footer {
+    padding-bottom: 40px; /* Footer height */
+}
+
+/* Adjust admin-body when footer is present */
+.admin-container.has-footer .admin-body {
+    max-height: calc(100vh - 60px - 40px); /* Subtract header and footer height */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+    }
+    
+    .admin-workarea {
+        max-width: calc(100vw - 200px);
+    }
+    
+    .tooltip-window {
+        max-width: 200px;
+        width: 200px;
+    }
+}
+
+/* Additional improvements for better look and feel */
+.admin-container {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+}
+
+/* Better table responsiveness */
+.results-grid th,
+.results-grid td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 300px; /* Prevent extremely wide cells */
+}
+
+/* Improve section spacing */
+.section-header {
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+}
+
+/* Better search box layout */
+.search-box {
+    margin-bottom: 15px;
+    max-width: 100%;
+}

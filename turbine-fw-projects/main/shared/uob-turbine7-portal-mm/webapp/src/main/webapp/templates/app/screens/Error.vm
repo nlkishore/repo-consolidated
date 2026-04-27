@@ -1,0 +1,84 @@
+## Licensed to the Apache Software Foundation (ASF) under one
+## or more contributor license agreements.  See the NOTICE file
+## distributed with this work for additional information
+## regarding copyright ownership.  The ASF licenses this file
+## to you under the Apache License, Version 2.0 (the
+## "License"); you may not use this file except in compliance
+## with the License.  You may obtain a copy of the License at
+##
+##   http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing,
+## software distributed under the License is distributed on an
+## "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+## KIND, either express or implied.  See the License for the
+## specific language governing permissions and limitations
+## under the License.
+
+<div class="w3-container w3-padding-32">
+    <div class="w3-card-4">
+        <div class="w3-container w3-red w3-padding-16">
+            <h2 class="w3-center"><strong>Error</strong></h2>
+        </div>
+        
+        <div class="w3-container w3-white w3-padding-16">
+            ## Display message if available (most common)
+            #if ($data.getMessage() && $data.getMessage().length() > 0)
+                #error($data.getMessage())
+            #end
+            
+            ## Display error if available
+            #if ($data.getError() && $data.getError().length() > 0)
+                #error($data.getError())
+            #end
+            
+            ## Display exception if available
+            #if ($data.getException())
+                <div class="w3-panel w3-light-grey w3-border w3-padding">
+                    <h4><strong>Exception Details:</strong></h4>
+                    <p><strong>Exception Type:</strong> $data.getException().getClass().getName()</p>
+                    <p><strong>Message:</strong> $data.getException().getMessage()</p>
+                    <details>
+                        <summary><strong>View Stack Trace</strong></summary>
+                        <pre class="w3-code w3-small w3-border" style="max-height: 400px; overflow: auto;">#foreach($element in $data.getException().getStackTrace())
+$element.toString()
+#end</pre>
+                    </details>
+                </div>
+            #end
+            
+            ## Check for processingException (alternative error format)
+            #if ($!processingException)
+                <div class="w3-panel w3-orange w3-border w3-padding">
+                    <h4><strong>Processing Exception:</strong></h4>
+                    <pre class="w3-code">$processingException</pre>
+                </div>
+            #end
+            
+            ## Check for stackTrace (alternative format)
+            #if ($!stackTrace)
+                <details>
+                    <summary><strong>Stack Trace</strong></summary>
+                    <pre class="w3-code w3-small w3-border" style="max-height: 400px; overflow: auto;">$stackTrace</pre>
+                </details>
+            #end
+            
+            ## Fallback if no specific error information is available
+            #if (!$data.getMessage() && !$data.getError() && !$data.getException() && !$!processingException)
+                <div class="w3-panel w3-yellow w3-border w3-padding">
+                    <p><strong>An error occurred, but no specific error details are available.</strong></p>
+                    <p>Please contact the system administrator if this problem persists.</p>
+                    <p>You may want to check the application logs for more details.</p>
+                </div>
+            #end
+            
+            ## Navigation links
+            <div class="w3-padding-16 w3-center">
+                <a href="$link.setPage("Index.vm")" class="w3-button w3-theme w3-margin">Return to Home</a>
+                #if (!$data.getUser().hasLoggedIn())
+                    <a href="$link.setPage("Login.vm")" class="w3-button w3-theme w3-margin">Go to Login</a>
+                #end
+            </div>
+        </div>
+    </div>
+</div>

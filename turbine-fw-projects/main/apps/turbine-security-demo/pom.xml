@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>turbine-security-demo</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>Turbine Security Demo</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <turbine.version>7.0</turbine.version>
+    <fulcrum.security.version>2.1.0</fulcrum.security.version>
+    <torque.version>5.1</torque.version>
+  </properties>
+
+  <dependencies>
+    <!-- Turbine Core -->
+   <dependency>
+          <groupId>org.apache.turbine</groupId>
+          <artifactId>turbine</artifactId>
+          <version>7.0</version>
+          <!-- should be resolved after upgrade to torque-4.1 -->
+           <exclusions>
+            <!--exclusion>
+                <groupId>org.apache.fulcrum</groupId>
+              <artifactId>fulcrum-quartz</artifactId>   
+            </exclusion-->
+            <exclusion>
+                <groupId>org.apache.commons</groupId>
+              <artifactId>commons-email</artifactId>   
+            </exclusion>
+          </exclusions>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.apache.turbine</groupId>
+          <artifactId>turbine-core</artifactId>
+          <version>7.0</version>
+          
+      </dependency>
+
+    <!-- Fulcrum Security (Torque Model) -->
+    <dependency>
+      <groupId>org.apache.fulcrum</groupId>
+      <artifactId>fulcrum-security-torque</artifactId>
+      <version>${fulcrum.security.version}</version>
+    </dependency>
+    
+     <dependency>
+      <groupId>org.apache.fulcrum</groupId>
+      <artifactId>fulcrum-parameters</artifactId>
+      <version>4.0</version>
+    </dependency>
+
+    <!-- Torque ORM -->
+    <dependency>
+      <groupId>org.apache.torque</groupId>
+      <artifactId>torque-runtime</artifactId>
+      <version>${torque.version}</version>
+    </dependency>
+
+    <!-- Velocity Templates -->
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity-engine-core</artifactId>
+      <version>2.3</version>
+    </dependency>
+
+
+    <!-- MySQL JDBC Driver -->
+     <dependency>
+                    <groupId>com.mysql</groupId>
+                    <artifactId>mysql-connector-j</artifactId>
+                    <version>8.3.0</version>
+                    <scope>runtime</scope>
+                </dependency>
+
+    <!-- Servlet API (provided by Tomcat) -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>5.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.20.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.20.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>turbine-security-demo</finalName>
+    <plugins>
+      <!-- Compiler Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+
+      <!-- WAR Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.4.0</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

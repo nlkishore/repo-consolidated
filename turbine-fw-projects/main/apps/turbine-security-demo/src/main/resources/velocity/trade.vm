@@ -1,0 +1,8 @@
+<html>
+<head><title>Trade Feature</title></head>
+<body>
+<h2>Welcome, $username</h2>
+<p>You have access to the <strong>Trade</strong> feature.</p>
+<a href="index.html">Back to Home</a>
+</body>
+</html>

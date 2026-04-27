@@ -1,0 +1,10 @@
+body { margin: 0; font-family: Arial, sans-serif; }
+.topnav { background: #2c3e50; color: #fff; padding: 16px; text-align: center; }
+.container { display: flex; height: 90vh; }
+.sidenav { width: 200px; background: #34495e; color: #fff; padding: 16px; }
+.sidenav a { color: #fff; text-decoration: none; display: block; margin: 8px 0; }
+.sidenav a:hover { text-decoration: underline; }
+.intersection { width: 10px; background: #bdc3c7; }
+.workarea { flex: 1; background: #ecf0f1; padding: 24px; }
+.topnav a { color: #fff; margin: 0 12px; text-decoration: none; }
+.topnav a:hover { text-decoration: underline; }

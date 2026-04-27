@@ -1,0 +1,140 @@
+#*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *#
+
+#set ($pageTitle = "User Profile - $!user.Name")
+
+#parse ("app/Header.vm")
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>User Profile</h2>
+            
+            #if ($user)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th width="200">Login Name:</th>
+                                <td>$!user.Name</td>
+                            </tr>
+                            <tr>
+                                <th>First Name:</th>
+                                <td>$!user.FirstName</td>
+                            </tr>
+                            <tr>
+                                <th>Last Name:</th>
+                                <td>$!user.LastName</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>$!user.Email</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Groups ($groups.size())</h3>
+                    </div>
+                    <div class="panel-body">
+                        #if ($groups && $groups.size() > 0)
+                            <ul class="list-group">
+                                #foreach ($group in $groups)
+                                    <li class="list-group-item">
+                                        <strong>$!group.Name</strong>
+                                        <span class="badge">Group ID: $!group.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="text-muted">No groups assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Roles ($roles.size())</h3>
+                    </div>
+                    <div class="panel-body">
+                        #if ($roles && $roles.size() > 0)
+                            <ul class="list-group">
+                                #foreach ($role in $roles)
+                                    <li class="list-group-item">
+                                        <strong>$!role.Name</strong>
+                                        <span class="badge">Role ID: $!role.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="text-muted">No roles assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Permissions ($permissions.size())</h3>
+                    </div>
+                    <div class="panel-body">
+                        #if ($permissions && $permissions.size() > 0)
+                            <ul class="list-group">
+                                #foreach ($permission in $permissions)
+                                    <li class="list-group-item">
+                                        <strong>$!permission.Name</strong>
+                                        <span class="badge">Permission ID: $!permission.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="text-muted">No permissions assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Summary</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p><strong>Total Groups:</strong> $groups.size()</p>
+                        <p><strong>Total Roles:</strong> $roles.size()</p>
+                        <p><strong>Total Permissions:</strong> $permissions.size()</p>
+                    </div>
+                </div>
+
+                <div class="text-center" style="margin-top: 20px;">
+                    <a href="$link.setPage("Index.vm")" class="btn btn-primary">Back to Home</a>
+                    <a href="$link.setAction("LogoutUser")" class="btn btn-default">Logout</a>
+                </div>
+            #else
+                <div class="alert alert-warning">
+                    <strong>Warning!</strong> User information not available. Please <a href="$link.setPage("Login.vm")">login</a>.
+                </div>
+            #end
+        </div>
+    </div>
+</div>
+
+#parse ("app/Footer.vm")

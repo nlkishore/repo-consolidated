@@ -1,0 +1,17 @@
+## Tooltip Window Component
+## Floating navigation window with slider
+
+<div class="tooltip-window" id="tooltip-window" style="display: none;">
+    <h4>Quick Navigation</h4>
+    <ul>
+        <li><a href="#user-details" onclick="scrollToSection('user-details'); return false;">User Details</a></li>
+        <li><a href="#group-details" onclick="scrollToSection('group-details'); return false;">Group Details</a></li>
+        <li><a href="#roles-details" onclick="scrollToSection('roles-details'); return false;">Roles Details</a></li>
+        <li><a href="#permission-details" onclick="scrollToSection('permission-details'); return false;">Permission Details</a></li>
+    </ul>
+    <div class="tooltip-slider-container">
+        <label>Position: <span id="slider-value">50</span>%</label>
+        <input type="range" min="0" max="100" value="50" class="tooltip-slider" id="tooltip-slider" 
+               oninput="updateTooltipPosition(this.value)" />
+    </div>
+</div>

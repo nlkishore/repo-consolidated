@@ -1,0 +1,9 @@
+## Header Component
+## Modularized header component for Admin Dashboard
+
+<div class="admin-header">
+    <h2>Admin Dashboard</h2>
+    #if ($data.getUser().hasLoggedIn())
+        <span style="float: right;">Welcome, $!data.getUser().FirstName</span>
+    #end
+</div>

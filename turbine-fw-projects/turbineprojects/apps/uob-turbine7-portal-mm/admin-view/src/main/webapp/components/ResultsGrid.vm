@@ -1,0 +1,16 @@
+## Results Grid Component
+## Reusable grid component for displaying search results
+## Parameters: $gridId, $headers (list), $tbodyId
+
+<table class="results-grid" id="$!gridId">
+    <thead>
+        <tr>
+            #foreach ($header in $headers)
+                <th>$!header</th>
+            #end
+        </tr>
+    </thead>
+    <tbody id="$!tbodyId">
+        <!-- Results will be populated via AJAX -->
+    </tbody>
+</table>

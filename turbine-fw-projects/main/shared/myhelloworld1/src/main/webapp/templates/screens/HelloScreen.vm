@@ -1,0 +1,4 @@
+#set($name = $data.Parameters.getString("name", "World"))
+<h2>Hello, $name!</h2>
+<p>Welcome to Turbine 7.x integrated with legacy Jetspeed-style portlet logic.</p>
+

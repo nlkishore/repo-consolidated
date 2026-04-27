@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+    <aspects>
+        <!-- Register our aspect for load-time weaving -->
+        <aspect name="com.uob.aspect.MaptoModelInterceptor"/>
+    </aspects>
+    
+    <weaver>
+        <!-- Include the framework package for weaving -->
+        <include within="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineUser"/>
+        <!-- Include our aspect package -->
+        <include within="com.uob.aspect..*"/>
+    </weaver>
+</aspectj>

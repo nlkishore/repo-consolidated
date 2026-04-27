@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database.dtd">
+<database name="uob_portal" defaultIdMethod="native" package="com.uob.portal.torque3.om">
+    <!--
+      Torque schema defines database tables/columns only.
+      Turbine interfaces/classes are Java-level concerns and are mapped in service/adapter classes.
+    -->
+    <table name="gtp_user" description="Portal user (GTP_USER subset for migration demo)">
+        <column name="user_id" required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+        <column name="turbine_user_id" type="INTEGER"/>
+        <column name="login_name" required="true" type="VARCHAR" size="255"/>
+        <column name="password_value" required="true" type="VARCHAR" size="255"/>
+        <column name="first_name" type="VARCHAR" size="255"/>
+        <column name="last_name" type="VARCHAR" size="255"/>
+        <column name="email" type="VARCHAR" size="255"/>
+        <index name="idx_gtp_user_turbine_user_id">
+            <index-column name="turbine_user_id"/>
+        </index>
+        <unique name="uk_gtp_user_login_name">
+            <unique-column name="login_name"/>
+        </unique>
+        <unique name="uk_gtp_user_turbine_user_id">
+            <unique-column name="turbine_user_id"/>
+        </unique>
+    </table>
+</database>

@@ -1,0 +1,79 @@
+Java Example using startegy pattern
+ChatGPT
+The Strategy Pattern is a behavioral design pattern that defines a family of algorithms, encapsulates each algorithm, and makes them interchangeable. It allows the client to choose the appropriate algorithm at runtime. Let's consider a simple example of the Strategy Pattern in Java where we have a billing system that calculates the total cost based on different pricing strategies.
+
+java
+Copy code
+// Strategy interface
+interface PricingStrategy {
+    double calculateTotalCost(double originalPrice);
+}
+
+// Concrete Strategy 1: NormalPricingStrategy
+class NormalPricingStrategy implements PricingStrategy {
+    @Override
+    public double calculateTotalCost(double originalPrice) {
+        // No discount for normal pricing
+        return originalPrice;
+    }
+}
+
+// Concrete Strategy 2: DiscountPricingStrategy
+class DiscountPricingStrategy implements PricingStrategy {
+    private double discountPercentage;
+
+    public DiscountPricingStrategy(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    @Override
+    public double calculateTotalCost(double originalPrice) {
+        // Apply a discount to the original price
+        return originalPrice * (1 - discountPercentage / 100);
+    }
+}
+
+// Context: BillingSystem
+class BillingSystem {
+    private PricingStrategy pricingStrategy;
+
+    public void setPricingStrategy(PricingStrategy pricingStrategy) {
+        this.pricingStrategy = pricingStrategy;
+    }
+
+    public double calculateTotalCost(double originalPrice) {
+        // Delegate the calculation to the selected pricing strategy
+        return pricingStrategy.calculateTotalCost(originalPrice);
+    }
+}
+
+// Client code
+public class Client {
+    public static void main(String[] args) {
+        // Create instances of pricing strategies
+        PricingStrategy normalPricing = new NormalPricingStrategy();
+        PricingStrategy discountPricing = new DiscountPricingStrategy(10); // 10% discount
+
+        // Create an instance of the BillingSystem
+        BillingSystem billingSystem = new BillingSystem();
+
+        // Use NormalPricingStrategy
+        billingSystem.setPricingStrategy(normalPricing);
+        double totalCostNormal = billingSystem.calculateTotalCost(100.0);
+        System.out.println("Total Cost with Normal Pricing: $" + totalCostNormal);
+
+        System.out.println("---------------------------");
+
+        // Use DiscountPricingStrategy
+        billingSystem.setPricingStrategy(discountPricing);
+        double totalCostDiscount = billingSystem.calculateTotalCost(100.0);
+        System.out.println("Total Cost with Discount Pricing: $" + totalCostDiscount);
+    }
+}
+In this example:
+
+PricingStrategy is the strategy interface, defining the calculateTotalCost method.
+NormalPricingStrategy and DiscountPricingStrategy are concrete strategy classes that implement the PricingStrategy interface with different algorithms for calculating the total cost.
+BillingSystem is the context class that uses a pricing strategy to calculate the total cost. It has a setPricingStrategy method to dynamically set the pricing strategy.
+The client code demonstrates how to use different pricing strategies with the BillingSystem.
+By using the Strategy Pattern, the billing system can easily switch between different pricing strategies without modifying the client code. This pattern provides a way to define a family of algorithms, encapsulate each algorithm, and make them interchangeable.

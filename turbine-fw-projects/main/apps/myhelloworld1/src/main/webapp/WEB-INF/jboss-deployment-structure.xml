@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss Deployment Structure Configuration for myhelloworld1
+    This file configures how JBoss/WildFly handles this deployment.
+    
+    For JBoss 8 (WildFly 31+), this configures module dependencies and exclusions
+    for Apache Turbine 7.0 HelloWorld application.
+-->
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.3">
+    <deployment>
+        <!-- Dependencies on JBoss modules -->
+        <dependencies>
+            <!-- Jakarta EE API module -->
+            <module name="javaee.api" />
+            <!-- Jakarta Servlet API -->
+            <module name="jakarta.servlet.api" />
+            <!-- Jakarta JSP API -->
+            <module name="jakarta.servlet.jsp.api" />
+        </dependencies>
+        
+        <!-- Exclusions to prevent classloading conflicts -->
+        <exclusions>
+            <!-- Exclude RESTEasy if present to avoid conflicts -->
+            <module name="org.jboss.resteasy.resteasy-jakarta-jaxrs" />
+            <module name="org.jboss.resteasy.resteasy-jaxb-provider" />
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>

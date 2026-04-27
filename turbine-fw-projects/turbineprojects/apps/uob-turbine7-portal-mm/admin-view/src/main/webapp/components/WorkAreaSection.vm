@@ -1,0 +1,13 @@
+## Work Area Section Component
+## Reusable section component for each admin section
+## Parameters: $sectionId, $sectionTitle, $searchId, $searchPlaceholder, $searchFunction, $gridId, $headers, $tbodyId
+
+<div class="workarea-section" id="$!sectionId">
+    <div class="section-header">
+        <h3>$!sectionTitle</h3>
+    </div>
+    #parse("components/SearchBox.vm")
+    <div id="${sectionId}-results">
+        #parse("components/ResultsGrid.vm")
+    </div>
+</div>

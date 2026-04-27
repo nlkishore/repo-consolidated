@@ -1,0 +1,721 @@
+commit 69475fb8325562eaa43cf55c8f74909a9129f358
+Author: nlkishore <nlaxmikishore@gmail.com>
+Date:   Wed Jun 18 21:36:44 2025 +0800
+
+    Committing
+
+diff --git a/Python/ConfigReader/PropReader.py b/Python/ConfigReader/PropReader.py
+deleted file mode 100644
+index cbd4460..0000000
+--- a/Python/ConfigReader/PropReader.py
++++ /dev/null
+@@ -1,19 +0,0 @@
+-from configparser import ConfigParser
+-
+-
+-def readConfigValue(section,tkey):
+-    parser = ConfigParser()
+-    parser.read("file.ini")
+-    tvalue=''
+-    for element in parser.sections():
+-        if (section==element):
+-            #print ('Section:', element)
+-            #print ('  Options:', parser.options(element))
+-            for name, value in parser.items(element):
+-                if(tkey==name):
+-                    #print ('  %s = %s' % (name, value))
+-                    tvalue=value
+-            #print
+-    return tvalue
+-
+-print(readConfigValue('wiki','username'))
+\ No newline at end of file
+diff --git a/Python/ConfigReader/__pycache__/PropReader.cpython-310.pyc b/Python/ConfigReader/__pycache__/PropReader.cpython-310.pyc
+deleted file mode 100644
+index d764cf9..0000000
+Binary files a/Python/ConfigReader/__pycache__/PropReader.cpython-310.pyc and /dev/null differ
+diff --git a/Python/Excel-Methods/CommonExcelmethods.py b/Python/Excel-Methods/CommonExcelmethods.py
+deleted file mode 100644
+index 1b55a1d..0000000
+--- a/Python/Excel-Methods/CommonExcelmethods.py
++++ /dev/null
+@@ -1,27 +0,0 @@
+-import pandas as pd
+-from openpyxl import load_workbook
+-import os.path
+-#import PropReader as pReader
+-import sys
+-sys.path.append('C:/Python/ConfigReader')
+-import PropReader as pReader
+-
+-def updateExistingExcel(df,fileName):
+-    #print(pReader.readConfigValue('wiki','username'))
+-    df=pd.read_csv('C:/Python/data.csv.txt')
+-    #print(df)
+-    if os.path.isfile(fileName):
+-        book = load_workbook(fileName)
+-        writer = pd.ExcelWriter(fileName, engine='openpyxl') 
+-        writer.book = book
+-        writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
+-        df.to_excel(writer, index=None, header=True)
+-        writer.save()
+-    else:
+-        df.to_excel(fileName, index=None, header=True)
+-
+-def readCSVAndWriteExcel():
+-    read_file = pd.read_csv('C:/Python/data.csv.txt')
+-    read_file.to_excel('Masterfile.xlsx', index=None, header=True)
+-updateExistingExcel(pd.DataFrame(),'Masterfile.xlsx')
+-#readCSVAndWriteExcel()
+\ No newline at end of file
+diff --git a/Python/Excel-Methods/FilterNaNInColumn.py b/Python/Excel-Methods/FilterNaNInColumn.py
+deleted file mode 100644
+index 7e2bba3..0000000
+--- a/Python/Excel-Methods/FilterNaNInColumn.py
++++ /dev/null
+@@ -1,9 +0,0 @@
+-import pandas as pd
+-import numpy as np
+-
+-df = pd.DataFrame([[1,np.nan,'A100'],[4,5,'A213'],[7,8,np.nan],[10,np.nan,'GA23']])
+-df.columns = ['areaCode','Distance','accountCode']
+-print(df)
+-#print(df.isnull().sum())
+-df_1=df.dropna(subset=['Distance'])
+-print(df_1)
+diff --git a/Python/Excel-Methods/compareDataFrame.py b/Python/Excel-Methods/compareDataFrame.py
+deleted file mode 100644
+index 07ffdb0..0000000
+--- a/Python/Excel-Methods/compareDataFrame.py
++++ /dev/null
+@@ -1,99 +0,0 @@
+-import pandas as pd
+-from openpyxl import load_workbook
+-import os.path
+-import sys
+-sys.path.append('C:/Python/ConfigReader')
+-import PropReader as pReader
+-import numpy as np
+-
+-
+-def compareDataFrames(df1,df2):
+-    df1=pd.read_csv('C:\Python/Resources/file1.csv')
+-    df2=pd.read_csv('C:\Python/Resources/file2.csv')
+-    A = pd.merge(df1,df2, on='name', how='inner')
+-    B = A.copy()
+-    B['dept_x'] = A.apply(lambda x : 'mismatch' if x.dept_x!=x.dept_y else x.dept_x, axis=1)
+-    print(B)
+-
+-
+-def compareDF():
+-    # or if you want to do it on all columns except the first two because there's too many
+-    df1=pd.read_csv('C:/Python/Resources/file1.csv')
+-    print(df1)
+-    df2=pd.read_csv('C:/Python/Resources/file2.csv')
+-    print(df2)
+-    A = pd.merge(df1,df2, on='name', how='inner')
+-    print(A)
+-    cols = [a for a in df1.columns if a not in ['name','id']]
+-    print(cols)
+-    
+-    C = A.copy()
+-    C[cols] = C.apply(is_mismatch(), axis=1) # don't forget that axis=1 here !
+-    def is_mismatch(x) :
+-        L = ['mismatch' if x[cols[i]+'_x']!=x[cols[i]+'_y'] else x[cols[i]+'_x'] for i in range(len(cols))]
+-        return pd.Series(L)
+-    print(C)
+-# define a function that compares for all columns
+-
+-
+-'''def is_mismatch(x,cols) :
+-    L = ['mismatch' if x[cols[i]+'_x']!=x[cols[i]+'_y'] else x[cols[i]+'_x'] for i in range(len(cols))]
+-    return pd.Series(L)'''
+-
+-
+-def diff_pd(df1, df2):
+-    """Identify differences between two pandas DataFrames"""
+-    assert (df1.columns == df2.columns).all(), \
+-        "DataFrame column names are different"
+-    if any(df1.dtypes != df2.dtypes):
+-        "Data Types are different, trying to convert"
+-        df2 = df2.astype(df1.dtypes)
+-    if df1.equals(df2):
+-        return None
+-    else:
+-        # need to account for np.nan != np.nan returning True
+-        diff_mask = (df1 != df2) & ~(df1.isnull() & df2.isnull())
+-        ne_stacked = diff_mask.stack()
+-        changed = ne_stacked[ne_stacked]
+-        changed.index.names = ['id', 'col']
+-        difference_locations = np.where(diff_mask)
+-        changed_from = df1.values[difference_locations]
+-        changed_to = df2.values[difference_locations]
+-        return pd.DataFrame({'from': changed_from, 'to': changed_to},
+-                            index=changed.index)
+-
+-def diff_df(df1, df2, how="left"):
+-    """
+-      Find Difference of rows for given two dataframes
+-      this function is not symmetric, means
+-            diff(x, y) != diff(y, x)
+-      however
+-            diff(x, y, how='left') == diff(y, x, how='right')
+-
+-      Ref: https://stackoverflow.com/questions/18180763/set-difference-for-pandas/40209800#40209800
+-    """
+-    if (df1.columns != df2.columns).any():
+-        raise ValueError("Two dataframe columns must match")
+-
+-    if df1.equals(df2):
+-        return None
+-    elif how == 'right':
+-        return pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
+-    elif how == 'left':
+-        return pd.concat([df1, df2, df2]).drop_duplicates(keep=False)
+-    else:
+-        raise ValueError('how parameter supports only "left" or "right keywords"')  
+-
+-if __name__ == '__main__':
+-    df1=pd.read_csv('C:/Python/Resources/file1.csv')
+-    print(df1)
+-    df2=pd.read_csv('C:/Python/Resources/file2.csv')
+-    print(df2)
+-    #print(diff_pd(df1, df2))
+-    '''print(df1.compare(df2))
+-    print(df1.compare(df2, keep_equal=True, keep_shape=True) )
+-    print(df1.compare(df2, align_axis='index'))
+-    print(df1.compare(df2, keep_equal=True, keep_shape=True,align_axis='index'))
+-    #compareDF()'''
+-    #print(diff_df(df1, df2,'left'))
+-    print(diff_df(df1, df2,how="left"))
+diff --git a/Python/Masterfile.xlsx b/Python/Masterfile.xlsx
+deleted file mode 100644
+index 2ed9761..0000000
+Binary files a/Python/Masterfile.xlsx and /dev/null differ
+diff --git a/Python/Resources/file1.csv b/Python/Resources/file1.csv
+deleted file mode 100644
+index a680f81..0000000
+--- a/Python/Resources/file1.csv
++++ /dev/null
+@@ -1,6 +0,0 @@
+-id,name,dept,addr
+-1,Jeff,IT,Delhi
+-2,Tom,Support,Bangalore
+-3,Peter,Admin,Pune
+-4,Kaif,IT,Pune
+-5,Lee,Dev,Delhi
+\ No newline at end of file
+diff --git a/Python/Resources/file2.csv b/Python/Resources/file2.csv
+deleted file mode 100644
+index ab3afda..0000000
+--- a/Python/Resources/file2.csv
++++ /dev/null
+@@ -1,5 +0,0 @@
+-id,name,dept,addr
+-1,Jeff,IT,Delhi
+-2,Tom,QA,Bangalore
+-3,Peter,Admin,Pune
+-4,Kaif,IT,Hyderabad
+\ No newline at end of file
+diff --git a/Python/WebScrapping/Python_selenium.py b/Python/WebScrapping/Python_selenium.py
+deleted file mode 100644
+index 06df68f..0000000
+--- a/Python/WebScrapping/Python_selenium.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-from selenium import webdriver
+-from selenium.webdriver.chrome.service import Service as ChromeService
+-
+-def test_basic_service():
+-    service = ChromeService()
+-    driver = webdriver.Chrome(service=service)
+-
+-    driver.quit()
+-
+-
+-def test_driver_location(chromedriver_path):
+-    service = ChromeService(executable_path=chromedriver_path)
+-
+-    driver = webdriver.Chrome(service=service)
+-
+-    driver.quit()
+-
+-
+-def test_driver_port():
+-    service = ChromeService(port=1234)
+-
+-    driver = webdriver.Chrome(service=service)
+-
+-    driver.quit()
+\ No newline at end of file
+diff --git a/Python/WebScrapping/python_selenium1.py b/Python/WebScrapping/python_selenium1.py
+deleted file mode 100644
+index 20f2263..0000000
+--- a/Python/WebScrapping/python_selenium1.py
++++ /dev/null
+@@ -1,34 +0,0 @@
+-from selenium import webdriver
+-from selenium.webdriver.common.keys import Keys
+-from selenium.webdriver.common.by import By
+-import time
+-
+-def accessAmazon():
+-    for i in range(20):
+-        # create instance of Chrome webdriver
+-        try:
+-            driver=webdriver.Chrome() 
+-            driver.get("https://www.amazon.in/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.in%2Fgp%2Fcss%2Fhomepage.html%3Ffrom%3Dhz%26ref_%3Dnav_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=inflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&")
+-            driver.find_element("id", "ap_email").send_keys('xxxx6126')
+-            driver.find_element("id", "continue").click()
+-            time.sleep(10)
+-            driver.find_element("id", "auth-fpp-link-bottom").click()
+-            driver.find_element("id", "continue").click()
+-            # set the interval to send each sms
+-            time.sleep(400)
+-        except Exception as ex:
+-            print (ex)   
+-            continue     
+-    
+-        # Close the browser
+-        #driver.close()
+-def yahooDownload():
+-    #https://finance.yahoo.com/quote/TSLA/history?p=TSLA
+-    driver=webdriver.Chrome() 
+-    driver.get("https://finance.yahoo.com/quote/TSLA/history?p=TSLA")
+-    time.sleep(10)
+-    element = driver.find_element(By.XPATH, "//span[contains(text(),'Download')]")
+-    element.click()
+-    time.sleep(300)
+- 
+-yahooDownload()
+\ No newline at end of file
+diff --git a/Python/WebScrapping/python_selenium_example.py b/Python/WebScrapping/python_selenium_example.py
+deleted file mode 100644
+index 3cb6555..0000000
+--- a/Python/WebScrapping/python_selenium_example.py
++++ /dev/null
+@@ -1,21 +0,0 @@
+-from selenium import webdriver
+-import time
+-
+-
+-driver = webdriver.Chrome()
+-driver.maximize_window()
+-driver.get("http://www.seleniumeasy.com/test/basic-first-form-demo.html")
+-time.sleep(40)
+-assert "Selenium Easy Demo - Simple Form to Automate using Selenium" in driver.title
+-time.sleep(40)
+-
+-eleUserMessage = driver.find_element_by_id("user-message")
+-eleUserMessage.clear()
+-eleUserMessage.send_keys("Test Python")
+-
+-eleShowMsgBtn=driver.find_element_by_css_selector('#get-input > .btn')
+-eleShowMsgBtn.click()
+-
+-eleYourMsg=driver.find_element_by_id("display")
+-assert "Test Python" in eleYourMsg.text
+-driver.close()
+\ No newline at end of file
+diff --git a/Python/WebScrapping/seleniumTest.py b/Python/WebScrapping/seleniumTest.py
+deleted file mode 100644
+index 2a7a54a..0000000
+--- a/Python/WebScrapping/seleniumTest.py
++++ /dev/null
+@@ -1,13 +0,0 @@
+-from bs4 import BeautifulSoup
+-from selenium import webdriver
+-
+-# Create your driver
+-driver = webdriver.Chrome()
+-
+-# Get  page
+-driver.get('http://news.ycombinator.com')
+-
+-# Feed the source to BeautifulSoup
+-soup = BeautifulSoup(driver.page_source)
+-
+-print (soup.title)  # <title>Hacker News</title>
+\ No newline at end of file
+diff --git a/Python/WebScrapping/seleniumTest3.py b/Python/WebScrapping/seleniumTest3.py
+deleted file mode 100644
+index 8071f38..0000000
+--- a/Python/WebScrapping/seleniumTest3.py
++++ /dev/null
+@@ -1,7 +0,0 @@
+-from selenium import webdriver
+-import time
+-#import chromedriver_binary  # Adds chromedriver binary to path
+-
+-driver = webdriver.Chrome()
+-driver.get("http://www.python.org")
+-time.sleep(20)
+\ No newline at end of file
+diff --git a/Python/data.csv.txt b/Python/data.csv.txt
+deleted file mode 100644
+index 9160737..0000000
+--- a/Python/data.csv.txt
++++ /dev/null
+@@ -1,8 +0,0 @@
+-Date,price,factor_1,factor_2
+-2012-06-11,1600.20,1.255,1.548
+-2012-06-12,1610.02,1.258,1.554
+-2012-06-13,1618.07,1.249,1.552
+-2012-06-14,1624.40,1.253,1.556
+-2012-06-15,1626.15,1.258,1.552
+-2012-06-16,1626.15,1.263,1.558
+-2012-06-17,1626.15,1.264,1.572
+\ No newline at end of file
+diff --git a/Python/file.ini b/Python/file.ini
+deleted file mode 100644
+index db09126..0000000
+--- a/Python/file.ini
++++ /dev/null
+@@ -1,9 +0,0 @@
+-[bugs]
+-url = http://localhost:1010/bugs/
+-username = mark
+-password = SECRET
+-
+-[wiki]
+-url = http://localhost:1010/wiki/
+-username = chris
+-password = PWD
+\ No newline at end of file
+diff --git a/Python/geckodriver.log b/Python/geckodriver.log
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/Python/readcsv.py b/Python/readcsv.py
+deleted file mode 100644
+index a3aa342..0000000
+--- a/Python/readcsv.py
++++ /dev/null
+@@ -1,7 +0,0 @@
+-import pandas as pds
+-import re
+-
+-
+-file =('data.csv.txt')
+-newData = pds.read_csv(file)
+-print(newData)
+\ No newline at end of file
+diff --git a/Stock52WeekData.py b/Stock52WeekData.py
+index e0d1c6c..2846224 100644
+--- a/Stock52WeekData.py
++++ b/Stock52WeekData.py
+@@ -5,18 +5,22 @@ import time
+ import sys
+ import os
+ from datetime import datetime
+-sys.path.insert(1, 'C:/Python/ConfigReader/')
++
++sys.path.insert(1, "C:/Python/ConfigReader/")
+ import PropReader as propreader
+ import glob
+ import shutil
+-#Adding Comment
++
++# Adding Comment
+ def accessAmazon():
+     for i in range(20):
+         # create instance of Chrome webdriver
+         try:
+-            driver=webdriver.Chrome() 
+-            driver.get("https://www.amazon.in/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.in%2Fgp%2Fcss%2Fhomepage.html%3Ffrom%3Dhz%26ref_%3Dnav_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=inflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&")
+-            driver.find_element("id", "ap_email").send_keys('xxxx6126')
++            driver = webdriver.Chrome()
++            driver.get(
++                "https://www.amazon.in/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.in%2Fgp%2Fcss%2Fhomepage.html%3Ffrom%3Dhz%26ref_%3Dnav_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=inflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&"
++            )
++            driver.find_element("id", "ap_email").send_keys("xxxx6126")
+             driver.find_element("id", "continue").click()
+             time.sleep(10)
+             driver.find_element("id", "auth-fpp-link-bottom").click()
+@@ -24,50 +28,84 @@ def accessAmazon():
+             # set the interval to send each sms
+             time.sleep(400)
+         except Exception as ex:
+-            print (ex)   
+-            continue     
+-    
++            print(ex)
++            continue
++
+         # Close the browser
+-        #driver.close()
++        # driver.close()
++
++
+ def yahooDownload(stockSymbol):
+-    baseFolder =  propreader.readConfigValue('brok','bfolder')
+-    downLodFolder = propreader.readConfigValue('brok','dfolder')
+-    subFolder=datetime.now().strftime('%Y%m%d')
+-    fullPath=baseFolder+'/'+stockSymbol+'/'+subFolder
++    baseFolder = propreader.readConfigValue("brok", "bfolder")
++    downLodFolder = propreader.readConfigValue("brok", "dfolder")
++    subFolder = datetime.now().strftime("%Y%m%d")
++    fullPath = baseFolder + "/" + stockSymbol + "/" + subFolder
+     print(baseFolder)
+     print(downLodFolder)
+-    if not (os.path.exists):
++    if not (os.path.exists(fullPath)):
+         os.makedirs(fullPath, exist_ok=True)
+-    #https://finance.yahoo.com/quote/TSLA/history?p=TSLA
++    # https://finance.yahoo.com/quote/TSLA/history?p=TSLA
+     driver = getDriver1()
+-    driver.get("https://finance.yahoo.com/quote/TSLA/history?p="+stockSymbol)
++    # driver.get("https://finance.yahoo.com/quote/TSLA/history?p="+stockSymbol)
++    urlToConect = propreader.readConfigValue("yahoo", "urltoconnectforhistdata")
++    urlToConect = urlToConect.replace("stockSymbol", stockSymbol)
++    print(urlToConect)
++    driver.get(urlToConect)
+     time.sleep(10)
+     element = driver.find_element(By.XPATH, "//span[contains(text(),'Download')]")
+     element.click()
+     time.sleep(20)
+-    print(downLodFolder+stockSymbol+'*')
+-    files = glob.glob(downLodFolder+stockSymbol+'*')
++    print(downLodFolder + stockSymbol + "*")
++    files = glob.glob(downLodFolder + stockSymbol + "*")
+     print(files)
+     latest_file = max(files, key=os.path.getctime)
+-    shutil.copy2(latest_file,fullPath)
++
++    shutil.copy2(latest_file, fullPath)
++
++
++def recommendationFromFoolscom():
++    print("in recommendationFromFoolscom")
++    driver = getDriver1()
++    print("in recommendationFromFoolscom ..2")
++    # driver.get("https://finance.yahoo.com/quote/TSLA/history?p="+stockSymbol)
++    urlToConect = propreader.readConfigValue("fools", "urltoconnect")
++    print("urlToConect  " + urlToConect)
++    # urlToConect=urlToConect.replace('stockSymbol',stockSymbol)
++    driver.get(urlToConect)
++    time.sleep(10)
++    driver.find_element("id", "usernameOrEmail").send_keys("nlaxmikishore@gmail.com")
++    # driver.find_element("id", "continue").click()
++    time.sleep(5)
++    driver.find_element("id", "password").send_keys("Kish1970@")
++    time.sleep(5)
++    driver.find_element("id", "btn-login").click()
++    time.sleep(10)
++    driver.get("https://www.fool.com/premium/screener/")
++    time.sleep(20)
++    driver.find_element(By.CLASS_NAME, "fa-regular fa-arrow-down-to-bracket").click()
++    time.sleep(240)
++
+ 
+ def getDriver():
+     options = webdriver.ChromeOptions()
+-    prefs = {"download.default_directory" : "PATH"}
+-    prefs = {"driver" : "C:/ChromeDriver/chrome-win64/chrome.exe"}
+-    options.add_experimental_option("prefs",prefs)
++    prefs = {"download.default_directory": "PATH"}
++    prefs = {"driver": "C:/ChromeDriver/chrome-win64/chrome.exe"}
++    options.add_experimental_option("prefs", prefs)
+     driver = webdriver.Chrome(options=options)
+-    #driver = webdriver.Chrome('C:/Users/HP/Desktop/Drivers/chromedriver_win32/chromedriver.exe')
++    # driver = webdriver.Chrome('C:/Users/HP/Desktop/Drivers/chromedriver_win32/chromedriver.exe')
++
+ 
+ def getDriver1():
+     options = webdriver.ChromeOptions()
+     options.binary_location = "C:/ChromeDriver/chrome-win64/chrome.exe"
+-    options.add_argument ("download.default_directory=C:/Your_Directory")
++    # options.add_argument ("download.default_directory=C:/Your_Directory")
+     driver = webdriver.Chrome(options)
+     return driver
+ 
++
+ def getDriver2():
+     from selenium.webdriver import Chrome, ChromeOptions
++
+     prefs = {
+         "download.default_directory": "C:/StockHistoricData/",
+         "download.directory_upgrade": True,
+@@ -77,5 +115,16 @@ def getDriver2():
+     chromeOptions.add_experimental_option("prefs", prefs)
+     driver = Chrome(options=chromeOptions)
+     return driver
++
++
+ if __name__ == "__main__":
+-    yahooDownload(sys.argv[1])
+\ No newline at end of file
++    if sys.argv[1] == "HISTDATA":
++        scriptLst = propreader.readConfigValue("yahoo", "listofstockcode")
++        print(scriptLst)
++        scriptLstValues = scriptLst.split(",")
++        print(scriptLstValues)
++        for x in scriptLstValues:
++            print("value " + x)
++            yahooDownload(x)
++    elif sys.argv[1] == "RECOMMLIST":
++        recommendationFromFoolscom()
+diff --git a/TestRepo b/TestRepo
+new file mode 160000
+index 0000000..bb4259b
+--- /dev/null
++++ b/TestRepo
+@@ -0,0 +1 @@
++Subproject commit bb4259b3b8808a4387c3ba8ea3754bdbfbbc0cd1
+diff --git a/printHello.py b/printHello.py
+new file mode 100644
+index 0000000..92fa867
+--- /dev/null
++++ b/printHello.py
+@@ -0,0 +1,3 @@
++print("Hello World")
++import selenium
++print(selenium.__version__)
+\ No newline at end of file
+diff --git a/python_selenium_example.py b/python_selenium_example.py
+index 40b1b2a..9621938 100644
+--- a/python_selenium_example.py
++++ b/python_selenium_example.py
+@@ -1,6 +1,6 @@
+ from selenium import webdriver
+ import time
+-#git change
++
+ 
+ driver = webdriver.Chrome()
+ driver.maximize_window()
+@@ -9,13 +9,13 @@ time.sleep(40)
+ assert "Selenium Easy Demo - Simple Form to Automate using Selenium" in driver.title
+ time.sleep(40)
+ 
+-eleUserMessage = driver.find_element_by_id("user-message")
++eleUserMessage = driver.find_element_by_id("user-message") # type: ignore
+ eleUserMessage.clear()
+ eleUserMessage.send_keys("Test Python")
+ 
+-eleShowMsgBtn=driver.find_element_by_css_selector('#get-input > .btn')
++eleShowMsgBtn=driver.find_element_by_css_selector('#get-input > .btn') # type: ignore
+ eleShowMsgBtn.click()
+ 
+-eleYourMsg=driver.find_element_by_id("display")
++eleYourMsg=driver.find_element_by_id("display") # type: ignore
+ assert "Test Python" in eleYourMsg.text
+ driver.close()
+\ No newline at end of file
+diff --git a/Python/WebScrapping/seleniumTest2.py b/seleniumTest2.py
+similarity index 94%
+rename from Python/WebScrapping/seleniumTest2.py
+rename to seleniumTest2.py
+index aafd839..01c2c68 100644
+--- a/Python/WebScrapping/seleniumTest2.py
++++ b/seleniumTest2.py
+@@ -1,54 +1,56 @@
+-from bs4 import BeautifulSoup
+-from selenium import webdriver
+-import time
+-from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
+-from pynput.mouse import Listener
+-
+-b = webdriver.Chrome()
+-b.maximize_window()
+-
+-
+-class EventListeners(AbstractEventListener):
+-    def before_navigate_to(self, url, driver):
+-        print("before_navigate_to %s" % url)
+-
+-    def after_navigate_to(self, url, driver):
+-        print("after_navigate_to %s" % url)
+-
+-    def before_click(self, element, driver):
+-        print("before_click %s" % element)
+-
+-    def after_click(self, element, driver):
+-        print("after_click %s" %element)
+-
+-    def after_navigate_forward(self, driver):
+-        print("after_navigate_forward");
+-
+-    def before_navigate_forward(self, driver):
+-        print("before_navigate_forward")
+-
+-    def after_navigate_back(self, driver):
+-        print("after_navigate_back")
+-
+-    def before_navigate_back(self, driver):
+-        print("before_navigate_back")
+-
+-    def before_change_value_of(self, element, driver):
+-        print("before_change_value_of")
+-
+-d = EventFiringWebDriver(b,EventListeners())
+-
+-d.get('https://www.cnn.com')
+-d.implicitly_wait(20)
+-d.get('https://www.google.de')
+-d.implicitly_wait(60)
+-d.back()
+-
+-def on_click(x, y, button, pressed):
+-    if pressed:
+-        print('Mouse clicked')
+-        time.sleep(2)
+-        print("Navigation to: %s " % b.current_url)
+-
+-with Listener(on_click=on_click) as listener:
++from bs4 import BeautifulSoup
++from selenium import webdriver
++import time
++from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
++
++#from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
++from pynput.mouse import Listener
++
++b = webdriver.Chrome()
++b.maximize_window()
++
++
++class EventListeners(AbstractEventListener):
++    def before_navigate_to(self, url, driver):
++        print("before_navigate_to %s" % url)
++
++    def after_navigate_to(self, url, driver):
++        print("after_navigate_to %s" % url)
++
++    def before_click(self, element, driver):
++        print("before_click %s" % element)
++
++    def after_click(self, element, driver):
++        print("after_click %s" %element)
++
++    def after_navigate_forward(self, driver):
++        print("after_navigate_forward");
++
++    def before_navigate_forward(self, driver):
++        print("before_navigate_forward")
++
++    def after_navigate_back(self, driver):
++        print("after_navigate_back")
++
++    def before_navigate_back(self, driver):
++        print("before_navigate_back")
++
++    def before_change_value_of(self, element, driver):
++        print("before_change_value_of")
++
++d = EventFiringWebDriver(b,EventListeners())
++
++d.get('https://www.cnn.com')
++d.implicitly_wait(20)
++d.get('https://www.google.de')
++d.implicitly_wait(60)
++d.back()
++
++def on_click(x, y, button, pressed):
++    if pressed:
++        print('Mouse clicked')
++        time.sleep(2)
++        print("Navigation to: %s " % b.current_url)
++
++with Listener(on_click=on_click) as listener:
+     listener.join()
+\ No newline at end of file

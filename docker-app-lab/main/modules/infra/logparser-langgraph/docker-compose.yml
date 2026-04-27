@@ -1,0 +1,13 @@
+services:
+  log-analyzer:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./app/test_data/logs:/app/app/test_data/logs
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - MODE=gui  # or cli
+    restart: unless-stopped

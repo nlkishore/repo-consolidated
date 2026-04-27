@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../site-content"
+		},
+		{
+			"path": "../../../docker-nginx"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}

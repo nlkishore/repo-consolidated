@@ -1,0 +1,56 @@
+# OpenRewrite: Torque 3.x → 7.x migration support
+#
+# Torque upgrades are mostly: regenerate OM from schema.xml, replace Village/MapBuilder usage,
+# migrate Criteria and runtime configuration, and align Maven plugins. OpenRewrite is best used
+# for inventory (this file) and for separate Java/Jakarta recipes — not as a full ORM migrator.
+#
+# Run (example):
+#   mvn -q -Drewrite.configLocation=../openrewrite-torque3-to-7/rewrite.yml \
+#       -Drewrite.activeRecipes=com.uob.openrewrite.torque.Torque3ToTorque7Inventory \
+#       org.openrewrite.maven:rewrite-maven-plugin:5.42.0:run
+
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: com.uob.openrewrite.torque.Torque3ToTorque7Inventory
+displayName: Torque 3.x → 7.x migration inventory (search-only)
+description: >
+  Detects common Torque 3-era touchpoints (Village, MapBuilder, legacy Criteria package, BasePeer,
+  Torque 3 runtime configuration, Maven torque-runtime / torque-generator) to build a migration backlog.
+  Does not apply automated refactors that would change ORM semantics.
+tags:
+  - torque
+  - inventory
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.workingdogs.village.Record
+      matchInherited: true
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: com.workingdogs.village.Value
+      matchInherited: true
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.apache.torque.map.MapBuilder
+      matchInherited: true
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.apache.torque.util.BasePeer
+      matchInherited: true
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.apache.torque.util.Criteria
+      matchInherited: true
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.apache.commons.configuration.PropertiesConfiguration
+      matchInherited: true
+  - org.openrewrite.text.Find:
+      find: com.workingdogs.village
+      filePattern: "**/*.java"
+  - org.openrewrite.text.Find:
+      find: org.apache.torque.util.Criteria
+      filePattern: "**/*.java"
+  - org.openrewrite.text.Find:
+      find: torque.dsfactory
+      filePattern: "**/*.properties"
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: org.apache.torque
+      artifactId: torque-runtime
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: org.apache.torque
+      artifactId: torque-generator

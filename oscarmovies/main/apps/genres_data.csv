@@ -1,0 +1,19 @@
+gen_id,gen_title,gen_desc
+g0001,Action,"Associated with particular types of spectacle (eg. Explosion, Chases, Combat)"
+g0002,Adventure,"Implies a narrative that is defined by a journey (often including some form of pursuit) and is usually located within a fantasy or exoticized setting. Typically, though not always, such stories include the quest narrative. The predominant emphasis on violence and fighting in action films is the typical difference between the two genres."
+g0003,Animated,"A film medium in which the film's images are primarily created by computer or hand and the characters are voiced by acrors. Animation can incorporate any genre and subgenre"
+g0004,Comedy,"Defined by events that are primarily intended to make the audience laugh"
+g0005,Drama,"Focused on emotions and defined by conflict, often looking to reality rather than sensationalism."
+g0006,Fantasy,"Films defined by situations that transcend natural laws and/or by settings inside a fictional universe, with narratives that are often inspired by or involve human myths."
+g0007,Historical,"Films that either provide more-or-less accurate representations of historical accounts or depict fictional narratives placed inside an accurate depiction of a historical setting.	
+"
+g0008,Horror,"Films that seek to elicit fear or disgust in the audience for entertainment purposes.	 "
+g0009,Musical,"A genre in which songs performed by the characters are interwoven into the narrative, sometimes accompanied by dancing. The songs usually advance the plot or develop the film's characters or may serve merely as breaks in the storyline, often as elaborate "production numbers".	
+"
+g0010,Noir,"A genre of stylish crime dramas particularly popular during the 1940s and '50s. They were often reflective of the American society and culture at the time.	
+"
+g0011,Romance,"Characterized by an emphasis on passion, emotion, and the affectionate romantic involvement of the main characters, with romantic love or the search for it typically being the primary focus."
+g0012,"Science Fiction","Films are defined by a combination of imaginative speculation and a scientific or technological premise, making use of the changes and trajectory of technology and science."
+g0013,Thriller,"Films that evoke excitement and suspense in the audience. The suspense element found in most films' plots is particularly exploited by the filmmaker in this genre. Tension is created by delaying what the audience sees as inevitable, and is built through situations that are menacing or where escape seems impossible."
+g0014,Western,"A genre in which films are set in the American West during the 19th century."
+g0015,"Rom Com",NULL

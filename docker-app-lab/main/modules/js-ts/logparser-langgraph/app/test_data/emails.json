@@ -1,0 +1,12 @@
+[
+  {
+    "subject": "Server Down Alert",
+    "body": "The wholesale banking node crashed at 03:12",
+    "sender": "alerts@uob.com"
+  },
+  {
+    "subject": "Batch Success",
+    "body": "Nightly reconciliation completed.",
+    "sender": "noreply@finastra.com"
+  }
+]

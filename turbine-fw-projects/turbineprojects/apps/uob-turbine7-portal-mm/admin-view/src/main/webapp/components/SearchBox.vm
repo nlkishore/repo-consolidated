@@ -1,0 +1,8 @@
+## Search Box Component
+## Reusable search box component
+## Parameters: $searchId, $placeholder, $onSearchFunction
+
+<div class="search-box">
+    <input type="text" id="$!searchId" placeholder="$!placeholder" />
+    <button onclick="$!onSearchFunction">Search</button>
+</div>

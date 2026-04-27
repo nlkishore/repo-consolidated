@@ -1,0 +1,11 @@
+## Contextual Menu Component
+## Jump-to menu for quick navigation
+
+<div class="contextual-menu">
+    <ul>
+        <li><a href="#user-details" onclick="scrollToSection('user-details'); return false;">User Details</a></li>
+        <li><a href="#group-details" onclick="scrollToSection('group-details'); return false;">Group Details</a></li>
+        <li><a href="#roles-details" onclick="scrollToSection('roles-details'); return false;">Role Details</a></li>
+        <li><a href="#permission-details" onclick="scrollToSection('permission-details'); return false;">Permission Details</a></li>
+    </ul>
+</div>

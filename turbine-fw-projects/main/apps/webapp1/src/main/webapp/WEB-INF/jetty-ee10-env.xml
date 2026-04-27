@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "https://eclipse.dev/jetty/configure_10_0.dtd">
+<Configure class="org.eclipse.jetty.ee10.webapp.WebAppContext" id="wac">
+  <New id="Turbine" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg><Ref refid="wac"/></Arg> <!-- scope  -->
+    <Arg>jdbc/turbine</Arg>
+    <Arg>
+        <New class="org.apache.commons.dbcp2.BasicDataSource">
+           <Set name="driverClassName">com.mysql.cj.jdbc.Driver</Set>
+             <Set name="url">jdbc:mysql://localhost:3306/turbine</Set>
+            <Set name="username">db_user</Set>
+            <Set name="password">db_password</Set>
+            <Set name="connectionProperties">useSSL=false</Set>
+            <Set name="validationQuery">SELECT 1</Set>          
+        </New>
+    </Arg>
+  </New>
+  
+  <Call name="setAttribute">
+      <Arg>org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern</Arg>
+      <Arg>.*/spring-[^/]*\.jar$</Arg>
+  </Call>  
+  <Call name="setAttribute">
+      <Arg>org.eclipse.jetty.annotations.multiThreaded</Arg>
+      <Arg type="Boolean">false</Arg>
+  </Call>
+    
+</Configure>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://db.apache.org/torque/5.0/templates/database"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://db.apache.org/torque/5.0/templates/database https://db.apache.org/torque/torque-7.0/documentation/orm-reference/database-5-0-strict.xsd"
+          name="uob_portal"
+          defaultIdMethod="native"
+          defaultJavaType="object">
+
+    <table name="gtp_user" description="Portal user (GTP_USER subset for migration demo)">
+        <column name="user_id" required="true" primaryKey="true" type="INTEGER" autoIncrement="true"
+                description="Primary key"/>
+        <column name="login_name" required="true" type="VARCHAR" size="255" description="Login"/>
+        <column name="password_value" required="true" type="VARCHAR" size="255" description="Password"/>
+        <column name="first_name" type="VARCHAR" size="255" description="First name"/>
+        <column name="last_name" type="VARCHAR" size="255" description="Last name"/>
+        <column name="email" type="VARCHAR" size="255" description="Email"/>
+        <unique name="uk_gtp_user_login_name">
+            <unique-column name="login_name"/>
+        </unique>
+    </table>
+</database>

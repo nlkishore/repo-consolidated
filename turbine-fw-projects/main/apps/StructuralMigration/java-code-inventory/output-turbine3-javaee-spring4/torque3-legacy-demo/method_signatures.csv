@@ -1,0 +1,31 @@
+folder_name,java_file_name,class_name,method_name,return_type,parameters,modifiers,throws,signature_text,line_number
+src/test/java/com/uob/portal/torque3,GtpUserLegacyCrudServiceIT.java,GtpUserLegacyCrudServiceIT,beforeAll,void,,static,Exception,static void beforeAll() throws Exception,34
+src/test/java/com/uob/portal/torque3,GtpUserLegacyCrudServiceIT.java,GtpUserLegacyCrudServiceIT,afterAll,void,,static,Exception,static void afterAll() throws Exception,53
+src/test/java/com/uob/portal/torque3,GtpUserLegacyCrudServiceIT.java,GtpUserLegacyCrudServiceIT,applySchema,void,,private static,Exception,private static void applySchema() throws Exception,57
+src/test/java/com/uob/portal/torque3,GtpUserLegacyCrudServiceIT.java,GtpUserLegacyCrudServiceIT,crud_roundTrip,void,,,Exception,void crud_roundTrip() throws Exception,76
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,GtpUserLegacyCrudService,constructor,,private,,private GtpUserLegacyCrudService GtpUserLegacyCrudService(),28
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,insert,GtpUserRow,"String loginName, String passwordValue, String firstName, String lastName, String email",public static,"TorqueException, SQLException, DataSetException","public static GtpUserRow insert(String loginName, String passwordValue, String firstName, String lastName, String email) throws TorqueException, SQLException, DataSetException",30
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,findAll,List<GtpUserRow>,,public static,"TorqueException, DataSetException","public static List<GtpUserRow> findAll() throws TorqueException, DataSetException",56
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,findByUserId,GtpUserRow,int userId,public static,"TorqueException, DataSetException","public static GtpUserRow findByUserId(int userId) throws TorqueException, DataSetException",66
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,findByLoginName,GtpUserRow,String loginName,public static,"TorqueException, SQLException, DataSetException","public static GtpUserRow findByLoginName(String loginName) throws TorqueException, SQLException, DataSetException",78
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,updateEmail,boolean,"int userId, String email",public static,"TorqueException, SQLException","public static boolean updateEmail(int userId, String email) throws TorqueException, SQLException",101
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,deleteByUserId,boolean,int userId,public static,"TorqueException, SQLException","public static boolean deleteByUserId(int userId) throws TorqueException, SQLException",113
+src/main/java/com/uob/portal/torque3,GtpUserLegacyCrudService.java,GtpUserLegacyCrudService,mapRecord,GtpUserRow,Record row,private static,DataSetException,private static GtpUserRow mapRecord(Record row) throws DataSetException,124
+src/main/java/com/uob/portal/torque3,Torque3RuntimeBootstrap.java,Torque3RuntimeBootstrap,Torque3RuntimeBootstrap,constructor,,private,,private Torque3RuntimeBootstrap Torque3RuntimeBootstrap(),19
+src/main/java/com/uob/portal/torque3,Torque3RuntimeBootstrap.java,Torque3RuntimeBootstrap,resetForTesting,void,,public static,TorqueException,public static void resetForTesting() throws TorqueException,24
+src/main/java/com/uob/portal/torque3,Torque3RuntimeBootstrap.java,Torque3RuntimeBootstrap,initFromClasspath,void,,public static,TorqueException,public static void initFromClasspath() throws TorqueException,33
+src/main/java/com/uob/portal/torque3,Torque3RuntimeBootstrap.java,Torque3RuntimeBootstrap,initFromConfiguration,void,PropertiesConfiguration cfg,public static,TorqueException,public static void initFromConfiguration(PropertiesConfiguration cfg) throws TorqueException,59
+src/main/java/com/uob/portal/torque3,Torque3RuntimeBootstrap.java,Torque3RuntimeBootstrap,initFromConfigurationLocked,void,PropertiesConfiguration cfg,private static,TorqueException,private static void initFromConfigurationLocked(PropertiesConfiguration cfg) throws TorqueException,68
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,GtpUserRow,constructor,"Integer userId, String loginName, String passwordValue, String firstName, String lastName, String email",public,,"public GtpUserRow GtpUserRow(Integer userId, String loginName, String passwordValue, String firstName, String lastName, String email)",17
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,getUserId,Integer,,public,,public Integer getUserId(),32
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,getLoginName,String,,public,,public String getLoginName(),36
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,getPasswordValue,String,,public,,public String getPasswordValue(),40
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,getFirstName,String,,public,,public String getFirstName(),44
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,getLastName,String,,public,,public String getLastName(),48
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,getEmail,String,,public,,public String getEmail(),52
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,toString,String,,public,,public String toString(),57
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,equals,boolean,Object o,public,,public boolean equals(Object o),77
+src/main/java/com/uob/portal/torque3/dto,GtpUserRow.java,GtpUserRow,hashCode,int,,public,,public int hashCode(),89
+src/main/java/com/uob/portal/torque3/map,GtpUserMapBuilder.java,GtpUserMapBuilder,doBuild,void,,public,Exception,public void doBuild() throws Exception,23
+src/main/java/com/uob/portal/torque3/map,GtpUserMapBuilder.java,GtpUserMapBuilder,isBuilt,boolean,,public,,public boolean isBuilt(),46
+src/main/java/com/uob/portal/torque3/map,GtpUserMapBuilder.java,GtpUserMapBuilder,getDatabaseMap,DatabaseMap,,public,,public DatabaseMap getDatabaseMap(),51

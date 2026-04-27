@@ -1,0 +1,2 @@
+2024-02-18 15:01:48 [main] INFO  ReplaceAllWithLog4JSupport - Original: There are 123 apples and 456 oranges on the table.
+2024-02-18 15:01:48 [main] INFO  ReplaceAllWithLog4JSupport - Modified: There are X apples and X oranges on the table.

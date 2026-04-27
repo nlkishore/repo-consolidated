@@ -1,0 +1,21 @@
+## Sidebar Navigation Component
+## Modularized sidebar component for Admin Dashboard
+
+<div class="admin-sidebar">
+    <nav>
+        <ul>
+            <li class="active" onclick="scrollToSection('user-details')">
+                <a href="#user-details">User Details</a>
+            </li>
+            <li onclick="scrollToSection('group-details')">
+                <a href="#group-details">Group Details</a>
+            </li>
+            <li onclick="scrollToSection('roles-details')">
+                <a href="#roles-details">Roles Details</a>
+            </li>
+            <li onclick="scrollToSection('permission-details')">
+                <a href="#permission-details">Permission Details</a>
+            </li>
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,52 @@
+.data-grid-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-grid {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  table-layout: fixed;
+}
+
+.data-grid th {
+  background-color: #f5f5f5;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+.data-grid td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  word-wrap: break-word;
+  font-size: 14px;
+}
+
+.data-grid tr:hover {
+  background-color: #f9f9f9;
+}
+
+.empty-message {
+  text-align: center;
+  color: #999999;
+  padding: 20px;
+}
+
+.action-link {
+  color: #2196F3;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.action-link:hover {
+  background-color: #E3F2FD;
+  text-decoration: underline;
+}

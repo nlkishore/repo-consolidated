@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<turbine xmlns="http://jakarta.apache.org/turbine/configuration" version="1.0">
+  <!-- Screen Definitions -->
+  <screen name="Hello" class="org.example.modules.screens.HelloScreen"/>
+  
+  <!--  <screen name="Index" class="org.apache.turbine.modules.screens.VelocityScreen"/>
+  <screen name="Login" class="org.apache.turbine.modules.screens.VelocityScreen"/>
+  <screen name="Error" class="org.apache.turbine.modules.screens.VelocityScreen"/>-->
+
+  <!-- Action Definitions (optional) -->
+  <!--
+  <action name="LoginAction" class="org.example.modules.actions.LoginAction"/>
+  -->
+
+  <!-- Navigation Definitions (optional) -->
+  <!--
+  <navigation name="DefaultNavigation" class="org.apache.turbine.modules.navigation.DefaultNavigation"/>
+  -->
+</turbine>

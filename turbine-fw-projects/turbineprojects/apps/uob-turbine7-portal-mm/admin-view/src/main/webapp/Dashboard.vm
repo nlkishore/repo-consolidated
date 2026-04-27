@@ -1,0 +1,96 @@
+## Admin Dashboard - Main Template
+## Uses modularized components for better maintainability
+## URL: /app/admin/Dashboard.vm
+
+$page.addStyleSheet("http://www.w3schools.com/lib/w3.css")
+$page.addStyleSheet("http://www.w3schools.com/lib/w3-theme-blue-grey.css")
+$page.addStyleSheet("/admin/styles/admin-dashboard.css")
+$page.addScript("/admin/scripts/admin-dashboard.js")
+
+<div class="admin-container">
+    ## Header Component
+    #parse("components/Header.vm")
+
+    ## Body: Sidebar + Work Area
+    <div class="admin-body">
+        ## Sidebar Component
+        #parse("components/Sidebar.vm")
+
+        ## Work Area
+        <div class="admin-workarea" id="workarea">
+            ## Contextual Menu Component
+            #parse("components/ContextualMenu.vm")
+
+            ## User Details Section
+            <div class="workarea-section" id="user-details">
+                <div class="section-header">
+                    <h3>User Details</h3>
+                </div>
+                #set ($searchId = "user-search")
+                #set ($placeholder = "Search users by name, email, or login...")
+                #set ($onSearchFunction = "searchUsers()")
+                #parse("components/SearchBox.vm")
+                <div id="user-results">
+                    #set ($gridId = "user-grid")
+                    #set ($headers = ["User ID", "Login Name", "First Name", "Last Name", "Email", "Actions"])
+                    #set ($tbodyId = "user-grid-body")
+                    #parse("components/ResultsGrid.vm")
+                </div>
+            </div>
+
+            ## Group Details Section
+            <div class="workarea-section" id="group-details">
+                <div class="section-header">
+                    <h3>Group Details</h3>
+                </div>
+                #set ($searchId = "group-search")
+                #set ($placeholder = "Search groups by name...")
+                #set ($onSearchFunction = "searchGroups()")
+                #parse("components/SearchBox.vm")
+                <div id="group-results">
+                    #set ($gridId = "group-grid")
+                    #set ($headers = ["Group ID", "Group Name", "Actions"])
+                    #set ($tbodyId = "group-grid-body")
+                    #parse("components/ResultsGrid.vm")
+                </div>
+            </div>
+
+            ## Roles Details Section
+            <div class="workarea-section" id="roles-details">
+                <div class="section-header">
+                    <h3>Roles Details</h3>
+                </div>
+                #set ($searchId = "role-search")
+                #set ($placeholder = "Search roles by name...")
+                #set ($onSearchFunction = "searchRoles()")
+                #parse("components/SearchBox.vm")
+                <div id="role-results">
+                    #set ($gridId = "role-grid")
+                    #set ($headers = ["Role ID", "Role Name", "Actions"])
+                    #set ($tbodyId = "role-grid-body")
+                    #parse("components/ResultsGrid.vm")
+                </div>
+            </div>
+
+            ## Permission Details Section
+            <div class="workarea-section" id="permission-details">
+                <div class="section-header">
+                    <h3>Permission Details</h3>
+                </div>
+                #set ($searchId = "permission-search")
+                #set ($placeholder = "Search permissions by name...")
+                #set ($onSearchFunction = "searchPermissions()")
+                #parse("components/SearchBox.vm")
+                <div id="permission-results">
+                    #set ($gridId = "permission-grid")
+                    #set ($headers = ["Permission ID", "Permission Name", "Actions"])
+                    #set ($tbodyId = "permission-grid-body")
+                    #parse("components/ResultsGrid.vm")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+## Tooltip Window Component
+#parse("components/TooltipWindow.vm")

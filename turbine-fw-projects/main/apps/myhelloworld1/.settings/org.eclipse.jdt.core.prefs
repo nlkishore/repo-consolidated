@@ -1,0 +1,16 @@
+eclipse.preferences.version=1
+encoding/src/main/data=utf-8
+encoding/src/main/docker-resources=utf-8
+encoding/src/main/java=utf-8
+encoding/src/main/resources=utf-8
+encoding/src/main/torque-schema=utf-8
+encoding/src/test/java=utf-8
+encoding/src/test/resources=utf-8
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=17
+org.eclipse.jdt.core.compiler.compliance=17
+org.eclipse.jdt.core.compiler.problem.enablePreviewFeatures=disabled
+org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning
+org.eclipse.jdt.core.compiler.problem.reportPreviewFeatures=ignore
+org.eclipse.jdt.core.compiler.processAnnotations=enabled
+org.eclipse.jdt.core.compiler.release=enabled
+org.eclipse.jdt.core.compiler.source=17

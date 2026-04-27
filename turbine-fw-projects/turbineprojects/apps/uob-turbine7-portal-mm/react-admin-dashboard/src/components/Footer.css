@@ -1,0 +1,20 @@
+.dashboard-footer {
+  background-color: #9C27B0;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 12px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-content {
+  width: 100%;
+}

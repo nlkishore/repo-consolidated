@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements. See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership. The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied. See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <parent>
+        <groupId>org.apache.turbine</groupId>
+        <artifactId>turbine-parent</artifactId>
+        <version>14</version>
+        <relativePath/>
+     </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.uob</groupId>
+    <artifactId>uob-turbine7-portal-mm</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>UOB Turbine 7 Portal Multi-Module</name>
+    <description>Multi-module project for UOB Turbine 7 Portal with Torque ORM, Turbine MVC, Spring REST API, and Webapp modules</description>
+
+    <modules>
+        <module>torque-orm</module>
+        <module>turbine-model-controller</module>
+        <module>spring-rest-api</module>
+        <module>webapp</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compile.source>17</maven.compile.source>
+        <maven.compile.target>17</maven.compile.target>
+        <maven.surefire.version>3.5.3</maven.surefire.version>
+        <fulcrum.security>4.0.0</fulcrum.security>
+        <fulcrum.yaafi>2.0.1</fulcrum.yaafi>
+        <fulcrum.json>2.0.1</fulcrum.json>
+        <fulcrum.cache>2.0.1</fulcrum.cache>
+        <fulcrum.testcontainer>2.0.1</fulcrum.testcontainer>
+        <torque.version>6.0</torque.version>
+        <turbine.core>7.0</turbine.core>
+        <skipTests>true</skipTests>
+        <docker>false</docker>
+        <spring.version>6.1.5</spring.version>
+        <jackson.version>2.17.1</jackson.version>
+        <mysql.version>9.1.0</mysql.version>
+        <log4j2.version>2.23.1</log4j2.version>
+        <fulcrum.intake>4.0.0</fulcrum.intake>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Torque ORM -->
+            <dependency>
+                <groupId>org.apache.torque</groupId>
+                <artifactId>torque-runtime</artifactId>
+                <version>${torque.version}</version>
+            </dependency>
+            
+            <!-- Turbine -->
+            <dependency>
+                <groupId>org.apache.turbine</groupId>
+                <artifactId>turbine</artifactId>
+                <version>${turbine.core}</version>
+            </dependency>
+            
+            <!-- Fulcrum -->
+            <dependency>
+                <groupId>org.apache.fulcrum</groupId>
+                <artifactId>fulcrum-yaafi</artifactId>
+                <version>${fulcrum.yaafi}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.fulcrum</groupId>
+                <artifactId>fulcrum-security-api</artifactId>
+                <version>${fulcrum.security}</version>
+            </dependency>
+            
+            <!-- Spring Framework -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+            
+            <!-- Jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            
+            <!-- JUnit -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.10.2</version>
+                <scope>test</scope>
+            </dependency>
+            
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compile.source}</source>
+                        <target>${maven.compile.target}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                    <configuration>
+                        <skipTests>${skipTests}</skipTests>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

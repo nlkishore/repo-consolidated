@@ -1,0 +1,239 @@
+## Admin Dashboard - Main Template
+## Uses modularized components from admin-view module
+## URL: /app/admin/Dashboard.vm
+## This template uses its own layout (no Default.vm layout)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - UOB Turbine Portal</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel="stylesheet" href="$link.getContextPath()/admin/styles/admin-dashboard.css?v=${DateTool.getSystemTime()}">
+    <style>
+        /* Inline styles to ensure visibility and override W3.CSS */
+        .admin-sidebar {
+            display: flex !important;
+            visibility: visible !important;
+            width: 180px !important;
+            min-width: 180px !important;
+            max-width: 180px !important;
+            background-color: #F5F5F5 !important;
+            border-right: 1px solid #E0E0E0 !important;
+            flex-shrink: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .admin-body {
+            display: flex !important;
+            flex-direction: row !important;
+        }
+        .floating-nav-widget {
+            display: block !important;
+            visibility: visible !important;
+            position: fixed !important; /* Fixed for floating widget */
+            right: 20px !important;
+            z-index: 2000 !important; /* Higher z-index to stay on top */
+        }
+        .admin-workarea {
+            position: relative !important;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; overflow: hidden;">
+
+<div class="admin-container has-footer">
+    ## Header Component
+    #parse("screens/admin/components/Header.vm")
+
+    ## Body: Sidebar + Work Area
+    <div class="admin-body">
+        ## Sidebar Component
+        #parse("screens/admin/components/Sidebar.vm")
+
+        ## Work Area
+        <div class="admin-workarea" id="workarea">
+            ## Contextual Menu Component
+            #parse("screens/admin/components/ContextualMenu.vm")
+
+            ## User Details Section
+            <div class="workarea-section" id="user-details">
+                <div class="section-header">
+                    <h3>User Details</h3>
+                </div>
+                #set ($searchId = "user-search")
+                #set ($placeholder = "Search users by name, email, or login...")
+                #set ($onSearchFunction = "searchUsers()")
+                #parse("screens/admin/components/SearchBox.vm")
+                <div id="user-results">
+                    <table class="results-grid" id="user-grid">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Login Name</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-grid-body">
+                            #if ($allUsers && !$allUsers.isEmpty())
+                                #foreach ($user in $allUsers)
+                                    <tr>
+                                        <td>$!user.getId()</td>
+                                        <td>$!user.getName()</td>
+                                        <td>$!user.getFirstName()</td>
+                                        <td>$!user.getLastName()</td>
+                                        <td>$!user.getEmail()</td>
+                                        <td>
+                                            <a href="$link.setPage("user,FluxUserForm.vm").addPathInfo("username", $user.getName())">Edit</a>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr>
+                                    <td colspan="6">No users found</td>
+                                </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            ## Group Details Section
+            <div class="workarea-section" id="group-details">
+                <div class="section-header">
+                    <h3>Group Details</h3>
+                </div>
+                #set ($searchId = "group-search")
+                #set ($placeholder = "Search groups by name...")
+                #set ($onSearchFunction = "searchGroups()")
+                #parse("screens/admin/components/SearchBox.vm")
+                <div id="group-results">
+                    <table class="results-grid" id="group-grid">
+                        <thead>
+                            <tr>
+                                <th>Group ID</th>
+                                <th>Group Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="group-grid-body">
+                            #if ($allGroups && !$allGroups.isEmpty())
+                                #foreach ($group in $allGroups)
+                                    <tr>
+                                        <td>$!group.getId()</td>
+                                        <td>$!group.getName()</td>
+                                        <td>
+                                            <a href="$link.setPage("group,FluxGroupForm.vm").addPathInfo("groupId", $group.getId())">Edit</a>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr>
+                                    <td colspan="3">No groups found</td>
+                                </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            ## Roles Details Section
+            <div class="workarea-section" id="roles-details">
+                <div class="section-header">
+                    <h3>Roles Details</h3>
+                </div>
+                #set ($searchId = "role-search")
+                #set ($placeholder = "Search roles by name...")
+                #set ($onSearchFunction = "searchRoles()")
+                #parse("screens/admin/components/SearchBox.vm")
+                <div id="role-results">
+                    <table class="results-grid" id="role-grid">
+                        <thead>
+                            <tr>
+                                <th>Role ID</th>
+                                <th>Role Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="role-grid-body">
+                            #if ($allRoles && !$allRoles.isEmpty())
+                                #foreach ($role in $allRoles)
+                                    <tr>
+                                        <td>$!role.getId()</td>
+                                        <td>$!role.getName()</td>
+                                        <td>
+                                            <a href="$link.setPage("role,FluxRoleForm.vm").addPathInfo("roleId", $role.getId())">Edit</a>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr>
+                                    <td colspan="3">No roles found</td>
+                                </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            ## Permission Details Section
+            <div class="workarea-section" id="permission-details">
+                <div class="section-header">
+                    <h3>Permission Details</h3>
+                </div>
+                #set ($searchId = "permission-search")
+                #set ($placeholder = "Search permissions by name...")
+                #set ($onSearchFunction = "searchPermissions()")
+                #parse("screens/admin/components/SearchBox.vm")
+                <div id="permission-results">
+                    <table class="results-grid" id="permission-grid">
+                        <thead>
+                            <tr>
+                                <th>Permission ID</th>
+                                <th>Permission Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="permission-grid-body">
+                            #if ($allPermissions && !$allPermissions.isEmpty())
+                                #foreach ($permission in $allPermissions)
+                                    <tr>
+                                        <td>$!permission.getId()</td>
+                                        <td>$!permission.getName()</td>
+                                        <td>
+                                            <a href="$link.setPage("permission,FluxPermissionForm.vm").addPathInfo("permissionId", $permission.getId())">Edit</a>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr>
+                                    <td colspan="3">No permissions found</td>
+                                </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            ## Floating Navigation Widget - Reference UI Style
+            ## Positioned outside work area for fixed positioning
+        </div>
+    </div>
+    
+    ## Footer Component (if needed)
+    <div class="admin-footer">
+        <span>Powered by Apache Turbine</span>
+    </div>
+</div>
+
+## Floating Navigation Widget - Reference UI Style (Outside work area for fixed positioning)
+#parse("screens/admin/components/TooltipWindow.vm")
+
+<script src="$link.getContextPath()/admin/scripts/admin-dashboard.js?v=${DateTool.getSystemTime()}"></script>
+</body>
+</html>

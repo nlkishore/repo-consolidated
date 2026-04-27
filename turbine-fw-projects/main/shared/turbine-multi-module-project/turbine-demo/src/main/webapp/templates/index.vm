@@ -1,0 +1,15 @@
+<html>
+<body>
+  <h2>Hello from Turbine!</h2>
+  <p>This page is powered by Velocity + Turbine 7</p>
+
+  <form action="$link.setAction("Submit")" method="post">
+    Enter text: <input type="text" name="inputText">
+    <input type="submit" value="Submit">
+  </form>
+
+  #if ($msg)
+    <p style="color:blue;">$msg</p>
+  #end
+</body>
+</html>

@@ -1,0 +1,206 @@
+## User Assignment Screen - For Managers to assign Groups, Roles, and Permissions to Users
+
+<div class="w3-container w3-padding-16">
+    <h2>User Assignment</h2>
+    <p class="w3-text-grey">Assign Groups, Roles, and Permissions to Users</p>
+    
+    ## User Selection Form
+    <div class="w3-card-4 w3-margin">
+        <div class="w3-container w3-theme">
+            <h3>Select User</h3>
+        </div>
+        <div class="w3-container w3-padding-16">
+            <form method="get" action="$link.setPage("UserAssignment.vm")">
+                <div class="w3-row-padding">
+                    <div class="w3-half">
+                        <label><b>Select User:</b></label>
+                        <select name="selectedUser" class="w3-select w3-border" onchange="this.form.submit()">
+                            <option value="">-- Select a User --</option>
+                            #foreach ($user in $allUsers)
+                                <option value="$!user.Name" #if ($selectedUsername && $selectedUsername == $user.Name) selected #end>
+                                    $!user.Name ($!user.FirstName $!user.LastName)
+                                </option>
+                            #end
+                        </select>
+                    </div>
+                    <div class="w3-half">
+                        <button type="submit" class="w3-button w3-theme" style="margin-top: 25px;">Load User</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    #if ($selectedUser && $userACL)
+        ## User Information
+        <div class="w3-card-4 w3-margin">
+            <div class="w3-container w3-blue">
+                <h3>User Information</h3>
+            </div>
+            <div class="w3-container">
+                <table class="w3-table w3-bordered">
+                    <tr>
+                        <th width="200">Username:</th>
+                        <td><strong>$!selectedUser.Name</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Full Name:</th>
+                        <td>$!selectedUser.FirstName $!selectedUser.LastName</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>$!selectedUser.Email</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        ## Group and Role Assignment Form
+        <div class="w3-card-4 w3-margin">
+            <div class="w3-container w3-green">
+                <h3>Assign Groups and Roles</h3>
+                <p class="w3-small">Select groups and roles to assign to this user</p>
+            </div>
+            <div class="w3-container">
+                <form method="post" action="$link.setAction("user.FluxUserAction").setPage("UserAssignment.vm")">
+                    <input type="hidden" name="username" value="$!selectedUser.Name">
+                    
+                    <table class="w3-table w3-bordered w3-striped">
+                        <thead>
+                            <tr class="w3-theme">
+                                <th>Group</th>
+                                #foreach ($role in $roles)
+                                    <th class="w3-center">$!role.Name</th>
+                                #end
+                            </tr>
+                        </thead>
+                        <tbody>
+                            #foreach ($group in $groups)
+                                <tr>
+                                    <td><strong>$!group.Name</strong></td>
+                                    #foreach ($role in $roles)
+                                        #set ($groupRoleKey = "${group.Name}${role.Name}")
+                                        #set ($hasRole = false)
+                                        #if ($userACL && $userACL.hasRole($role, $group))
+                                            #set ($hasRole = true)
+                                        #end
+                                        <td class="w3-center">
+                                            <input type="checkbox" 
+                                                   name="$groupRoleKey" 
+                                                   value="true"
+                                                   #if ($hasRole) checked #end
+                                                   class="w3-check">
+                                        </td>
+                                    #end
+                                </tr>
+                            #end
+                        </tbody>
+                    </table>
+                    
+                    <div class="w3-container w3-padding-16">
+                        <button type="submit" name="eventSubmit_doRoles" class="w3-button w3-green w3-large">
+                            <i class="fa fa-save"></i> Save Assignments
+                        </button>
+                        <a href="$link.setPage("UserAssignment.vm")" class="w3-button w3-light-grey">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        ## Current Assignments Summary (using direct DB query results)
+        <div class="w3-card-4 w3-margin">
+            <div class="w3-container w3-orange">
+                <h3>Current Assignments Summary</h3>
+            </div>
+            <div class="w3-container">
+                #set ($assignedGroups = [])
+                #set ($assignedRoles = [])
+                
+                ## Use direct DB query results if available (more reliable than ACL)
+                #if ($assignedGroupIds && $assignedGroupIds.size() > 0)
+                    #foreach ($groupId in $assignedGroupIds)
+                        #foreach ($group in $groups)
+                            #if ($group.Id == $groupId)
+                                #if (!$assignedGroups.contains($group))
+                                    #set ($temp = $assignedGroups.add($group))
+                                #end
+                                #break
+                            #end
+                        #end
+                    #end
+                #end
+                
+                #if ($assignedRoleIds && $assignedRoleIds.size() > 0)
+                    #foreach ($roleId in $assignedRoleIds)
+                        #foreach ($role in $roles)
+                            #if ($role.Id == $roleId)
+                                #if (!$assignedRoles.contains($role))
+                                    #set ($temp = $assignedRoles.add($role))
+                                #end
+                                #break
+                            #end
+                        #end
+                    #end
+                #end
+                
+                ## Fallback to ACL if DB query didn't work
+                #if ($assignedGroups.size() == 0 && $userACL)
+                    #foreach ($group in $groups)
+                        #set ($hasAnyRole = false)
+                        #foreach ($role in $roles)
+                            #if ($userACL.hasRole($role, $group))
+                                #set ($hasAnyRole = true)
+                                #if (!$assignedRoles.contains($role))
+                                    #set ($temp = $assignedRoles.add($role))
+                                #end
+                            #end
+                        #end
+                        #if ($hasAnyRole)
+                            #if (!$assignedGroups.contains($group))
+                                #set ($temp = $assignedGroups.add($group))
+                            #end
+                        #end
+                    #end
+                #end
+                
+                <p><strong>Groups Assigned:</strong> 
+                    #if ($assignedGroups.size() > 0)
+                        #foreach ($group in $assignedGroups)
+                            <span class="w3-tag w3-blue w3-round">$!group.Name</span>
+                        #end
+                    #else
+                        <span class="w3-text-grey">None</span>
+                    #end
+                </p>
+                
+                <p><strong>Roles Assigned:</strong> 
+                    #if ($assignedRoles.size() > 0)
+                        #foreach ($role in $assignedRoles)
+                            <span class="w3-tag w3-green w3-round">$!role.Name</span>
+                        #end
+                    #else
+                        <span class="w3-text-grey">None</span>
+                    #end
+                </p>
+            </div>
+        </div>
+        
+        ## Quick Links
+        <div class="w3-container w3-padding-16">
+            <a href="$link.setPage("UserProfile.vm")" class="w3-button w3-theme">View My Profile</a>
+            <a href="$link.setPage("user,FluxUserList.vm")" class="w3-button w3-light-grey">Back to User List</a>
+            <a href="$link.setPage("Index.vm")" class="w3-button w3-light-grey">Home</a>
+        </div>
+        
+    #elseif ($selectedUsername && $selectedUsername != "")
+        <div class="w3-panel w3-yellow">
+            <strong>Warning!</strong> User "$selectedUsername" not found or could not be loaded.
+        </div>
+    #else
+        <div class="w3-panel w3-light-grey">
+            <p>Please select a user from the dropdown above to assign groups and roles.</p>
+        </div>
+    #end
+</div>

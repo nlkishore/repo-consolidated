@@ -1,0 +1,1 @@
+mvn pmd:pmd -Dpmd.rulesets=path/to/custom-ruleset.xml

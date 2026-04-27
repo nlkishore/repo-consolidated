@@ -1,0 +1,209 @@
+#*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *#
+
+<div class="w3-container w3-padding-16">
+    <h2>User Profile</h2>
+            
+            #if ($user)
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-theme">
+                        <h3>User Information</h3>
+                    </div>
+                    <div class="w3-container">
+                        <table class="w3-table w3-bordered">
+                            <tr>
+                                <th width="200">Login Name:</th>
+                                <td><strong>$!user.Name</strong></td>
+                            </tr>
+                            <tr>
+                                <th>First Name:</th>
+                                <td>$!user.FirstName</td>
+                            </tr>
+                            <tr>
+                                <th>Last Name:</th>
+                                <td>$!user.LastName</td>
+                            </tr>
+                            <tr>
+                                <th>Full Name:</th>
+                                <td>$!user.FirstName $!user.LastName</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>$!user.Email</td>
+                            </tr>
+                            #if ($user.Id)
+                            <tr>
+                                <th>User ID:</th>
+                                <td>$!user.Id</td>
+                            </tr>
+                            #end
+                        </table>
+                    </div>
+                </div>
+
+                ## Hierarchical View: Groups -> Roles -> Permissions
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-blue">
+                        <h3>Groups, Roles & Permissions</h3>
+                        <p class="w3-small">Showing hierarchical relationship: Groups → Roles → Permissions</p>
+                    </div>
+                    <div class="w3-container">
+                        #if ($groupDetails && $groupDetails.size() > 0)
+                            #foreach ($groupInfo in $groupDetails)
+                                #set ($group = $groupInfo.group)
+                                #set ($roleDetails = $groupInfo.roles)
+                                #set ($roleCount = $groupInfo.roleCount)
+                                
+                                <div class="w3-panel w3-leftbar w3-border-blue w3-light-grey" style="margin: 10px 0; padding: 15px;">
+                                    <h4 class="w3-text-blue">
+                                        <strong>$!group.Name</strong>
+                                        <span class="w3-badge w3-blue w3-right">Group ID: $!group.Id</span>
+                                    </h4>
+                                    <p class="w3-small w3-text-grey">Roles in this group: $roleCount</p>
+                                    
+                                    #if ($roleDetails && $roleDetails.size() > 0)
+                                        <div style="margin-left: 20px; margin-top: 10px;">
+                                            #foreach ($roleInfo in $roleDetails)
+                                                #set ($role = $roleInfo.role)
+                                                #set ($permissions = $roleInfo.permissions)
+                                                #set ($permCount = $roleInfo.permissionCount)
+                                                
+                                                <div class="w3-panel w3-leftbar w3-border-green w3-white" style="margin: 8px 0; padding: 10px;">
+                                                    <h5 class="w3-text-green">
+                                                        <strong>$!role.Name</strong>
+                                                        <span class="w3-badge w3-green w3-right">Role ID: $!role.Id</span>
+                                                    </h5>
+                                                    <p class="w3-small w3-text-grey">Permissions: $permCount</p>
+                                                    
+                                                    #if ($permissions && $permissions.size() > 0)
+                                                        <div style="margin-left: 20px; margin-top: 8px;">
+                                                            <ul class="w3-ul w3-small" style="margin: 0;">
+                                                                #foreach ($permission in $permissions)
+                                                                    <li class="w3-padding-small">
+                                                                        <span class="w3-tag w3-orange w3-small">$!permission.Name</span>
+                                                                        <span class="w3-text-grey w3-small">(ID: $!permission.Id)</span>
+                                                                    </li>
+                                                                #end
+                                                            </ul>
+                                                        </div>
+                                                    #else
+                                                        <p class="w3-text-grey w3-small" style="margin-left: 20px;">No permissions assigned to this role.</p>
+                                                    #end
+                                                </div>
+                                            #end
+                                        </div>
+                                    #else
+                                        <p class="w3-text-grey w3-small" style="margin-left: 20px;">No roles assigned to this group.</p>
+                                    #end
+                                </div>
+                            #end
+                        #else
+                            <p class="w3-text-grey">No groups assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                ## Summary View: All Groups
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-blue">
+                        <h3>All Groups ($groups.size())</h3>
+                    </div>
+                    <div class="w3-container">
+                        #if ($groups && $groups.size() > 0)
+                            <ul class="w3-ul">
+                                #foreach ($group in $groups)
+                                    <li>
+                                        <strong>$!group.Name</strong>
+                                        <span class="w3-badge w3-right">ID: $!group.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="w3-text-grey">No groups assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                ## Summary View: All Roles
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-green">
+                        <h3>All Roles ($roles.size())</h3>
+                    </div>
+                    <div class="w3-container">
+                        #if ($roles && $roles.size() > 0)
+                            <ul class="w3-ul">
+                                #foreach ($role in $roles)
+                                    <li>
+                                        <strong>$!role.Name</strong>
+                                        <span class="w3-badge w3-right">ID: $!role.Id</span>
+                                        #if ($rolePermissionsMap && $rolePermissionsMap.containsKey($role))
+                                            #set ($rolePerms = $rolePermissionsMap.get($role))
+                                            <span class="w3-tag w3-small w3-green" style="margin-left: 10px;">$rolePerms.size() permission(s)</span>
+                                        #end
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="w3-text-grey">No roles assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                ## Summary View: All Permissions
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-orange">
+                        <h3>All Permissions ($permissions.size())</h3>
+                    </div>
+                    <div class="w3-container">
+                        #if ($permissions && $permissions.size() > 0)
+                            <ul class="w3-ul">
+                                #foreach ($permission in $permissions)
+                                    <li>
+                                        <strong>$!permission.Name</strong>
+                                        <span class="w3-badge w3-right">ID: $!permission.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="w3-text-grey">No permissions assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-light-grey">
+                        <h3>Summary</h3>
+                    </div>
+                    <div class="w3-container">
+                        <p><strong>Total Groups:</strong> $groups.size()</p>
+                        <p><strong>Total Roles:</strong> $roles.size()</p>
+                        <p><strong>Total Permissions:</strong> $permissions.size()</p>
+                    </div>
+                </div>
+
+                <div class="w3-center" style="margin-top: 20px;">
+                    <a href="$link.setPage("Index.vm")" class="w3-button w3-theme">Back to Home</a>
+                    <a href="$link.setAction("LogoutUser")" class="w3-button w3-light-grey">Logout</a>
+                </div>
+            #else
+                <div class="w3-panel w3-yellow">
+                    <strong>Warning!</strong> User information not available. Please <a href="$link.setPage("Login.vm")">login</a>.
+                </div>
+            #end
+</div>

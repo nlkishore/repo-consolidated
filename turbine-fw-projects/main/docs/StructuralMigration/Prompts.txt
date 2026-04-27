@@ -1,0 +1,25 @@
+1. Torque 3.x to 7.x Migration
+Torque ORM Changes in 3.x
+  - MapBuilder Classes generated for Metadata information line Schema Nwme, Table Name and Column Names
+  - Village Library is used to traverse the Resultset returned using ORM(Object Relation Mapping)
+  - Base Object Used which is removed in Torque 7.x
+
+Using Referance of My SQL Database created , details @C:\mysql81\uob-turbine7-portal-mm - for scema details and table details , create
+Schema.xml , and a Java Class to perform CRUD oprations using Torque ORM , should use Village Library and MapBuilders as well
+so that Legacy application behavior can be re-produced .
+
+
+For the same create another projectto make functional Equivalent Java classes with CRUD oerations , Schema generation using Torque 7.x .
+If there is oprion to re-use MapBuilder though its not available in Torque 7 , replicating Legacy behavior of MapBuilder approach pof Metadata retrival
+to minimize migration impact .
+
+Once both projet generated , shoudl create Structural comparision on Functional Transformation to retain funcional behavior , this document 
+should serve as guide for Medium skilled Java developer to complete the Migration activitty from Torque 3.x to Torque 7.x.
+
+Looking for feedback , on the approach to do Upgarde of Legacy web application using  Torque 3.x , Turbine 2.x , Spring 4.x , Customized Jetspeed component with ECS ((No Javax.servlet usage), Java EE  , JDK 8.x
+
+To be migrated to Torque 7.x , Turbine 7.x , Spring 6.x , Jetspeed upgarde to support JDK17 , Jakarta EE .
+
+Approach Thought : Capture all Java Imports from all Java files used in Legacy , then create dummy project with all Turbine 7.x, Torque 7.x, Soring 6.x ,Jetspeed component for cursor or AI tool to review all the imports and create valid  OpenRewrite Recipe so that  import can be migrated to support latest Tech Stack , then functional upgrade can be progressively do manual upgrade where required .
+
+From Torque3-legacy-demo , how to map the turbine User to gtp_user class , create service class to do crud operations .create additional calss and modify teh schema if required to map turbine user interface with gtp_user. project path : C:\Users\nlaxm\TurbineProjectWorkspace\StructuralMigration\torque3-legacy-demo

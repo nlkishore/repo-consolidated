@@ -1,0 +1,14 @@
+mode: gui               # or cli
+
+log_dir: app/test_data/logs
+log_keywords:
+  - "ERROR"
+  - "CRITICAL"
+email_keywords:
+  - "crash"
+  - "down"
+email_senders:
+  - "alerts@uob.com"
+  - "admin@finastra.com"
+
+alert_output: console   # options: console, file, both

@@ -1,0 +1,87 @@
+2025-08-28 09:26:24,134 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.security.GroupManager' in the local container
+2025-08-28 09:26:24,136 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.security.RoleManager' in the local container
+2025-08-28 09:26:24,136 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.security.PermissionManager' in the local container
+2025-08-28 09:26:24,137 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.security.ModelManager' in the local container
+2025-08-28 09:26:24,137 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.torque.avalon.Torque' in the local container
+2025-08-28 09:26:24,173 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.security.UserManager' in the local container
+2025-08-28 09:26:24,173 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.factory.FactoryService' in the local container
+2025-08-28 09:26:24,298 [http-nio-8080-exec-8] DEBUG avalon.parser.DefaultParameterParser - Parameters found in the Request:
+2025-08-28 09:26:24,719 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.security.torque.peer.PeerManager' in the local container
+2025-08-28 09:26:24,749 [http-nio-8080-exec-8] DEBUG avalon.peerManager -  getPeerInstance():com.mycompany.webapp.om.TurbineUserPeerImpl@4601e549
+2025-08-28 09:26:26,569 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.parser.ParserService' in the local container
+2025-08-28 09:26:26,575 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.localization.LocalizationService' in the local container
+2025-08-28 09:26:26,594 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.intake.IntakeService' in the local container
+2025-08-28 09:26:26,605 [http-nio-8080-exec-8] DEBUG avalon - Located the service 'org.apache.fulcrum.security.UserManager' in the local container
+2025-08-28 09:26:26,608 [http-nio-8080-exec-8] DEBUG avalon.peerManager -  get cached PeerInstance():com.mycompany.webapp.om.TurbineUserPeerImpl@4601e549
+2025-08-28 09:26:26,616 [http-nio-8080-exec-8] ERROR avalon.userManager - Failed to check user:Unknown user 'anon'
+org.apache.fulcrum.security.util.UnknownEntityException: Unknown user 'anon'
+	at org.apache.fulcrum.security.torque.turbine.TorqueTurbineUserManagerImpl.getUser(TorqueTurbineUserManagerImpl.java:210)
+	at org.apache.fulcrum.security.torque.turbine.TorqueTurbineUserManagerImpl.getAnonymousUser(TorqueTurbineUserManagerImpl.java:63)
+	at org.apache.fulcrum.security.torque.turbine.TorqueTurbineUserManagerImpl.isAnonymousUser(TorqueTurbineUserManagerImpl.java:81)
+	at org.apache.turbine.services.pull.TurbinePullService.populateContext(TurbinePullService.java:451)
+	at org.apache.turbine.services.velocity.TurbineVelocityService.getContext(TurbineVelocityService.java:268)
+	at org.apache.turbine.modules.layouts.VelocityLayout.doBuild(VelocityLayout.java:68)
+	at org.apache.turbine.modules.Layout.build(Layout.java:63)
+	at org.apache.turbine.modules.LayoutLoader.exec(LayoutLoader.java:62)
+	at org.apache.turbine.modules.pages.DefaultPage.doBuild(DefaultPage.java:156)
+	at org.apache.turbine.modules.Page.build(Page.java:66)
+	at org.apache.turbine.modules.PageLoader.exec(PageLoader.java:63)
+	at org.apache.turbine.Turbine.handleException(Turbine.java:872)
+	at org.apache.turbine.Turbine.doGet(Turbine.java:787)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+n.
+
+Torque.properties
+
+#
+# For JNDI configuration please see: https://db.apache.org/torque/torque-4.0/documentation/orm-reference/initialisation-configuration.html
+# 
+#
+torque.dsfactory.default.factory=org.apache.torque.dsfactory.JndiDataSourceFactory
+torque.dsfactory.default.jndi.path=java:comp/env/jdbc/turbine
+torque.dsfactory.default.jndi.ttl=300000
+
+# -------------------------------------------------------------------
+#
+# Shared Pool Data Source Factory
+#
+# -------------------------------------------------------------------
+#torque.database.default=helloworld
+#torque.database.helloworld.adapter=mysql
+torque.database.default=helloworld
+torque.database.helloworld.adapter=oracle
+torque.dsfactory.helloworld.connection.driver=oracle.jdbc.driver.OracleDriver
+torque.dsfactory.helloworld.connection.url=jdbc:oracle:thin:@lxgebodsgv0e02:1521:gebdasg
+torque.dsfactory.helloworld.connection.user=geb
+torque.dsfactory.helloworld.connection.password=UobWelcome1234#
+
+
+torque.dsfactory.helloworld.factory=org.apache.torque.dsfactory.JndiDataSourceFactory
+torque.dsfactory.helloworld.jndi.path=java:comp/env/jdbc/turbine
+torque.dsfactory.helloworld.jndi.ttl=300000

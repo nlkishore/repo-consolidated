@@ -1,0 +1,47 @@
+Step 1: On the Internet-Connected Machine
+1.1. Create a virtual environment (optional but recommended)
+python -m venv langgraph_env
+source langgraph_env/bin/activate  # On Windows: langgraph_env\Scripts\activate
+
+
+1.2. Create a requirements.txt file
+Include LangGraph and any other dependencies you need:
+langgraph-cli[inmem]
+langchain
+langchain-openai
+python-dotenv
+
+
+1.3. Download all required packages
+mkdir langgraph_packages
+pip download -r requirements.txt -d langgraph_packages
+
+
+This will download .whl and .tar.gz files for LangGraph and all its dependencies into the langgraph_packages folder.
+1.4. (Optional) Freeze exact versions for reproducibility
+pip freeze > exact_requirements.txt
+
+
+1.5. Transfer the folder
+Copy the langgraph_packages folder and requirements.txt (or exact_requirements.txt) to the offline machine using USB, shared drive, etc.
+
+🔌 Step 2: On the Offline Machine
+2.1. Set up Python and virtual environment
+Ensure Python 3.11+ is installed. Then:
+python -m venv langgraph_env
+source langgraph_env/bin/activate  # On Windows: langgraph_env\Scripts\activate
+
+
+2.2. Install packages from local folder
+pip install --no-index --find-links=langgraph_packages -r requirements.txt
+
+
+This tells pip to install only from the local directory and not attempt to connect to PyPI.
+
+✅ Step 3: Verify Installation
+langgraph --help
+
+
+You should see the LangGraph CLI options if everything installed correctly.
+
+Would you like a script to automate this process end-to-end? Or want to bundle it into a .zip for easier transfer?

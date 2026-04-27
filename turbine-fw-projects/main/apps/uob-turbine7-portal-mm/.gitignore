@@ -1,0 +1,41 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Generated sources (EXCEPT base classes - commit those)
+# Base classes are committed to version control for reproducible builds
+# Location: torque-orm/src/main/generated-base-classes/com/uob/om/Base*.java
+# These are copied to target/generated-sources during build
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Build artifacts (keep WAR files out of repo if desired)
+# webapp/target/*.war

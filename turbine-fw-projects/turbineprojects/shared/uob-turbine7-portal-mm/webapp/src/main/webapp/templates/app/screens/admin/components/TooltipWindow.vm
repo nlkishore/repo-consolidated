@@ -1,0 +1,31 @@
+## Floating Navigation Widget (Reference UI Style)
+## Dropdown-style floating widget for quick section navigation
+## Matches reference UI behavior - can be toggled and shows navigation menu
+
+<div class="floating-nav-widget" id="floating-nav-widget">
+    <!-- Toggle Button -->
+    <button class="floating-nav-toggle" id="floating-nav-toggle" onclick="toggleFloatingNav()" title="Show Navigation Menu">
+        <span class="nav-icon">☰</span>
+        <span class="nav-text">Navigation</span>
+    </button>
+    
+    <!-- Dropdown Menu -->
+    <div class="floating-nav-menu" id="floating-nav-menu" style="display: none;">
+        <ul class="floating-nav-list">
+            <li><a href="#" onclick="toggleFormSummary(); return false;"><span id="form-summary-text">Show Form Summary</span> | Top</a></li>
+            <li class="nav-divider"></li>
+            <li><a href="#user-details" onclick="scrollToSection('user-details'); hideFloatingNav(); return false;">User Details</a></li>
+            <li><a href="#group-details" onclick="scrollToSection('group-details'); hideFloatingNav(); return false;">Group Details</a></li>
+            <li><a href="#roles-details" onclick="scrollToSection('roles-details'); hideFloatingNav(); return false;">Roles Details</a></li>
+            <li><a href="#permission-details" onclick="scrollToSection('permission-details'); hideFloatingNav(); return false;">Permission Details</a></li>
+            <li class="nav-divider"></li>
+            <li><a href="#" onclick="showAllDetails(); hideFloatingNav(); return false;">Show Details</a></li>
+            <li><a href="#" onclick="scrollToTop(); hideFloatingNav(); return false;">Top</a></li>
+        </ul>
+        <div class="floating-nav-slider">
+            <label>Position: <span id="slider-value">50</span>%</label>
+            <input type="range" min="0" max="100" value="50" class="nav-slider" id="nav-slider" 
+                   oninput="updateFloatingNavPosition(this.value)" />
+        </div>
+    </div>
+</div>

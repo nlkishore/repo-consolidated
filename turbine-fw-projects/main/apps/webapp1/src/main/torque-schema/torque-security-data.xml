@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!DOCTYPE dataset SYSTEM "file://torque-security-data.dtd">
+
+<!-- =============================================================================== -->
+<!--                                                                                 -->
+<!-- Default Values for Admin and normal User                                        -->
+<!--                                                                                 -->
+<!-- @version $Id: turbine-security-data.xml 615328 2008-01-25 20:25:05Z tv $ -->
+<!--                                                                                 -->
+<!-- =============================================================================== -->
+<dataset name="all">
+
+  <GTPUser UserId="1"
+           UserName="admin"
+           Password="password"
+           FirstName=""
+           LastName="Admin"/>
+
+  <GTPUser UserId="2"
+           UserName="user"
+           Password="password"
+           FirstName=""
+           LastName="User"/>
+
+  <!-- GTP Permissions -->
+
+  <GTPPermission PermissionId="1" Name="turbineadmin"/>
+  <GTPPermission PermissionId="2" Name="turbine"/>
+
+  <!-- GTP Roles -->
+
+  <GTPRole RoleId="1" Name="turbineadmin"/>
+  <GTPRole RoleId="2" Name="turbineuser"/>
+
+  <!-- GTP Groups -->
+
+  <GTPGroup GroupId="1" Name="global"/>
+  <GTPGroup GroupId="2" Name="Turbine"/>
+
+  <GTPRolePermission RoleId="1" PermissionId="1"/>
+  <GTPRolePermission RoleId="2" PermissionId="2"/>
+
+  <!-- Associate Users, Groups, and Roles -->
+
+  <GTPUserGroupRole UserId="1" GroupId="2" RoleId="1"/>
+  <GTPUserGroupRole UserId="2" GroupId="2" RoleId="2"/>
+
+</dataset>

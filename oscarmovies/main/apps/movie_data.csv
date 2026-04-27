@@ -1,0 +1,17 @@
+mov_id,mov_title,mov_year,mov_time,mov_lang,mov_rel_country
+m0001,"Die Hard",1988,132,English,"United States of America"
+m0002,"Romancing the Stone",1984,106,English,Mexico
+m0003,"Toy Story",1995,81,English,"United States"
+m0004,Superbad,2007,113,English,"United States"
+m0005,"The Shawshank Redemption",1994,142,English,"United States"
+m0006,"The Lord of the Rings : Fellowship of the Ring",2001,178,English,"New Zealand"
+m0007,Gladiator,2000,155,English,"United Kingdom"
+m0008,"The Exorcist",1973,132,English,"United States"
+m0009,"Moulin Rouge!",2001,128,English,Australia
+m0010,Rebecca,1940,130,English,"Unites States"
+m0011,"Gone with the wind",1939,221,English,"United States"
+m0012,Gravity,2013,91,English,"United Kingdom"
+m0013,"Fight Club",199,139,English,"United States"
+m0014,"The Good, the Bad and the Ugly",1966,277,Italian,Italy
+m0015,"The Last Samurai",2003,154,Japanese,Japan
+m0016,"The Last Samurai",2003,154,English,"United States"

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<componentConfig>
+
+	<startup>
+		<!-- <className>com.example.initializer.TorqueAvalonInitializer</className> -->
+    	<configfile>/WEB-INF/conf/Torque.properties</configfile>
+	</startup>
+    <!-- Torque Component -->
+    <torque>
+       <className>com.example.initializer.DiagnosticTorqueComponent</className>
+       <configfile>/WEB-INF/conf/Torque.properties</configfile>
+    </torque>
+    
+    <torqueAdapterMonitor>
+    	<className>com.example.monitor.ParserPoolMonitorViaReflection</className>
+	</torqueAdapterMonitor>
+    
+    <cache cacheInitialSize="20" cacheCheckFrequency="5"/>
+    <mimetype/>
+    <crypto>
+      <algorithm>
+        <unix>org.apache.fulcrum.crypto.provider.UnixCrypt</unix>
+        <clear>org.apache.fulcrum.crypto.provider.ClearCrypt</clear>
+        <java>org.apache.fulcrum.crypto.provider.JavaCrypt</java>
+        <oldjava>org.apache.fulcrum.crypto.provider.OldJavaCrypt</oldjava>
+      </algorithm>
+    </crypto>
+    <localization>
+      <bundles>
+        <bundle>com.example.L10N</bundle>
+      </bundles>
+    </localization>
+    <!-- Disable if you experience startup problems with Java8 -->
+    <intake>
+      <serialDataPath>WEB-INF/appData.ser</serialDataPath>
+      <xmlPaths>
+        <xmlPath>WEB-INF/conf/intake.xml</xmlPath>
+      </xmlPaths>
+    </intake>
+    <factory/>
+    <pool/>
+   <parser>
+    <!-- <urlCaseFolding>lower</urlCaseFolding> -->
+    <parameterEncoding>utf-8</parameterEncoding>
+    <automaticUpload>true</automaticUpload>
+    <pool2>
+        <maxTotal>1024</maxTotal>
+        <maxIdle>10</maxIdle>
+        <minIdle>2</minIdle>
+        <blockWhenExhausted>true</blockWhenExhausted>
+        <maxWaitMillis>500</maxWaitMillis>
+
+        <!-- Eviction tuning -->
+        <timeBetweenEvictionRuns>1800000</timeBetweenEvictionRuns> <!-- 30 mins -->
+        <softMinEvictableIdleTimeMillis>1800000</softMinEvictableIdleTimeMillis> <!-- 30 mins -->
+        <minEvictableIdleTimeMillis>1800000</minEvictableIdleTimeMillis> <!-- 30 mins -->
+        <numTestsPerEvictionRun>3</numTestsPerEvictionRun>
+        <testWhileIdle>true</testWhileIdle>
+    </pool2>
+</parser>
+
+    <!-- defining specific inspectors -->
+    <json>
+       <annotationInspectors>
+            <primary>org.apache.fulcrum.json.jackson.SimpleNameIntrospector</primary>
+            <secondary>com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector</secondary>
+            <features>
+              <feature value="false" type="com.fasterxml.jackson.databind.SerializationFeature">FAIL_ON_EMPTY_BEANS</feature>
+              <feature value="false" type="com.fasterxml.jackson.databind.SerializationFeature">INDENT_OUTPUT</feature>
+              <feature value="true" type="com.fasterxml.jackson.core.JsonParser">ALLOW_UNQUOTED_FIELD_NAMES</feature>
+            </features>
+        </annotationInspectors>
+        <dateFormat>MM/dd/yyyy</dateFormat>
+        <cacheFilters>true</cacheFilters>
+        <!-- security feature -->
+        <escapeCharsGlobal>true</escapeCharsGlobal>
+        <!--  escapeCharsClass>net.example.EscapeCharClass</escapeCharsClass -->
+        <defaultTyping type="OBJECT_AND_NON_CONCRETE" key="type"/><!-- defaultTyping type="NON_FINAL" key="type"/-->
+        <!-- requires com.jayway dependency in pom -->
+        <!-- useJsonPath>true</useJsonPath -->
+    </json>
+    
+    <upload repository="/tmp" sizeMax="1048576" sizeThreshold="10240"/>
+        <!-- These components belong to the Fulcrum-Security services -->        
+    <securityService/>
+    <authenticator/>
+    <!--   <authenticator>
+          <algorithm>java</algorithm>
+          <cipher>SHA1</cipher>    </authenticator>   -->
+
+    <modelManager/>
+    <aclFactory/>
+    
+    <!--  
+       Fulcrum Components, e.g. json, XmlRpcServerComponent, cft. Fulcrum Component Configurations 
+     -->
+       
+     
+     <!--  
+     Pure Fulcrum Model
+    -->
+    <!--
+     <userManager> 
+       <className>org.apache.fulcrum.security.torque.om.TorqueTurbineUser</className>
+    </userManager>
+    <groupManager>
+        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineGroup</className>
+    </groupManager>
+    <roleManager>
+        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineRole</className>
+    </roleManager>
+    <permissionManager>
+        <className>org.apache.fulcrum.security.torque.om.TorqueTurbinePermission</className>
+    </permissionManager>
+    -->
+ 
+     <!-- 
+     Default classes implementing org.apache.fulcrum.security.model.turbine.entity interfaces 
+     -->
+    <!--userManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineUserImpl</className>
+    </userManager>
+    <groupManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineGroupImpl</className>
+    </groupManager>
+    <roleManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineRoleImpl</className>
+    </roleManager>
+    <permissionManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbinePermissionImpl</className>
+    </permissionManager -->
+    
+    <!-- 
+     Custom Turbine ORM Torque classes could not yet be used: 
+     - requires Torque > 4 or if using Torque 4.0 reqires manually adding the interfaces in T-classes
+     - requires attribute baseClass in fulcrum-turbine-schema.xml table elements set to appropriate org.apache.fulcrum.security.model.turbine.entity interfaces
+     - requires attribute peerClass in fulcrum-turbine-schema.xml table elements set to org.apache.fulcrum.security.torque.peer.TorqueTurbinePeer 
+     -->
+     
+   <!-- <userManager>
+        <className>com.example.om.GtpUser</className>
+        <peerClassName>com.example.om.GtpUserPeerImpl</peerClassName>
+        <userGroupRoleManager>using custom peers requires now this element
+	        className>org.apache.fulcrum.security.torque.om.GtpUserGroupRole</className
+	        <peerClassName>com.example.om.GtpUserGroupRolePeerImpl</peerClassName>
+	    </userGroupRoleManager>
+    </userManager> -->
+	<userManager>
+		<className>com.example.security.StubUserManager</className>
+	</userManager>
+    
+    <groupManager><!-- might have lazy="true" attribute -->
+        <className>com.example.om.GtpGroup</className>
+        <peerClassName>com.example.om.GtpGroupPeerImpl</peerClassName>
+    </groupManager>
+    <roleManager><!-- might have lazy="true" attribute -->
+        <className>com.example.om.GtpRole</className>
+        <peerClassName>com.example.om.GtpRolePeerImpl</peerClassName>
+    </roleManager>
+    <permissionManager>
+        <className>com.example.om.GtpPermission</className>
+        <peerClassName>com.example.om.GtpPermissionPeerImpl</peerClassName>
+    </permissionManager>
+     <peerManager/>
+     <parserPoolMonitor>
+    <className>com.example.monitor.ParserPoolMonitorViaReflection</className>
+</parserPoolMonitor>
+
+
+
+</componentConfig>

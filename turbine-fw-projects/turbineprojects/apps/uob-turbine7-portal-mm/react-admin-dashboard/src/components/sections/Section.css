@@ -1,0 +1,23 @@
+.section-container {
+  width: 100%;
+}
+
+.section-header {
+  background-color: #FF9800;
+  padding: 12px 15px;
+  border-bottom: 1px solid #F57C00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.section-content {
+  padding: 20px;
+}

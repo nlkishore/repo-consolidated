@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+    <!-- Resource Service (default: loads TurbineResources.properties) -->
+    <service name="ResourceService"
+             className="org.apache.turbine.services.resources.TurbineResourceService"
+             earlyInit="true"/>
+
+    <!-- Logging Service -->
+    <service name="LoggingService"
+             className="org.apache.turbine.services.logging.TurbineLoggingService"
+             earlyInit="true"/>
+
+    <!-- Template Service (Velocity templates) -->
+    <service name="TemplateService"
+             className="org.apache.turbine.services.template.TurbineTemplateService"
+             earlyInit="true"/>
+
+    <!-- Module Loader Service (Actions, Screens, etc.) -->
+    <service name="ModuleService"
+             className="org.apache.turbine.services.module.TurbineModuleService"
+             earlyInit="true"/>
+
+    <!-- Scheduler Service (jobs, optional) -->
+    <service name="SchedulerService"
+             className="org.apache.turbine.services.schedule.TurbineSchedulerService"
+             earlyInit="false"/>
+
+    <!-- Security Service (roles, permissions, optional) -->
+    <service name="SecurityService"
+             className="org.apache.turbine.services.security.TurbineSecurityService"
+             earlyInit="false"/>
+</services>

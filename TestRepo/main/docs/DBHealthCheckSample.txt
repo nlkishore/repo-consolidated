@@ -1,0 +1,410 @@
+package com.mycompany.tools;
+
+import org.apache.torque.Torque;
+import org.apache.torque.TorqueException;
+import org.apache.torque.util.BasePeer;
+
+import java.sql.Connection;
+
+public class TorqueConnectionTest {
+    public static void main(String[] args) {
+        try {
+            Torque.init("src/main/resources/Torque.properties");
+
+            Connection conn = BasePeer.getConnection();
+            if (conn != null && !conn.isClosed()) {
+                System.out.println("✅ Oracle DB connection established successfully.");
+                conn.close();
+            } else {
+                System.out.println("❌ Connection object is null or closed.");
+                System.exit(1);
+            }
+        } catch (TorqueException te) {
+            System.err.println("❌ Torque initialization failed: " + te.getMessage());
+            System.exit(2);
+        } catch (Exception e) {
+            System.err.println("❌ Unexpected error: " + e.getMessage());
+            System.exit(3);
+        }
+    }
+}
+
+
+
+
+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>3.1.0</version>
+      <executions>
+        <execution>
+          <id>db-health-check</id>
+          <phase>verify</phase>
+          <goals>
+            <goal>java</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <mainClass>com.mycompany.tools.TorqueConnectionTest</mainClass>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+
+
+
+<profiles>
+  <profile>
+    <id>db-health-check</id>
+    <activation>
+      <activeByDefault>false</activeByDefault>
+    </activation>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.1.0</version>
+          <configuration>
+            <mainClass>com.mycompany.tools.TorqueConnectionTest</mainClass>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
+</profiles>
+
+
+mvn clean verify -Pdb-health-check
+
+
+
+mvn exec:java -Pdb-health-check
+
+
+
+
+
+[DEBUG] Adding project dependency artifact: jackson-datatype-json-org to classpath
+[DEBUG] joining on thread Thread[com.mycompany.tools.TorqueConnectionTest.main(),5,com.mycompany.tools.TorqueConnectionTest]
+2025-08-28T05:02:40.424061700Z com.mycompany.tools.TorqueConnectionTest.main() ERROR 
+javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+	at java.naming/javax.naming.spi.NamingManager.getInitialContext(NamingManager.java:704)
+	at java.naming/javax.naming.InitialContext.getDefaultInitCtx(InitialContext.java:305)
+	at java.naming/javax.naming.InitialContext.getEnvironment(InitialContext.java:542)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.debugCtx(JndiDataSourceFactory.java:264)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initJNDI(JndiDataSourceFactory.java:179)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initialize(JndiDataSourceFactory.java:131)
+	at org.apache.torque.TorqueInstance.initDataSourceFactories(TorqueInstance.java:463)
+	at org.apache.torque.TorqueInstance.initialize(TorqueInstance.java:166)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:633)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:612)
+	at org.apache.torque.Torque.init(Torque.java:139)
+	at com.mycompany.tools.TorqueConnectionTest.main(TorqueConnectionTest.java:16)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:279)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2025-08-28T05:02:40.429054200Z com.mycompany.tools.TorqueConnectionTest.main() ERROR Error reading DataSourceFactory configuration
+org.apache.torque.TorqueException: javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initJNDI(JndiDataSourceFactory.java:184)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initialize(JndiDataSourceFactory.java:131)
+	at org.apache.torque.TorqueInstance.initDataSourceFactories(TorqueInstance.java:463)
+	at org.apache.torque.TorqueInstance.initialize(TorqueInstance.java:166)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:633)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:612)
+	at org.apache.torque.Torque.init(Torque.java:139)
+	at com.mycompany.tools.TorqueConnectionTest.main(TorqueConnectionTest.java:16)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:279)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+	at java.naming/javax.naming.spi.NamingManager.getInitialContext(NamingManager.java:704)
+	at java.naming/javax.naming.InitialContext.getDefaultInitCtx(InitialContext.java:305)
+	at java.naming/javax.naming.InitialContext.getEnvironment(InitialContext.java:542)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.debugCtx(JndiDataSourceFactory.java:264)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initJNDI(JndiDataSourceFactory.java:179)
+	... 9 more
+ Torque initialization failed: org.apache.torque.TorqueException: javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+
+
+
+
+******************
+
+2025-08-28T07:40:01.402505400Z com.mycompany.tools.TorqueConnectionTest.main() ERROR 
+javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+	at java.naming/javax.naming.spi.NamingManager.getInitialContext(NamingManager.java:704)
+	at java.naming/javax.naming.InitialContext.getDefaultInitCtx(InitialContext.java:305)
+	at java.naming/javax.naming.InitialContext.getEnvironment(InitialContext.java:542)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.debugCtx(JndiDataSourceFactory.java:264)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initJNDI(JndiDataSourceFactory.java:179)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initialize(JndiDataSourceFactory.java:131)
+	at org.apache.torque.TorqueInstance.initDataSourceFactories(TorqueInstance.java:463)
+	at org.apache.torque.TorqueInstance.initialize(TorqueInstance.java:166)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:633)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:612)
+	at org.apache.torque.Torque.init(Torque.java:139)
+	at com.mycompany.tools.TorqueConnectionTest.main(TorqueConnectionTest.java:16)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:279)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+ Torque initialization failed: org.apache.torque.TorqueException: javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+2025-08-28T07:40:01.405507300Z com.mycompany.tools.TorqueConnectionTest.main() ERROR Error reading DataSourceFactory configuration
+org.apache.torque.TorqueException: javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initJNDI(JndiDataSourceFactory.java:184)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initialize(JndiDataSourceFactory.java:131)
+	at org.apache.torque.TorqueInstance.initDataSourceFactories(TorqueInstance.java:463)
+	at org.apache.torque.TorqueInstance.initialize(TorqueInstance.java:166)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:633)
+	at org.apache.torque.TorqueInstance.init(TorqueInstance.java:612)
+	at org.apache.torque.Torque.init(Torque.java:139)
+	at com.mycompany.tools.TorqueConnectionTest.main(TorqueConnectionTest.java:16)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:279)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+	at java.naming/javax.naming.spi.NamingManager.getInitialContext(NamingManager.java:704)
+	at java.naming/javax.naming.InitialContext.getDefaultInitCtx(InitialContext.java:305)
+	at java.naming/javax.naming.InitialContext.getEnvironment(InitialContext.java:542)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.debugCtx(JndiDataSourceFactory.java:264)
+	at org.apache.torque.dsfactory.JndiDataSourceFactory.initJNDI(JndiDataSourceFactory.java:179)
+	... 9 more
+
+******************[DEBUG] joining on thread Thread[com.mycompany.tools.TorqueConnectionTest.main(),5,com.mycompany.tools.TorqueConnectionTest]
+2025-08-28T08:21:48.677806900Z com.mycompany.tools.TorqueConnectionTest.main() ERROR Property: maxActive  value: 10  is not supported by DataSource: org.apache.commons.dbcp2.datasources.SharedPoolDataSource2025-08-28T08:21:48.679806200Z com.mycompany.tools.TorqueConnectionTest.main() ERROR Property: testOnBorrow  value: true  is not supported by DataSource: org.apache.commons.dbcp2.datasources.SharedPoolDataSource Oracle DB connection established successfully.
+[DEBUG] interrupting thread Thread[oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser,4,com.mycompany.tools.TorqueConnectionTest]
+[DEBUG] interrupting thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest]
+[DEBUG] joining on thread Thread[oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser,4,com.mycompany.tools.TorqueConnectionTest]
+[DEBUG] joining on thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest]
+[WARNING] thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest] was interrupted but is still alive after waiting at least 15000msecs
+[WARNING] thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest] will linger despite being asked to die via interruption
+[WARNING] NOTE: 1 thread(s) did not finish despite being asked to via interruption. This is not a problem with exec:java, it is a problem with the running code. Although not serious, it should be remedied.
+[WARNING] Couldn't destroy threadgroup org.codehaus.mojo.exec.ExecJavaMojo$IsolatedThreadGroup[name=com.mycompany.tools.TorqueConnectionTest,maxpri=10]
+java.lang.IllegalThreadStateException
+    at java.lang.ThreadGroup.destroy (ThreadGroup.java:803)
+    at org.codehaus.mojo.exec.ExecJavaMojo.execute (ExecJavaMojo.java:319)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:906)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:283)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:206)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0 (Native Method)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:77)
+    at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke (Method.java:568)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  22.982 s
+[INFO] Finished at: 2025-08-28T16:22:05+08:00
+[INFO] ------------------------------------------------------------------------
+[DEBUG] Shutting down adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[DEBUG] Shutting down 'file-lock' factory
+[DEBUG] Shutting down 'rwlock-local' factory
+[DEBUG] Shutting down 'semaphore-local' factory
+[DEBUG] Shutting down 'noop' factory
+
+
+*************************
+
+[DEBUG] joining on thread Thread[com.mycompany.tools.TorqueConnectionTest.main(),5,com.mycompany.tools.TorqueConnectionTest]
+ Oracle DB connection established successfully.
+[DEBUG] interrupting thread Thread[oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser,4,com.mycompany.tools.TorqueConnectionTest]
+[DEBUG] interrupting thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest]
+[DEBUG] joining on thread Thread[oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser,4,com.mycompany.tools.TorqueConnectionTest]
+[DEBUG] joining on thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest]
+[WARNING] thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest] was interrupted but is still alive after waiting at least 15000msecs
+[WARNING] thread Thread[InterruptTimer,5,com.mycompany.tools.TorqueConnectionTest] will linger despite being asked to die via interruption
+[WARNING] NOTE: 1 thread(s) did not finish despite being asked to via interruption. This is not a problem with exec:java, it is a problem with the running code. Although not serious, it should be remedied.
+[WARNING] Couldn't destroy threadgroup org.codehaus.mojo.exec.ExecJavaMojo$IsolatedThreadGroup[name=com.mycompany.tools.TorqueConnectionTest,maxpri=10]
+java.lang.IllegalThreadStateException
+    at java.lang.ThreadGroup.destroy (ThreadGroup.java:803)
+    at org.codehaus.mojo.exec.ExecJavaMojo.execute (ExecJavaMojo.java:319)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:906)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:283)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:206)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0 (Native Method)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:77)
+    at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke (Method.java:568)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  22.725 s
+[INFO] Finished at: 2025-08-28T16:31:08+08:00
+[INFO] ------------------------------------------------------------------------
+[DEBUG] Shutting down adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[DEBUG] Shutting down 'file-lock' factory
+[DEBUG] Shutting down 'rwlock-local' factory
+[DEBUG] Shutting down 'semaphore-local' factory
+[DEBUG] Shutting down 'noop' factory
+
+
+# -------------------------------------------------------------------
+#
+# This is the configuration file for Torque.
+#
+# Note that strings containing "," (comma) characters must backslash
+# escape the comma (i.e. '\,')
+#
+# -------------------------------------------------------------------
+#
+#  T O R Q U E  P R O P E R T I E S
+#
+# -------------------------------------------------------------------
+# These are your database settings. Look in the
+# org.apache.torque.pool.* packages for more information.
+#
+# The parameters to connect to the default database.  You MUST
+# configure these properly.
+# -------------------------------------------------------------------
+
+
+
+#
+# For JNDI configuration please see: https://db.apache.org/torque/torque-4.0/documentation/orm-reference/initialisation-configuration.html
+# 
+#
+#torque.dsfactory.default.factory=org.apache.torque.dsfactory.JndiDataSourceFactory
+#torque.dsfactory.default.jndi.path=java:comp/env/jdbc/turbine
+#torque.dsfactory.default.jndi.ttl=300000
+
+
+# -------------------------------------------------------------------
+#
+# Shared Pool Data Source Factory
+#
+# -------------------------------------------------------------------
+#torque.database.default=helloworld
+#torque.database.helloworld.adapter=mysql
+torque.database.default=helloworld
+torque.database.helloworld.adapter=oracle
+torque.dsfactory.helloworld.connection.driver=oracle.jdbc.driver.OracleDriver
+torque.dsfactory.helloworld.connection.url=jdbc:oracle:thin:@lxgebodsgv0e02:1521:gebdasg
+torque.dsfactory.helloworld.connection.user=geb
+torque.dsfactory.helloworld.connection.password=UobWelcome1234#
+
+
+torque.dsfactory.helloworld.factory=org.apache.torque.dsfactory.JndiDataSourceFactory
+torque.dsfactory.helloworld.jndi.path=java:comp/env/jdbc/turbine
+torque.dsfactory.helloworld.jndi.ttl=300000
+
+#torque.database.helloworld.user=db_username
+#torque.database.helloworld.password=db_password
+#
+#torque.defaults.pool.maxActive =       	100
+#torque.defaults.pool.testOnBorrow =    	true
+#torque.defaults.pool.validationQuery = 	SELECT 1
+#
+#torque.defaults.connection.driver =    	com.mysql.cj.jdbc.Driver
+#torque.defaults.connection.url =       	jdbc:mysql://localhost:3306/helloworld
+
+
+#torque.defaults.connection.user =      	db_username
+#torque.defaults.connection.password =  	db_password
+#
+#torque.dsfactory.helloworld.connection.driver =    	com.mysql.cj.jdbc.Driver
+#torque.dsfactory.helloworld.connection.url =       	jdbc:mysql://localhost:3306/helloworld
+#torque.dsfactory.helloworld.connection.user =      	db_username
+#torque.dsfactory.helloworld.connection.password =  	db_password
+#torque.dsfactory.helloworld.factory=org.apache.torque.dsfactory.SharedPool2DataSourceFactory
+# -------------------------------------------------------------------
+
+# Determines if the quantity column of the IDBroker's id_table should
+# be increased automatically if requests for ids reaches a high
+# volume.
+
+torque.idbroker.cleverquantity=true
+
+# Determines whether the managers cache instances of the business objects.
+# And also whether the MethodResultCache will really cache results.
+torque.manager.useCache = true
+
+# Determines if IDBroker should prefetch IDs or not.  If set to false
+# this property has the effect of shutting off the housekeeping thread
+# that attempts to prefetch the id's.  It also sets the # of id's grabbed
+# per request to 1 regardless of the settings in the database.
+# Default: true
+torque.idbroker.prefetch = true
+
+# Controls the starting id of table entries when creating SQL for 
+# the id-table. If you have two projects that use the same id-table 
+# in the same database with different tables, make sure that they have 
+# different initialID settings and the ranges (initialID is incremented 
+# for every new table) don't overlap.
+torque.idbroker.initialId = 101 
+
+# The start value of the ID broker for supplying IDs to Torque. This value 
+# is incremented every time Torque requests ID keys from the broker. If you 
+# pre-load your table straight from SQL, make sure that you don't accidentially 
+# overlap with this setting, because Torque doesn't keep record of what IDs are 
+# already taken in the database. If you overlap, inserting new objects will fail 
+# because the ID assigned by Torque is already taken.
+torque.idBroker.initialIdValue = 100
+
+# For performance reasons, the ID Broker does not request a single ID at a time
+# but fetches a whole range and increments the current next ID Value in the ID
+# Table by this step. If you have to do lots of inserts straight in a row, increment
+# this value to get slightly better performance.
+torque.idbroker.initialIdStep = 500
+
+# IDBroker can grab its own connection from the pool to use when retrieving
+# more id's to minimize the amount of time ID_TABLE will be locked.
+# Some usage of IDBroker or assumptions made by connection pools or jdbc
+# drivers may disallow this optimization in which case the property
+# should be set to false.
+torque.idbroker.usenewconnection = true
+
+# Comment if not using shared data source factory
+torque.database.default=default
+
+
+
+
+
+
+
+
+
+
+
+
+

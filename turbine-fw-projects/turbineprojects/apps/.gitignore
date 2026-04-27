@@ -1,0 +1,15 @@
+# Ignore all compiled Java class files
+**/*.class
+
+# Ignore all log files (e.g., turbine.log, velocity.log)
+**/*.log
+
+# Ignore all target and build folders
+**/target/
+**/build/
+**/bin/
+
+# Ignore JBoss/WildFly temporary and log folders
+**/standalone/log/
+**/standalone/tmp/
+**/standalone/data/

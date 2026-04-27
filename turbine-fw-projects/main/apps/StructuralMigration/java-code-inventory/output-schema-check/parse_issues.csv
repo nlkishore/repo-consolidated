@@ -1,0 +1,80 @@
+file_path,error_type,message
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\test\java\services\security\AbstractFulcrumTorqueModelManagerTest.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\test\java\services\security\FulcrumTorqueDefaultModelManagerTest.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\test\java\services\security\TurbineSecurityServiceTest.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbinePermissionPeer.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbinePermissionPeerImpl.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbineRolePeer.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbineRolePeerImpl.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbineRolePermission.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbineUser.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbineUserGroupRole.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\om\TurbineUserGroupRolePeerImpl.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\wrapper\TurbineUserWrapper.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\services\pull\RelatedTool.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\actions\ChangePasswordAction.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\actions\LoginUser.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\actions\LoginUserIntake.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\actions\LogoutUser.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\actions\SecureAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\actions\ShowRecords.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\screens\Index.java,LexerError,"Could not process token at ""#"", line 2: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\screens\Password.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\screens\SecureScreen.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\modules\screens\TestSecure.java,LexerError,"Could not process token at ""#"", line 2: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\tools\FluxTool.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\FluxAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\FluxLogin.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\FluxLogout.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\SecureAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\screens\FluxError.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\screens\FluxIndex.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\screens\FluxScreen.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\screens\group\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\screens\permission\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\screens\role\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\screens\user\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\group\FluxGroupAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\permission\FluxPermissionAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\role\FluxRoleAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\target\classes\archetype-resources\src\main\java\flux\modules\actions\user\FluxUserAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\test\java\services\security\AbstractFulcrumTorqueModelManagerTest.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\test\java\services\security\FulcrumTorqueDefaultModelManagerTest.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\test\java\services\security\TurbineSecurityServiceTest.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbinePermissionPeer.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbinePermissionPeerImpl.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbineRolePeer.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbineRolePeerImpl.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbineRolePermission.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbineUser.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbineUserGroupRole.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\om\TurbineUserGroupRolePeerImpl.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\wrapper\TurbineUserWrapper.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\services\pull\RelatedTool.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\actions\ChangePasswordAction.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\actions\LoginUser.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\actions\LoginUserIntake.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\actions\LogoutUser.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\actions\SecureAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\actions\ShowRecords.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\screens\Index.java,LexerError,"Could not process token at ""#"", line 2: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\screens\Password.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\screens\SecureScreen.java,LexerError,"Could not process token at ""#"", line 3: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\modules\screens\TestSecure.java,LexerError,"Could not process token at ""#"", line 2: #*"
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\tools\FluxTool.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\FluxAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\FluxLogin.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\FluxLogout.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\SecureAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\screens\FluxError.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\screens\FluxIndex.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\screens\FluxScreen.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\screens\group\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\screens\permission\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\screens\role\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\screens\user\Default.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\group\FluxGroupAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\permission\FluxPermissionAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\role\FluxRoleAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\turbine-archetypes\src\main\resources\archetype-resources\src\main\java\flux\modules\actions\user\FluxUserAction.java,JavaSyntaxError,
+C:\Users\nlaxm\TurbineProjectWorkspace\FulcrumSecurityTorque\src\module-info.java,JavaSyntaxError,

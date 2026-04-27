@@ -1,0 +1,3 @@
+# This directory contains base classes committed to version control
+# Base classes are stable and only change when Torque schema changes
+# They are copied to target/generated-sources during build

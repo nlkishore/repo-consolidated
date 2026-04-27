@@ -1,0 +1,105 @@
+## Licensed to the Apache Software Foundation (ASF) under one
+## or more contributor license agreements.  See the NOTICE file
+## distributed with this work for additional information
+## regarding copyright ownership.  The ASF licenses this file
+## to you under the Apache License, Version 2.0 (the
+## "License"); you may not use this file except in compliance
+## with the License.  You may obtain a copy of the License at
+##
+##   http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing,
+## software distributed under the License is distributed on an
+## "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+## KIND, either express or implied.  See the License for the
+## specific language governing permissions and limitations
+## under the License.
+
+
+#if ( $data.getUser().hasLoggedIn() )
+#set ($acl = $data.getACL())
+#set ($user = $data.getUser())
+#set ($isAdmin = false)
+#set ($isManager = false)
+#set ($isUser = false)
+#if ( $acl )
+    ## Check for admin roles - try all variations (case-sensitive check)
+    #if ( $acl.hasRole("turbineadmin") || $acl.hasRole("admin") || $acl.hasRole("ADMIN") || $acl.hasRole("Admin") )
+        #set ($isAdmin = true)
+    #end
+    ## Fallback: Check if username contains "admin" (for users with admin in their name)
+    #if ( !$isAdmin && $user.Name && $user.Name.toLowerCase().contains("admin") )
+        #set ($isAdmin = true)
+    #end
+    ## Manager check (admin is also a manager)
+    #if ( $isAdmin )
+        #set ($isManager = true)
+    #elseif ( $acl.hasRole("manager") || $acl.hasRole("MANAGER") )
+        #set ($isManager = true)
+    #end
+    ## User check
+    #if ( $acl.hasRole("turbineuser") || $acl.hasRole("user") || $acl.hasRole("USER") )
+        #set ($isUser = true)
+    #end
+#end
+<nav class="w3-navbar w3-theme">
+          <li><a  href="$link.setPage("Index.vm")">Home</a></li>
+          #if ( $isAdmin )
+          <li><a href="$link.setPage("admin,Dashboard.vm")" style="font-weight: bold; color: #FFD700;">✨ Admin Dashboard (New UI)</a></li>
+          <li><a href="$link.setPage("admin,JakartaDashboard.vm")" style="font-weight: bold; color: #4CAF50;">🚀 Jakarta Dashboard (Reference UI)</a></li>
+          #end
+          <li class="w3-dropdown-hover">
+            <a href="#">Administration <i class="fa fa-caret-down"></i></a>
+            <div class="w3-dropdown-content w3-white w3-card-4">
+              ## every user can change their password
+               <a href="$link.setPage("Password.vm")">Update Password <i class="fa fa-unlock"></i></a>
+          #if ( $isAdmin )
+              <hr class="w3-border-top">
+              <strong style="padding: 8px 16px; display: block; color: #2196F3;">User Management</strong>
+              <a href="$link.setPage("user,FluxUserList.vm")">User List <div class="w3-right"><i class="fa fa-users"></i></div></a>
+              <a href="$link.setPage("user,FluxUserForm.vm")?mode=insert">Add New User <div class="w3-right"><i class="fa fa-user-plus"></i></div></a>
+              <hr class="w3-border-top">
+              <strong style="padding: 8px 16px; display: block; color: #2196F3;">Group Management</strong>
+              <a href="$link.setPage("group,FluxGroupList.vm")">Group List <div class="w3-right"><i class="fa fa-group"></i></div></a>
+              <a href="$link.setPage("group,FluxGroupForm.vm")?mode=insert">Add New Group <div class="w3-right"><i class="fa fa-plus-circle"></i></div></a>
+              <hr class="w3-border-top">
+              <strong style="padding: 8px 16px; display: block; color: #2196F3;">Role Management</strong>
+              <a href="$link.setPage("role,FluxRoleList.vm")">Role List <div class="w3-right"><i class="fa fa-user-circle"></i></div></a>
+              <a href="$link.setPage("role,FluxRoleForm.vm")?mode=insert">Add New Role <div class="w3-right"><i class="fa fa-plus-circle"></i></div></a>
+              <hr class="w3-border-top">
+              <strong style="padding: 8px 16px; display: block; color: #2196F3;">Permission Management</strong>
+              <a href="$link.setPage("permission,FluxPermissionList.vm")">Permission List <div class="w3-right"><i class="fa fa-key"></i></div></a>
+              <a href="$link.setPage("permission,FluxPermissionForm.vm")?mode=insert">Add New Permission <div class="w3-right"><i class="fa fa-plus-circle"></i></div></a>
+          #end
+            </div>
+          </li>
+          #if ( $isAdmin || $isManager )
+          <li class="w3-dropdown-hover">
+            <a href="#">User Assignment <i class="fa fa-caret-down"></i></a>
+            <div class="w3-dropdown-content w3-white w3-card-4">
+              <a href="$link.setPage("UserAssignment.vm")">Assign Groups/Roles <div class="w3-right"><i class="fa fa-user-check"></i></div></a>
+            </div>
+          </li>
+          #end
+          #if ( $isUser )
+          <li class="w3-dropdown-hover">
+            <a href="#">Records <i class="fa fa-caret-down"></i></a>
+            <div class="w3-dropdown-content w3-white w3-card-4">
+               <a href="$link.setAction("ShowRecords")">Show Records <i class="fa fa-unlock"></i></a>
+            </div>
+          </li>
+          #end
+          #if ( $data.getUser().hasLoggedIn() )
+                 <li><a href="$link.setPage("UserProfile.vm")">My Profile</a></li>
+          #end
+          
+          <li class="w3-right"><a href="$link.setAction("LogoutUser")">Logout</a></li>
+          
+</nav>
+#else
+<nav class="w3-navbar w3-theme">
+          <li><a  href="$link.setPage("Index.vm")">Home</a></li>
+          <li class="w3-right"><a href="$link.setPage("Login.vm")">Login</a></li>
+</nav>
+
+#end

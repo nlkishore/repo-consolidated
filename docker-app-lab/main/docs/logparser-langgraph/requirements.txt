@@ -1,0 +1,6 @@
+#langgraph==0.0.40
+langgraph==0.0.54
+streamlit==1.33.0
+watchdog==4.0.0
+google-api-python-client==2.122.0
+google-auth==2.28.0

@@ -1,0 +1,13 @@
+<%- include('partials/header', { title: title }) %>
+
+<main>
+  <h2>Feedback Form</h2>
+  <form method="POST" action="/feedback">
+    <label for="message">Message:</label>
+    <textarea name="message" id="message" rows="4" cols="50"></textarea>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,132 @@
+#*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *#
+
+#parse ("app/layouts/Default.vm")
+
+<div class="w3-container w3-padding-16">
+    <h2>User Profile</h2>
+            
+            #if ($user)
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-theme">
+                        <h3>User Information</h3>
+                    </div>
+                    <div class="w3-container">
+                        <table class="w3-table w3-bordered">
+                            <tr>
+                                <th width="200">Login Name:</th>
+                                <td>$!user.Name</td>
+                            </tr>
+                            <tr>
+                                <th>First Name:</th>
+                                <td>$!user.FirstName</td>
+                            </tr>
+                            <tr>
+                                <th>Last Name:</th>
+                                <td>$!user.LastName</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>$!user.Email</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-blue">
+                        <h3>Groups ($groups.size())</h3>
+                    </div>
+                    <div class="w3-container">
+                        #if ($groups && $groups.size() > 0)
+                            <ul class="w3-ul">
+                                #foreach ($group in $groups)
+                                    <li>
+                                        <strong>$!group.Name</strong>
+                                        <span class="w3-badge w3-right">ID: $!group.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="w3-text-grey">No groups assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-green">
+                        <h3>Roles ($roles.size())</h3>
+                    </div>
+                    <div class="w3-container">
+                        #if ($roles && $roles.size() > 0)
+                            <ul class="w3-ul">
+                                #foreach ($role in $roles)
+                                    <li>
+                                        <strong>$!role.Name</strong>
+                                        <span class="w3-badge w3-right">ID: $!role.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="w3-text-grey">No roles assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-orange">
+                        <h3>Permissions ($permissions.size())</h3>
+                    </div>
+                    <div class="w3-container">
+                        #if ($permissions && $permissions.size() > 0)
+                            <ul class="w3-ul">
+                                #foreach ($permission in $permissions)
+                                    <li>
+                                        <strong>$!permission.Name</strong>
+                                        <span class="w3-badge w3-right">ID: $!permission.Id</span>
+                                    </li>
+                                #end
+                            </ul>
+                        #else
+                            <p class="w3-text-grey">No permissions assigned.</p>
+                        #end
+                    </div>
+                </div>
+
+                <div class="w3-card-4 w3-margin">
+                    <div class="w3-container w3-light-grey">
+                        <h3>Summary</h3>
+                    </div>
+                    <div class="w3-container">
+                        <p><strong>Total Groups:</strong> $groups.size()</p>
+                        <p><strong>Total Roles:</strong> $roles.size()</p>
+                        <p><strong>Total Permissions:</strong> $permissions.size()</p>
+                    </div>
+                </div>
+
+                <div class="w3-center" style="margin-top: 20px;">
+                    <a href="$link.setPage("Index.vm")" class="w3-button w3-theme">Back to Home</a>
+                    <a href="$link.setAction("LogoutUser")" class="w3-button w3-light-grey">Logout</a>
+                </div>
+            #else
+                <div class="w3-panel w3-yellow">
+                    <strong>Warning!</strong> User information not available. Please <a href="$link.setPage("Login.vm")">login</a>.
+                </div>
+            #end
+</div>
