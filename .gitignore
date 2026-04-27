@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+target/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.class
+*.jar
+*.war
+*.ear
+*.o
+*.so
+*.dll
+*.exe
