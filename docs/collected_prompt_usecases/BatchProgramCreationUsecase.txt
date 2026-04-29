@@ -1,0 +1,16 @@
+For Batch Programming :
+
+Usaul batch applications are catered for processing files received from host systems , received with Header , Detail , Trailer , where First Line usually starts with H for Header , D for Detailes Records , T for Trailer where count and date details will be shared to reconsile the number of detaile drecord received.
+
+Create a sample file taking referace of a Customer Demagraphic whose data will be received by Client and parse the file to create a XML with Element Name and Value .
+
+Also create a database table , to hold these records . Take the XML as input and use XSLT to parse the file and extract the field values and insert that into database table.
+
+
+Legacy Handoff file shared by host, is like String length based delimiter , ex : Dteiled record 0 to 19 - Customer number, 19 to 30 Surname , 30 to 60 - Address like this , one want to manage is having control file , another way is to have Regular expression to split the record to multiple strings mapped to respective variables . handle this scenario with out disturbing earlier implementation with dynamic option to decide the approach to follow based on received handoff file nature.
+
+UseCase 2: House Keeping Tables with process efficiency for complex table having millions of records, with parallel processing , with multithreading concecpt and production ready sulution.
+
+Usecase 3: Given a scenario , where midraneg application receives handoff file , expects processing a new field introduced , and that to be updated into database , how to make sure the database has that value after processing the handoff file . is the option only to write unit testing or any other option.
+
+

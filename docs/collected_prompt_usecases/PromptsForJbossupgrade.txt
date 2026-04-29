@@ -1,0 +1,95 @@
+create a summary document to go with systematic approach of converting BAU application (using automation scripts )using Torque 3.x to Torque 6.x
+
+create a summary document to go with systematic approach of converting BAU application (using automation scripts )using Turbine 3.x to Turbine 7.x
+
+While making Jetspeed 1.x based application to be compatible with JDK 17 , Jakarta EE complaint with Turbine 7.x and Torque 6.x , what are the broader list of Technical complexities with the categorization of dependent library components , example Castor , Turbine , Torque and complexities for each component.
+
+Summarize the total time spent , and remaining compilation errors and whether Automation can fix all the compile errors or do require manual effort , if manula effort required what nature of skill required . After fixing compilation errors , what would bethe potential run time issues that can still  impact bringing up teh application and test end to end flows.
+
+Scan the whole project and move code using com.workingdogs.village.* into separate Util class and call from calling classes where minimum referance available . post moving the all methods and impelemntation of com.workingdogs.village.* classes can be converted at one place , calling callses can be updated with adapter pattern to minimize the impact. Is this feasible . create automation script to refactor the code and move to util class  using "com.workingdogs.village.*" package classes.
+
+Let me put the context differently for Torque and Turbine version upgarde from Old  (2.x or 3.x) to  New  Option 1. Identify the Tables involved and regenerate the stub classes with upgrade  Torque version and use those stubs in upgarde Turbine version. How complex this approch for a  large project , where as current approach of Re-using the old turbine stub cleasses with Adapter and converting static methods to instanc emathods due to Torque lated version architectuaral changes . what is teh recommendation . does Option 1 incurs an effort of re-wrting the whole application and any chance of missing functional behavior acheivement.
+
+With Toque 7 , udnerstand that there is no support for  mapBuilder Class and BaseObject and Peer class , what is the best approach to keep these classes support along with Torue 7 libraries . What are the other stub classes missing between Torque 3.x and Torque 6.x/7.x
+
+
+Create automation script to create sub-modules with the files having reference of - ex : Torque ORM usage , Having Village package referance ..
+
+
+Recommend an approach for a project having cyclic dependencies , though there are sub components . whether approach of comibining all files into single component , then separate into differnt components based on certain criteria ..
+
+
+Scenario -  Moving a batch program which is working one environment to another environment and make it work by change Environment specific path 
+
+1. Server from where working batch to be zipped
+2. List the files to be midified for target environment like torque.properties, scriptExceuction.sh 
+3. Unzip the files into target server and modify the files required .
+4. Test the batch in target server.
+
+
+
+
+Agentic solution Usecases ::
+
+Agent 1:
+
+Given a scenario, where there is development for a change request below are activities performed by developer :
+
+1. Create a Development branch for the target branch where final code to be merged
+2. do the development ,and raise Pull Request for review and approval
+3. After approved , code merge to the release branch and build to be completed ( take 2 hours)
+4. Using PRID , need to prepare a fileList and commit to HotFix branch
+Modify buildScript.sh where HF Number and Target branch is defined , post commit of these 2 file then HotFix Triggered
+Validate the HotFix after downloading from artifactory and validate zip fiule contains all files which are part of fileList.txt
+4. apply hotFix to ear file , so that all  files in HotFix zip gets updated to ear file which is deployable with new changes.
+
+Information Required :  
+
+Target Branch
+Dev Branch Name to be created
+Pull the code to development branch
+compile the project after development completed
+Commit the changes to Dev branch
+Raise PR  -> can this PR rasing can be automated ? 
+Once PR approved , give 1 to 2 hours to complete the build before raise HotFix request
+HotFix branchname in different location
+get the FileList based on PRID and create fileList.txt and buildScript.sh
+commit the files to HotFix Branch 
+Ginve another 30 minutes to One hour to complete HotFix Preparation
+Download the HotFix and validate the HotFix 
+
+
+
+
+Agent 2:
+
+Given a scenario , when Jira is raised by testing team -
+
+1. Monitor the JIRA and get the time of the issue raised.
+
+2. For that time + or - 20 minutes of log capture and Database details if applicable by going through Audit table
+
+3. Attach the logs in JIRA system for teams analysis
+
+
+
+
+
+Review the project folder "C:\MyGeneratedProjects\JbossUpgrade\jetspeed-1.5-tomcat10" , finished quite a few iteration of compilation , review all the error logs and generate comprehensive document of teh complexities and the potential risk of attempting to upgrade Jetspeed 1.x to Jdk 17, Turbine 7 , Torque 6.x to make it runnable on Jakarta EE complaint container . not look at only compilation perspectine, shoudl look into teh perspective of Runtime challenge as this commitment puts the expectations high to meet the upgrade. review with genuine intention and document the complexities and challenges so that Informed decission can be take , instead of provideing false promise to the seniuor management.
+
+
+Total: 600-980 hours (6-12 months for single developer) -- This does n't seems to be realistic considering the Jetspeed frmaework does n't have any near compatible and community support since 15 years and writing adapters to mitigate this gap of 15 years  and supporting technologies ECS  , Castor , Torque and Turbine , JDK , Jakarta EE  architectural shift from legacy to Modern  versions . re-review and update the review document . The Major concern is on Runtime risk , as compilation may be successful with minusing some of the functional behavior and bringing services , in container with this alternative adventurous feat of upgrade.  These concerns to be articulated with sunstantial evidence so that senior management should get convinced of looking for alternative Stack.
+
+now we are only looking at Jetspeed 1.x referance implementation, with available source to build with JDK 17 , Turbine 7.x , Torque 6.x, additionally there is Model and Controller components where old Turbine 3.x and Torque 3.x used, along with Core business logic where similar exercise to be done to upgrade JDK 17 , Turbine 7.x and Torque 6.x , does the Model / controller componets can bring independently wiuth put JetSpeed 1.x dependancy so that the Server Side upgrade can be performed and create Rest API's with Spring Framework 6.x ,so theta for UI can go with Micro Front End application. review and recommend the options for this approach.
+
+
+As part of Legacy Application transofrmation , its required to indentify the Class Hierarchy , through Static Code Analysis , by geing Entry Class - Entry Method from there using Static Code analyzer , it should drill down to the last mile to get classes , methods being used and create a class diagram .
+
+What would happen if the application used reflection based design to load the class or Dependency injection or any other run time mechanismy to load calsses dynamically , whether this program detects those scenarios
+
+
+Ask is to consolidate all Error codes defined through out the project , which is managed as constants in Java files , for error codes where to expose message onb screen managed in property file as Key Value pairse to support Locale. The project has 6 components with Total 4000+ files . share a python utility to scan through teh whole list of files and collect Constants and Error Keys and Values from proprty files and generate Excel report with different sheets for the List of Error Codes maintained in Java file , and  Error Key and Values managed in property files. The root folder path should be configurable init file .
+
+
+
+

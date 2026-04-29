@@ -1,0 +1,37 @@
+1. Torque 3.x to 7.x Migration
+Torque ORM Changes in 3.x
+  - MapBuilder Classes generated for Metadata information line Schema Nwme, Table Name and Column Names
+  - Village Library is used to traverse the Resultset returned using ORM(Object Relation Mapping)
+  - Base Object Used which is removed in Torque 7.x
+
+Using Referance of My SQL Database created , details @C:\mysql81\uob-turbine7-portal-mm - for scema details and table details , create
+Schema.xml , and a Java Class to perform CRUD oprations using Torque ORM , should use Village Library and MapBuilders as well
+so that Legacy application behavior can be re-produced .
+
+
+For the same create another projectto make functional Equivalent Java classes with CRUD oerations , Schema generation using Torque 7.x .
+If there is oprion to re-use MapBuilder though its not available in Torque 7 , replicating Legacy behavior of MapBuilder approach pof Metadata retrival
+to minimize migration impact .
+
+Once both projet generated , shoudl create Structural comparision on Functional Transformation to retain funcional behavior , this document 
+should serve as guide for Medium skilled Java developer to complete the Migration activitty from Torque 3.x to Torque 7.x.
+
+Looking for feedback , on the approach to do Upgarde of Legacy web application using  Torque 3.x , Turbine 2.x , Spring 4.x , Customized Jetspeed component with ECS ((No Javax.servlet usage), Java EE  , JDK 8.x
+
+To be migrated to Torque 7.x , Turbine 7.x , Spring 6.x , Jetspeed upgarde to support JDK17 , Jakarta EE .
+
+Approach Thought : Capture all Java Imports from all Java files used in Legacy , then create dummy project with all Turbine 7.x, Torque 7.x, Soring 6.x ,Jetspeed component for cursor or AI tool to review all the imports and create valid  OpenRewrite Recipe so that  import can be migrated to support latest Tech Stack , then functional upgrade can be progressively do manual upgrade where required .
+
+From Torque3-legacy-demo , how to map the turbine User to gtp_user class , create service class to do crud operations .create additional calss and modify teh schema if required to map turbine user interface with gtp_user. project path : C:\Users\nlaxm\TurbineProjectWorkspace\StructuralMigration\torque3-legacy-demo
+
+
+Giveen a scenario , where there is a report that some of the libraries are vulnerable due to CVE , in a BAU Web Application , when Identified next version of libraries which are not having any CVE , to analyze the effort required to upgrade those libraries , my approach is as below .
+
+1. Scan theough the BAU application and list all imports across all Java projects , scan against the libraries to map each ofteh import belongs to which Library/jar file , then have another folder where the upgrade version downloaded and run the same report to map those new libraries are having the same imports . This will give an idea that the package structures are not changed in new Library . Whether this approach works or will there be any other quick option to identify teh impact.
+
+Similarly List down all methods with signature and exceptions being thrown , do the sam eexercise of mapping those methods belong to which library and scan aginst new library as well.
+
+Given a scenario  , where there ar etoo many repositories and branches how to consolidate and remove duplicate files and create new repository and commit all the changes avoiding duplicates. First analyze and provide summary report.
+
+
+The context os to have awareness session with team on AI tools evolution and tools which are available at work now, and how to learn advanced AI tools so that team is ready for upcoming changes at organizational level to adopt the advnced tools with usecases of daily work team does . As of Today organization has Co-pilot which can take maximum 3 files and review summarize and suggets the changes , where team need to manually copy to teh project folder . second generation are given the prompt/usecase tool itself can do code , test , fix bugs and finalize tested code to commit , 3rd generation is to create Agents to integrate multiple usecases or featrures feed to the tool to generate the projects. with this context create a ppt along with notes to have session with team.
