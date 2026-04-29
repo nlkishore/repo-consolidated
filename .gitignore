@@ -21,3 +21,6 @@ turbine-fw-projects/main/apps/turbine-archetype.tar
 *.pem
 *.key
 credentials.json
+docs/_presentation_text_extract.md
+docs/_tmp_consolidated_images/
+docs/_tmp_executive_images/
