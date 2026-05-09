@@ -35,3 +35,12 @@ Given a scenario  , where there ar etoo many repositories and branches how to co
 
 
 The context os to have awareness session with team on AI tools evolution and tools which are available at work now, and how to learn advanced AI tools so that team is ready for upcoming changes at organizational level to adopt the advnced tools with usecases of daily work team does . As of Today organization has Co-pilot which can take maximum 3 files and review summarize and suggets the changes , where team need to manually copy to teh project folder . second generation are given the prompt/usecase tool itself can do code , test , fix bugs and finalize tested code to commit , 3rd generation is to create Agents to integrate multiple usecases or featrures feed to the tool to generate the projects. with this context create a ppt along with notes to have session with team.
+
+We do follow these steps for Build and Deployment of ear file.
+
+1. We ahve Running ear deployed in production.
+2. For any new development we follow HotFix Model instead of full build to incrmentally update the ear.
+3. Our HotFix build utility only has option to modify the files or add new file to ear for given path.
+4. FOr a case where we need to update 3rd party libraries , to be deleted due to security upgrades , how to approach removing 
+   the library from ear file (Ex: Jar file that resides in WEB-INF/lib/abc.jar)
+5. Share detailed view on how to address for short term and long term option  
