@@ -1,0 +1,6 @@
+{
+  "status": "success",
+  "commit_sha": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+  "full_build_id": "release-12345",
+  "artifact_url": "https://ci.example.com/job/release/123/artifact/full-build.zip"
+}

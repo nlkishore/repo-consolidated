@@ -1,0 +1,3 @@
+# HotFix branch validation (see ../HOTFIX_BRANCH_VALIDATION_DESIGN.md)
+PyYAML>=6.0.1
+jsonschema>=4.22.0

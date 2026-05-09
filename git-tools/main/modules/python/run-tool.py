@@ -8,6 +8,7 @@ SCRIPT_MAP = {
     "audit_submodules": "git/audit_submodules.py",
     "create_gitignore": "setup/create_gitignore.py",
     "import_monorepo": "setup/monorepo_importer.py",
+    "hotfix_validate": None,
 }
 
 def main():
@@ -17,8 +18,15 @@ def main():
         sys.exit(1)
 
     script_name = sys.argv[1]
-    script_rel_path = SCRIPT_MAP.get(script_name)
+    if script_name == "hotfix_validate":
+        cwd = os.path.dirname(os.path.abspath(__file__))
+        rc = subprocess.run(
+            [sys.executable, "-m", "hotfix_validation"] + sys.argv[2:],
+            cwd=cwd,
+        ).returncode
+        sys.exit(rc if rc is not None else 1)
 
+    script_rel_path = SCRIPT_MAP.get(script_name)
     if not script_rel_path:
         print(f"❌ Unknown script '{script_name}'. Check spelling or add it to SCRIPT_MAP.")
         sys.exit(1)

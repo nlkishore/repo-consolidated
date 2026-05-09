@@ -1,0 +1,10 @@
+# Example HotFix fileLists (YAML). Align keys with your buildScripts.sh.
+version: 1
+baseline:
+  release_commit: "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
+  full_build_id: "release-12345"
+entries:
+  - path: "WEB-INF/classes/com/example/Foo.class"
+    reason: "BUG-12345"
+  - path: "WEB-INF/lib/patched-library.jar"
+    reason: "SECURITY-999"
