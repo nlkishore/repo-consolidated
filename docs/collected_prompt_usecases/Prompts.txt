@@ -44,3 +44,39 @@ We do follow these steps for Build and Deployment of ear file.
 4. FOr a case where we need to update 3rd party libraries , to be deleted due to security upgrades , how to approach removing 
    the library from ear file (Ex: Jar file that resides in WEB-INF/lib/abc.jar)
 5. Share detailed view on how to address for short term and long term option  
+
+
+The context - Organization follows below source code management and binary generation 
+Uses Bitbucket server model , main build happened using release Branch . Developer create 
+Dev bracnh from release and do code changes and commit , then raise pull request to get approval and merge to release branch.
+Post PR merge build trigger automaticaly and fulle build binary gets generated.
+
+Another branch which is HotFix build branch , has buildScripts.sh  and fileLists.txt 
+with list of files to be picked from the full build binary and create zip file with incremental file only to be 
+deployed as Hotfix instead of full build.
+
+Here team do mistakes in committing fileList.txt - while follwoing guigelines of 
+fileLists.txt content , buildScripst.sh content . How to enforce systemation validations 
+before committing the changes to hot fix branch
+ -> fileLists.txt to be validated for formatting of the content added to follwo standard yaml structure
+  and mandatory  validation whether full build in release branch completed as that is mandatory to picked
+  the file for HotFix Generation.
+
+Also enforce both buildScripts.sh and filesList.txt to be committed together .
+
+I am software developer and support engineer, organization use java based web application with properties files 
+for configuretaions , and these configuration to be validated while planning for production
+deployment , compare against UAT environment to understand what ar ethe new properties being added
+, any exiting properties modified unnecessarily , let me given usecase for one Country Referance
+
+1. Take an Example Singapore as market to deply , has Multiple instance of Server , serving different customer Segment for online
+and different daemon process to be initiated with different JVM , Example instance for Singapore as
+GEBCUSG01A , GEBCUSG02A ,GEBCUSG01F, GEBCUSG01V - This is for Customer Webapplication
+GEBBASG01A , GEBBASG02A, GEBBASG01F.
+2. Taken above various instance for a country as referance , we want to compare property files
+Having 
+1. Newly Added keys with referance to Production copy of the files 
+2. Keys value being overriden for each instance , withrefernce to production copy against that specific instance on Server
+
+
+

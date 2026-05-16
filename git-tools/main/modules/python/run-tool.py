@@ -9,6 +9,7 @@ SCRIPT_MAP = {
     "create_gitignore": "setup/create_gitignore.py",
     "import_monorepo": "setup/monorepo_importer.py",
     "hotfix_validate": None,
+    "properties_diff": None,
 }
 
 def main():
@@ -18,10 +19,11 @@ def main():
         sys.exit(1)
 
     script_name = sys.argv[1]
-    if script_name == "hotfix_validate":
+    if script_name in ("hotfix_validate", "properties_diff"):
         cwd = os.path.dirname(os.path.abspath(__file__))
+        module = "hotfix_validation" if script_name == "hotfix_validate" else "properties_diff"
         rc = subprocess.run(
-            [sys.executable, "-m", "hotfix_validation"] + sys.argv[2:],
+            [sys.executable, "-m", module] + sys.argv[2:],
             cwd=cwd,
         ).returncode
         sys.exit(rc if rc is not None else 1)

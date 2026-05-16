@@ -42,3 +42,7 @@ python run-tool.py hotfix_validate validate-file-lists hotfix_validation/example
 - PR range: `python -m hotfix_validation check-paired --range-base origin/release --range-head HEAD --repo .`
 
 Release pipeline should publish `release-build-manifest.json` (see design doc §6); pass its path to `validate-baseline` or `run-all --manifest`.
+
+## Related: properties diff
+
+Production vs UAT `.properties` comparison (multi-instance deployment checks): see [PROPERTIES_DIFF_README.md](PROPERTIES_DIFF_README.md).
