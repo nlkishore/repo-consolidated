@@ -1,0 +1,46 @@
+# Example Bitbucket Pipelines fragment — CR slice validation on decoupled branch PRs.
+# Copy relevant steps into bitbucket-pipelines.yml in the application repository.
+#
+# Repository variables (secured where noted):
+#   CR_MANIFEST_PATH  — e.g. .cr/CR-102-manifest.yaml
+#   CR_SLICE_REF      — optional override; defaults to BITBUCKET_BRANCH
+#
+# See: docs/review/CR_SLICE_REVIEW_AUTOMATION_DESIGN.md
+
+image: python:3.12
+
+pipelines:
+  pull-requests:
+    "**/release-cr*":
+      - step:
+          name: Validate CR slice
+          caches:
+            - pip
+          script:
+            - pip install -r git-tools/main/modules/python/requirements-cr-slice-validation.txt
+            - export CR_SLICE_REF="${CR_SLICE_REF:-$BITBUCKET_BRANCH}"
+            - cd git-tools/main/modules/python
+            - |
+              python -m cr_slice_validation run-all \
+                --manifest "${BITBUCKET_CLONE_DIR}/${CR_MANIFEST_PATH}" \
+                --repo "${BITBUCKET_CLONE_DIR}" \
+                --slice-ref "${CR_SLICE_REF}" \
+                --output "${BITBUCKET_CLONE_DIR}/reconcile-report.json"
+          artifacts:
+            - reconcile-report.json
+
+  custom:
+    validate-cr-slice-manual:
+      - step:
+          name: Validate CR slice (manual)
+          script:
+            - pip install -r git-tools/main/modules/python/requirements-cr-slice-validation.txt
+            - cd git-tools/main/modules/python
+            - |
+              python -m cr_slice_validation run-all \
+                --manifest "${CR_MANIFEST_PATH}" \
+                --repo "${BITBUCKET_CLONE_DIR}" \
+                --slice-ref "${CR_SLICE_REF}" \
+                --output reconcile-report.json
+          artifacts:
+            - reconcile-report.json

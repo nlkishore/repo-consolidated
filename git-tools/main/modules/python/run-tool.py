@@ -10,6 +10,7 @@ SCRIPT_MAP = {
     "import_monorepo": "setup/monorepo_importer.py",
     "hotfix_validate": None,
     "properties_diff": None,
+    "cr_slice": None,
 }
 
 def main():
@@ -19,9 +20,14 @@ def main():
         sys.exit(1)
 
     script_name = sys.argv[1]
-    if script_name in ("hotfix_validate", "properties_diff"):
+    if script_name in ("hotfix_validate", "properties_diff", "cr_slice"):
         cwd = os.path.dirname(os.path.abspath(__file__))
-        module = "hotfix_validation" if script_name == "hotfix_validate" else "properties_diff"
+        module_map = {
+            "hotfix_validate": "hotfix_validation",
+            "properties_diff": "properties_diff",
+            "cr_slice": "cr_slice_validation",
+        }
+        module = module_map[script_name]
         rc = subprocess.run(
             [sys.executable, "-m", module] + sys.argv[2:],
             cwd=cwd,

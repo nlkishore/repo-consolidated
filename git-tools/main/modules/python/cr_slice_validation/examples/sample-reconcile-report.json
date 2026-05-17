@@ -1,0 +1,28 @@
+{
+  "cr_id": "CR-102",
+  "status": "FAIL",
+  "baseline_ref": "release/2025.04.1",
+  "baseline_sha": "a1b2c3d4e5f6789012345678abcdef0123456789",
+  "expected_ref": "integration/cr-102-all-prs",
+  "expected_sha": "def4567890abcdef0123456789abcdef012345678",
+  "slice_ref": "release-cr102",
+  "slice_sha": "789abcdef0123456789abcdef0123456789abcdef0",
+  "summary": {
+    "files_expected": 24,
+    "files_actual": 23,
+    "missing": 1,
+    "extra": 0,
+    "mismatches": 0,
+    "line_level_gaps": 0,
+    "unattributed_commits": 0
+  },
+  "missing_files": [
+    "src/main/java/com/example/PaymentValidator.java"
+  ],
+  "extra_files": [],
+  "file_mismatches": [],
+  "unattributed_commits": [],
+  "line_level_gaps": [],
+  "pr_heads_used": [],
+  "errors": []
+}

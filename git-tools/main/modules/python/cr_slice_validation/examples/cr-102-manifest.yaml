@@ -1,0 +1,13 @@
+cr_id: CR-102
+title: Singapore payment fix (example)
+baseline_ref: v1.0.0-baseline
+expected_ref: integration/cr-102-all-prs
+slice_ref: release-cr102
+pull_requests:
+  - id: 451
+  - id: 462
+  - id: 471
+optional_commits: []
+exclude_paths:
+  - "**/package-lock.json"
+notes: Example manifest for Prompts.txt decoupling scenario — adjust refs to your repository.

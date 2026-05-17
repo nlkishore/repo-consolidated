@@ -78,5 +78,26 @@ Having
 1. Newly Added keys with referance to Production copy of the files 
 2. Keys value being overriden for each instance , withrefernce to production copy against that specific instance on Server
 
+Consider scenario for a reviewer , where Development team has reposiroty 1- where multiple CR changes are being committed with
+and commits happen each CR  has separate set of PullRequests , suddenly when there is request to decouple one of the
+CR and team had those CR - pull requests , normal approach is to create anothe base line branch and merge the CR changes
+to go to production will be merged . As a reviewer how do we make sure team has take care of all the changes.
 
+-> Automation: CR slice reconciliation (manifest + git diff vs slice branch). Design:
+   repo-consolidated/docs/review/CR_SLICE_REVIEW_AUTOMATION_DESIGN.md
+   Runbook: repo-consolidated/docs/review/CR_SLICE_REVIEW_RUNBOOK.md
+   Tool: git-tools/main/modules/python/cr_slice_validation/  (python -m cr_slice_validation run-all)
 
+Our development team follows this approach , when decoupling is required , the will collect all
+the file List of the PR which is planned to go live , will be collected and merge
+those changes to baselined prod new branch , and then raise another PR capturing all consolidtaed
+files . In such case what would be the better option to compare . would List of files and file content copy 
+will help to detect any file missed merging or any wrong merges.
+
+-> Use BOTH, against the same production baseline (not PR-to-PR):
+   1) File list union from all source PRs vs consolidated PR/slice branch -> catches missed/extra FILES.
+   2) Per-file content (git diff baseline..expected vs baseline..slice per path) -> catches wrong merge,
+      partial cherry-pick, conflict resolution drops; file list alone misses same-path wrong content.
+   Optional: line-level diff for high-risk paths. Maintain cr-manifest.yaml (PR ids + baseline_ref +
+   expected_ref integration branch OR union of PR branches). Automate: cr_slice_validation run-all.
+   See CR_SLICE_REVIEW_AUTOMATION_DESIGN.md section 4.2-4.3.
