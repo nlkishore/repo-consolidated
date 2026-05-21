@@ -11,6 +11,7 @@ SCRIPT_MAP = {
     "hotfix_validate": None,
     "properties_diff": None,
     "cr_slice": None,
+    "testbed": None,
 }
 
 def main():
@@ -20,12 +21,13 @@ def main():
         sys.exit(1)
 
     script_name = sys.argv[1]
-    if script_name in ("hotfix_validate", "properties_diff", "cr_slice"):
+    if script_name in ("hotfix_validate", "properties_diff", "cr_slice", "testbed"):
         cwd = os.path.dirname(os.path.abspath(__file__))
         module_map = {
             "hotfix_validate": "hotfix_validation",
             "properties_diff": "properties_diff",
             "cr_slice": "cr_slice_validation",
+            "testbed": "testbed",
         }
         module = module_map[script_name]
         rc = subprocess.run(

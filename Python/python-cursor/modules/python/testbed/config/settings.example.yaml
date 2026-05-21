@@ -1,0 +1,32 @@
+# Copy to config/settings.yaml and fill in your values.
+# settings.yaml is gitignored — never commit secrets.
+# Environment variables: use ${VAR_NAME} syntax.
+
+database:
+  host: "${DB_HOST}"           # e.g. localhost
+  port: 3306
+  name: "${DB_NAME}"           # e.g. kishore or geb_db
+  username: "${DB_USER}"
+  password: "${DB_PASSWORD}"
+  connect_timeout: 10
+
+scenarios:
+  - admin
+  - payments
+  - collections
+  - trade
+  - entity_user
+
+seed:
+  reset_before_seed: false      # if true, truncate all testbed tables first
+  idempotent: true              # use ON DUPLICATE KEY UPDATE for inserts
+  company_count: 3              # companies to create
+  entities_per_company: 2       # entities per company
+  users_per_scenario: 2         # maker + checker / officer + viewer
+
+security:
+  password_hasher: sha256       # sha256 | plain  (plain for legacy Turbine ClearCrypt)
+  default_password: "TestPass1!"
+
+reports:
+  output_dir: "testbed-reports"

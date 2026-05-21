@@ -101,3 +101,29 @@ will help to detect any file missed merging or any wrong merges.
    Optional: line-level diff for high-risk paths. Maintain cr-manifest.yaml (PR ids + baseline_ref +
    expected_ref integration branch OR union of PR branches). Automate: cr_slice_validation run-all.
    See CR_SLICE_REVIEW_AUTOMATION_DESIGN.md section 4.2-4.3.
+
+
+Context is to Automate Code review of a Pull Request raised by Development resource,
+for best practice coding , Null Pointer Handling , critical Java Exception handling exact
+by integrating with Sonar CLI , PMD and other better freeware scanning tools.
+
+1. Given a PRID , connect to Bitbucket Server to get files committed with that PR.
+2. Connect to jenkin build tool to check the build completed or not.
+3. connect to Artifactory to download the binary to extract all libraries to support the 
+source code to compile successfully.
+4. Prepare ANT project , as well as Maven project to integrate with PMD , Sonar Lint CLI.
+
+ review the promopt and prepare oimplementation plan using python
+
+
+ Explain About teh concept of Testbed using claude in the context of a corporate web application 
+ that had features of payments , collections and Trade to support  Group , Entities
+
+ Build a working Testbed artifact for Company , Entity , User , Group , role and permission
+
+-> Testbed: one-command seed + validate for GEB/GTP domain (Company, Entity, User, Group, Role, Permission).
+   Scenarios: admin | payments | collections | trade | entity_user.
+   Claude role: scenario design-time authoring; Python executes deterministically (no AI at runtime).
+   Tool: C:\Python-Cursor\testbed\  (testbed run-all --config config/settings.yaml)
+   Design: repo-consolidated/docs/review/TESTBED_DESIGN.md
+   Synced: repo-consolidated/Python/python-cursor/modules/python/testbed/
