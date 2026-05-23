@@ -127,3 +127,6 @@ source code to compile successfully.
    Tool: C:\Python-Cursor\testbed\  (testbed run-all --config config/settings.yaml)
    Design: repo-consolidated/docs/review/TESTBED_DESIGN.md
    Synced: repo-consolidated/Python/python-cursor/modules/python/testbed/
+-> GEB integration testbed plan (IDB JSON + EAI XML/MQ contract validation; Maker / Checker / Single-user flows).
+   Layer 0 (data/RBAC): repo-consolidated/Python/python-cursor/modules/python/testbed/  (implemented)
+   Layer 1-3 (contracts + message validation): repo-consolidated/docs/review/GEB_INTEGRATION_TESTBED_DESIGN.md
