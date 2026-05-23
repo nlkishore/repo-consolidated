@@ -116,6 +116,22 @@ class UserEntity:
 
 
 @dataclass
+class UserAssignment:
+    """Login-to-group/role wiring resolved to USER_ID after user insert."""
+    login_id: str
+    group_id: int
+    role_id: int
+
+
+@dataclass
+class UserEntityLink:
+    """Login-to-entity wiring resolved to USER_ID after user insert."""
+    login_id: str
+    entity_abbv_name: str
+    default_entity: str = "Y"
+
+
+@dataclass
 class CompanyRole:
     """Maps to GTP_COMPANY_ROLE."""
     company_id: int
@@ -145,5 +161,7 @@ class ScenarioData:
     group_roles: list[GroupRole] = field(default_factory=list)
     user_group_roles: list[UserGroupRole] = field(default_factory=list)
     user_entities: list[UserEntity] = field(default_factory=list)
+    user_assignments: list[UserAssignment] = field(default_factory=list)
+    user_entity_links: list[UserEntityLink] = field(default_factory=list)
     company_roles: list[CompanyRole] = field(default_factory=list)
     entity_roles: list[EntityRole] = field(default_factory=list)

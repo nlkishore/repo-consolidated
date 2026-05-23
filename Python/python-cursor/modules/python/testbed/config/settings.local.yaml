@@ -1,0 +1,31 @@
+# Local MySQL 8.1 settings for testbed (no password — dev only).
+# Copy is safe to commit; no secrets.
+
+database:
+  host: localhost
+  port: 3306
+  name: testbed
+  username: testbed
+  password: ""
+  connect_timeout: 10
+
+scenarios:
+  - admin
+  - payments
+  - collections
+  - trade
+  - entity_user
+
+seed:
+  reset_before_seed: false
+  idempotent: true
+  company_count: 3
+  entities_per_company: 2
+  users_per_scenario: 2
+
+security:
+  password_hasher: sha256
+  default_password: "TestPass1!"
+
+reports:
+  output_dir: "testbed-reports"

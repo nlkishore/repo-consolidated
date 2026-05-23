@@ -21,9 +21,44 @@ from testbed.domain.models import (
     Permission,
     Role,
     ScenarioData,
+    UserAssignment,
+    UserEntityLink,
 )
 
 _DEFAULT_COMPANY_ID = 100
+
+
+def _assign(login_id: str, group_id: int, role_id: int) -> UserAssignment:
+    return UserAssignment(login_id=login_id, group_id=group_id, role_id=role_id)
+
+
+def _link_all_entities(users, entities, default_login_id: str | None = None) -> list[UserEntityLink]:
+    """Link each user to every entity in the scenario."""
+    links: list[UserEntityLink] = []
+    for user in users:
+        for idx, entity in enumerate(entities):
+            is_default = default_login_id == user.login_id and idx == 0
+            if default_login_id is None and idx == 0:
+                is_default = True
+            links.append(
+                UserEntityLink(
+                    login_id=user.login_id,
+                    entity_abbv_name=entity.abbv_name,
+                    default_entity="Y" if is_default else "N",
+                )
+            )
+    return links
+
+
+def _assign_personas(users, mapping: dict[str, tuple[int, int]]) -> list[UserAssignment]:
+    """Map persona suffix in login_id (e.g. maker) to (group_id, role_id)."""
+    assignments: list[UserAssignment] = []
+    for user in users:
+        for persona, (group_id, role_id) in mapping.items():
+            if f"-{persona}-" in user.login_id:
+                assignments.append(_assign(user.login_id, group_id, role_id))
+                break
+    return assignments
 
 
 # ---------------------------------------------------------------------------
@@ -81,6 +116,14 @@ def build_admin_scenario(
     rp, gr, cr, er = build_rbac_graph(
         permissions, roles, groups, role_to_perms, group_to_roles, company_id, entity_ids
     )
+    user_assignments = _assign_personas(
+        all_users,
+        {
+            "sysadmin": (1, 1),
+            "superuser": (2, 2),
+            "officer": (3, 3),
+        },
+    )
 
     return ScenarioData(
         scenario_name="admin",
@@ -94,6 +137,8 @@ def build_admin_scenario(
         group_roles=gr,
         company_roles=cr,
         entity_roles=er,
+        user_assignments=user_assignments,
+        user_entity_links=_link_all_entities(all_users, entities),
     )
 
 
@@ -146,6 +191,10 @@ def build_payments_scenario(
     rp, gr, cr, er = build_rbac_graph(
         permissions, roles, groups, role_to_perms, group_to_roles, company_id, entity_ids
     )
+    user_assignments = _assign_personas(
+        users,
+        {"maker": (11, 11), "checker": (12, 12), "viewer": (13, 13)},
+    )
 
     return ScenarioData(
         scenario_name="payments",
@@ -159,6 +208,8 @@ def build_payments_scenario(
         group_roles=gr,
         company_roles=cr,
         entity_roles=er,
+        user_assignments=user_assignments,
+        user_entity_links=_link_all_entities(users, entities),
     )
 
 
@@ -210,6 +261,10 @@ def build_collections_scenario(
     rp, gr, cr, er = build_rbac_graph(
         permissions, roles, groups, role_to_perms, group_to_roles, company_id, entity_ids
     )
+    user_assignments = _assign_personas(
+        users,
+        {"officer": (21, 21), "viewer": (22, 22), "approver": (23, 23)},
+    )
 
     return ScenarioData(
         scenario_name="collections",
@@ -223,6 +278,8 @@ def build_collections_scenario(
         group_roles=gr,
         company_roles=cr,
         entity_roles=er,
+        user_assignments=user_assignments,
+        user_entity_links=_link_all_entities(users, entities),
     )
 
 
@@ -275,6 +332,10 @@ def build_trade_scenario(
     rp, gr, cr, er = build_rbac_graph(
         permissions, roles, groups, role_to_perms, group_to_roles, company_id, entity_ids
     )
+    user_assignments = _assign_personas(
+        users,
+        {"officer": (31, 31), "approver": (32, 32), "viewer": (33, 33)},
+    )
 
     return ScenarioData(
         scenario_name="trade",
@@ -288,6 +349,8 @@ def build_trade_scenario(
         group_roles=gr,
         company_roles=cr,
         entity_roles=er,
+        user_assignments=user_assignments,
+        user_entity_links=_link_all_entities(users, entities),
     )
 
 
@@ -307,9 +370,9 @@ def build_entity_user_scenario(
     entities = [build_entity(1041, company, entity_index=1)]
 
     permissions = [
-        Permission(permission_id=41, permission="VIEW_DASHBOARD"),
-        Permission(permission_id=42, permission="VIEW_ACCOUNT"),
-        Permission(permission_id=43, permission="VIEW_STATEMENT"),
+        Permission(permission_id=41, permission="ENT_VIEW_DASHBOARD"),
+        Permission(permission_id=42, permission="ENT_VIEW_ACCOUNT"),
+        Permission(permission_id=43, permission="ENT_VIEW_STATEMENT"),
     ]
     roles = [
         Role(role_id=41, rolename="ENTITY_USER", roletype="FUNCTIONAL"),
@@ -329,6 +392,7 @@ def build_entity_user_scenario(
     rp, gr, cr, er = build_rbac_graph(
         permissions, roles, groups, role_to_perms, group_to_roles, company_id, entity_ids
     )
+    user_assignments = [_assign(u.login_id, 41, 41) for u in users]
 
     return ScenarioData(
         scenario_name="entity_user",
@@ -342,6 +406,8 @@ def build_entity_user_scenario(
         group_roles=gr,
         company_roles=cr,
         entity_roles=er,
+        user_assignments=user_assignments,
+        user_entity_links=_link_all_entities(users, entities),
     )
 
 

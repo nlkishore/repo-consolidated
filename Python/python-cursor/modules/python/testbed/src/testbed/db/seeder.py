@@ -19,7 +19,9 @@ from testbed.domain.models import (
     RolePermission,
     ScenarioData,
     User,
+    UserAssignment,
     UserEntity,
+    UserEntityLink,
     UserGroupRole,
 )
 
@@ -44,11 +46,58 @@ def seed_scenario(
     counts["users"] = _seed_users(cur, data.users, security)
     counts["role_permissions"] = _seed_role_permissions(cur, data.role_permissions)
     counts["group_roles"] = _seed_group_roles(cur, data.group_roles)
-    counts["user_group_roles"] = _seed_user_group_roles(cur, data.user_group_roles)
-    counts["user_entities"] = _seed_user_entities(cur, data.user_entities)
     counts["company_roles"] = _seed_company_roles(cur, data.company_roles)
     counts["entity_roles"] = _seed_entity_roles(cur, data.entity_roles)
+
+    user_map = resolve_user_ids(cur, data.users)
+    entity_map = resolve_entity_ids(cur, data.entities)
+    user_group_roles = _resolve_user_group_roles(data, user_map)
+    user_entities = _resolve_user_entities(data, user_map, entity_map)
+
+    counts["user_group_roles"] = _seed_user_group_roles(cur, user_group_roles)
+    counts["user_entities"] = _seed_user_entities(cur, user_entities)
     return counts
+
+
+def _resolve_user_group_roles(
+    data: ScenarioData, user_map: dict[str, int]
+) -> list[UserGroupRole]:
+    ugrs: list[UserGroupRole] = []
+    for assignment in data.user_assignments:
+        user_id = user_map.get(assignment.login_id)
+        if user_id is None:
+            continue
+        ugrs.append(
+            UserGroupRole(
+                user_id=user_id,
+                group_id=assignment.group_id,
+                role_id=assignment.role_id,
+            )
+        )
+    return ugrs
+
+
+def _resolve_user_entities(
+    data: ScenarioData,
+    user_map: dict[str, int],
+    entity_map: dict[str, int],
+) -> list[UserEntity]:
+    links: list[UserEntity] = []
+    for link in data.user_entity_links:
+        user_id = user_map.get(link.login_id)
+        entity_id = entity_map.get(link.entity_abbv_name)
+        if user_id is None or entity_id is None:
+            continue
+        links.append(
+            UserEntity(
+                user_id=user_id,
+                entity_id=entity_id,
+                default_entity=link.default_entity,
+                abbv_name=link.entity_abbv_name,
+                user_abbv_name=link.login_id,
+            )
+        )
+    return links
 
 
 def _seed_permissions(cur: MySQLCursor, permissions: list[Permission]) -> int:
