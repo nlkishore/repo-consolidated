@@ -6,44 +6,109 @@ Design: `repo-consolidated/docs/review/TESTBED_DESIGN.md`
 
 ---
 
-## Quick start (Windows + MySQL 8.1)
+## Quick start — CMD (no PowerShell)
 
-**Project paths**
+Open **Command Prompt** (`cmd.exe`):
 
-| Location | Purpose |
-|----------|---------|
-| `C:\Python-Cursor\testbed` | Primary working copy |
-| `repo-consolidated/Python/python-cursor/modules/python/testbed` | Synced repo copy |
+```cmd
+cd C:\MyGeneratedProjects\GitRepoPlan\repo-consolidated\Python\python-cursor\modules\python\testbed
 
-**One-time MySQL setup** (creates `testbed` schema, no-password user, GTP tables):
-
-```powershell
-cd C:\Python-Cursor\testbed
 pip install -e ".[dev]"
-.\scripts\setup-mysql.ps1
+
+set MYSQL_ADMIN_USER=kishore
+set MYSQL_ADMIN_PASSWORD=your_admin_password
+scripts\setup-mysql.bat
+
+scripts\run-testbed.bat
 ```
 
-**Every run** (seed + validate + report):
+**Plain CMD commands (copy/paste, no scripts):**
 
-```powershell
-.\scripts\run-testbed.ps1
+```cmd
+cd C:\MyGeneratedProjects\GitRepoPlan\repo-consolidated\Python\python-cursor\modules\python\testbed
+
+set DB_HOST=localhost
+set DB_NAME=testbed
+set DB_USER=testbed
+set DB_PASSWORD=
+set PATH=C:\Program Files\MySQL\MySQL Server 8.1\bin;%PATH%
+
+net start MySQL81
+
+pip install -e ".[dev]"
+
+python -m testbed run-all --config config\settings.local.yaml
 ```
 
-Or manually:
+---
 
-```powershell
-. .\scripts\env-testbed.ps1          # sets DB_HOST, DB_NAME, DB_USER, PATH
+## Quick start — Git Bash
+
+```bash
+cd /c/MyGeneratedProjects/GitRepoPlan/repo-consolidated/Python/python-cursor/modules/python/testbed
+
+pip install -e ".[dev]"
+
+export MYSQL_ADMIN_USER=kishore
+export MYSQL_ADMIN_PASSWORD=your_admin_password
+bash scripts/setup-mysql.sh
+
+bash scripts/run-testbed.sh
+```
+
+**Plain Git Bash commands (no scripts):**
+
+```bash
+cd /c/MyGeneratedProjects/GitRepoPlan/repo-consolidated/Python/python-cursor/modules/python/testbed
+
+export DB_HOST=localhost DB_NAME=testbed DB_USER=testbed DB_PASSWORD=
+export PATH="/c/Program Files/MySQL/MySQL Server 8.1/bin:$PATH"
+
+pip install -e ".[dev]"
+
 python -m testbed run-all --config config/settings.local.yaml
 ```
 
-**MySQL Workbench**
+---
 
-```powershell
-. .\scripts\env-testbed.ps1
-Start-MySqlWorkbench
+## Scripts reference
+
+| CMD (`.bat`) | Git Bash (`.sh`) | Purpose |
+|--------------|------------------|---------|
+| `scripts\env-testbed.bat` | `source scripts/env-testbed.sh` | Set `DB_*` env vars + MySQL PATH |
+| `scripts\setup-mysql.bat` | `bash scripts/setup-mysql.sh` | Create DB, user, tables |
+| `scripts\run-testbed.bat` | `bash scripts/run-testbed.sh` | Full run-all |
+| `scripts\start-workbench.bat` | — | Open MySQL Workbench |
+
+PowerShell scripts (`.ps1`) are also available if your environment allows them.
+
+---
+
+## CMD examples
+
+```cmd
+call scripts\env-testbed.bat
+
+scripts\run-testbed.bat validate
+
+scripts\run-testbed.bat seed payments
+
+scripts\run-testbed.bat report
+
+scripts\start-workbench.bat
 ```
 
-Connect to: `localhost:3306`, user `testbed`, password *(empty)*, schema `testbed`.
+---
+
+## Git Bash examples
+
+```bash
+source scripts/env-testbed.sh
+
+bash scripts/run-testbed.sh validate
+
+bash scripts/run-testbed.sh seed payments
+```
 
 ---
 
@@ -52,67 +117,57 @@ Connect to: `localhost:3306`, user `testbed`, password *(empty)*, schema `testbe
 | Setting | Value |
 |---------|-------|
 | MySQL home | `C:\Program Files\MySQL\MySQL Server 8.1` |
-| Service | `MySQL81` (auto-start) |
+| Service | `MySQL81` |
 | Schema | `testbed` |
 | User | `testbed@localhost` |
 | Password | *(empty — local dev only)* |
 | Config file | `config/settings.local.yaml` |
 
-Scripts:
-
-| Script | Purpose |
-|--------|---------|
-| `scripts/env-testbed.ps1` | Load env vars + MySQL PATH for current session |
-| `scripts/setup-mysql.ps1` | Create DB, user, tables (repeat-safe) |
-| `scripts/run-testbed.ps1` | Full `run-all` with env loaded |
-| `sql/00-create-testbed-db-user.sql` | Schema + no-password user |
-| `sql/01-create-testbed-schema.sql` | GTP tables (GEB column names) |
+**MySQL Workbench:** `localhost:3306`, user `testbed`, password *(empty)*, schema `testbed`.
 
 ---
 
-## Commands
+## Python CLI commands
 
 | Command | Description |
 |---------|-------------|
-| `python -m testbed run-all --config config/settings.local.yaml` | Reset + seed all + validate + report |
-| `python -m testbed seed --all --config config/settings.local.yaml` | Seed all scenarios (idempotent) |
-| `python -m testbed seed --scenario payments` | Seed one scenario |
-| `python -m testbed validate` | Post-seed FK integrity + count assertions |
-| `python -m testbed reset --yes` | Truncate all testbed tables |
-| `python -m testbed report --format html` | Generate HTML/JSON summary |
+| `python -m testbed run-all --config config\settings.local.yaml` | Reset + seed all + validate + report |
+| `python -m testbed seed --all --config config\settings.local.yaml` | Seed all scenarios |
+| `python -m testbed seed --scenario payments --config config\settings.local.yaml` | One scenario |
+| `python -m testbed validate --config config\settings.local.yaml` | Integrity checks |
+| `python -m testbed reset --yes --config config\settings.local.yaml` | Truncate tables |
+| `python -m testbed report --format html --config config\settings.local.yaml` | HTML report |
 
 ---
 
 ## Scenarios and sample logins
 
-Default password for all personas: **`TestPass1!`** (SHA-256 hashed in DB)
+Default password for all personas: **`TestPass1!`**
 
-| Scenario | Example login IDs | Roles | Feature |
-|----------|-------------------|-------|---------|
-| `admin` | `admin-sysadmin-c100`, `audit-officer-c100` | ADMIN, SUPER_USER, AUDITOR | All |
-| `payments` | `pay-maker-c101`, `pay-checker-c101` | PAY_MAKER, PAY_CHECKER | Payments |
-| `collections` | `coll-officer-c102`, `coll-approver-c102` | COLL_OFFICER, COLL_APPROVER | Collections |
-| `trade` | `trade-officer-c103`, `trade-approver-c103` | TRADE_OFFICER, TRADE_APPROVER | Trade |
-| `entity_user` | `ent-user-c104` | ENTITY_USER | Read-only |
+| Scenario | Example login IDs | Roles |
+|----------|-------------------|-------|
+| `admin` | `admin-sysadmin-c100` | ADMIN |
+| `payments` | `pay-maker-c101` | PAY_MAKER |
+| `collections` | `coll-officer-c102` | COLL_OFFICER |
+| `trade` | `trade-officer-c103` | TRADE_OFFICER |
+| `entity_user` | `ent-user-c104` | ENTITY_USER |
 
 ---
 
-## Tests (no DB required)
+## Tests (no DB)
 
-```powershell
-python -m pytest tests/ -v
+```cmd
+python -m pytest tests\ -v
 ```
 
 ---
 
 ## Report
 
-After `run-all`: `testbed-reports/testbed-summary.html` — persona table, validation results, row counts.
+After `run-all`: `testbed-reports\testbed-summary.html`
 
 ---
 
 ## Other environments
 
-For non-local databases, copy `config/settings.example.yaml` to `config/settings.yaml` and set `DB_*` environment variables. Do not commit `settings.yaml`.
-
-For Turbine portal-mm schema (`PERMISSION_NAME`, `LOGIN_NAME`), use the dedicated `testbed` schema instead — the testbed seeder targets the full GEB column set.
+Copy `config/settings.example.yaml` to `config/settings.yaml` and set `DB_*` variables. Do not commit `settings.yaml`.
