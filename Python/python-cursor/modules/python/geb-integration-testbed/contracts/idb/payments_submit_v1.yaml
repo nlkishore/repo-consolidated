@@ -1,0 +1,59 @@
+api: payments.submit
+version: "1.0"
+direction: inbound
+format: json
+elements:
+  - id: IDB-PAY-001
+    path: "$.payment.header.messageId"
+    name: messageId
+    type: string
+    required: true
+    maxLength: 36
+    description: Unique message id from IDB
+  - id: IDB-PAY-002
+    path: "$.payment.header.companyId"
+    name: companyId
+    type: integer
+    required: true
+    description: Corporate company identifier
+  - id: IDB-PAY-003
+    path: "$.payment.header.entityId"
+    name: entityId
+    type: integer
+    required: true
+    description: Entity under company
+  - id: IDB-PAY-004
+    path: "$.payment.amount.value"
+    name: amount
+    type: decimal
+    required: true
+    pattern: "^\\d+(\\.\\d{1,2})?$"
+    description: Payment amount
+  - id: IDB-PAY-005
+    path: "$.payment.amount.currency"
+    name: currency
+    type: string
+    required: true
+    maxLength: 3
+    description: ISO currency code
+  - id: IDB-PAY-006
+    path: "$.payment.beneficiary.accountNumber"
+    name: beneficiaryAccount
+    type: string
+    required: true
+    maxLength: 34
+    description: Beneficiary account
+  - id: IDB-PAY-007
+    path: "$.payment.beneficiary.name"
+    name: beneficiaryName
+    type: string
+    required: true
+    maxLength: 140
+    description: Beneficiary name
+  - id: IDB-PAY-008
+    path: "$.payment.purposeCode"
+    name: purposeCode
+    type: string
+    required: false
+    maxLength: 4
+    description: Purpose of payment

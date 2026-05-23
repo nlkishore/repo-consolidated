@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaymentInitiation>
+  <GrpHdr>
+    <MsgId>MSG-PAY-20260523-0001</MsgId>
+    <CreDtTm>2026-05-23T10:15:00</CreDtTm>
+  </GrpHdr>
+  <CdtTrfTxInf>
+    <PmtId>
+      <EndToEndId>REF-PAY-20260523-0001</EndToEndId>
+    </PmtId>
+    <Amt>
+      <InstdAmt>1500.50</InstdAmt>
+      <Ccy>SGD</Ccy>
+    </Amt>
+    <CdtrAcct>
+      <Id>1234567890</Id>
+    </CdtrAcct>
+    <Cdtr>
+      <Nm>ACME SUPPLIES PTE LTD</Nm>
+    </Cdtr>
+  </CdtTrfTxInf>
+</PaymentInitiation>

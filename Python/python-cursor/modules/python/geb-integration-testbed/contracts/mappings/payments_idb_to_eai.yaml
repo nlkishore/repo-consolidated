@@ -1,0 +1,22 @@
+# Traceability: IDB JSON elements -> EAI XML elements
+feature: payments
+version: "1.0"
+mappings:
+  - idb: IDB-PAY-001
+    eai: EAI-PAY-001
+    note: messageId -> MsgId
+  - idb: IDB-PAY-004
+    eai: EAI-PAY-002
+    note: amount -> InstdAmt
+  - idb: IDB-PAY-005
+    eai: EAI-PAY-003
+    note: currency -> Ccy
+  - idb: IDB-PAY-006
+    eai: EAI-PAY-004
+    note: beneficiary account
+  - idb: IDB-PAY-007
+    eai: EAI-PAY-005
+    note: beneficiary name
+  - idb: IDB-APR-001
+    eai: EAI-PAY-006
+    note: referenceNumber -> EndToEndId

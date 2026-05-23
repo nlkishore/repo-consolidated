@@ -1,0 +1,22 @@
+message: PaymentsResponse
+version: "1.0"
+direction: inbound
+format: xml
+root: "/PaymentResponse"
+elements:
+  - id: EAI-RES-001
+    xpath: "/PaymentResponse/GrpHdr/MsgId"
+    name: MsgId
+    required: true
+  - id: EAI-RES-002
+    xpath: "/PaymentResponse/TxInf/Sts"
+    name: Status
+    required: true
+  - id: EAI-RES-003
+    xpath: "/PaymentResponse/TxInf/StsRsn/AddtlInf"
+    name: StatusReason
+    required: false
+  - id: EAI-RES-004
+    xpath: "/PaymentResponse/TxInf/OrgnlEndToEndId"
+    name: OriginalEndToEndId
+    required: true

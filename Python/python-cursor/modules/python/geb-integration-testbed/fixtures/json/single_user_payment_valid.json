@@ -1,0 +1,22 @@
+{
+  "payment": {
+    "header": {
+      "messageId": "MSG-SINGLE-20260523-0001",
+      "companyId": 101,
+      "entityId": 1011,
+      "channel": "IDB",
+      "submittedBy": "pay-maker-c101"
+    },
+    "amount": {
+      "value": "2500.00",
+      "currency": "SGD"
+    },
+    "beneficiary": {
+      "accountNumber": "9988776655",
+      "name": "GLOBAL TRADE PARTNER LTD",
+      "bankCode": "7171"
+    },
+    "purposeCode": "TRAD",
+    "straightThrough": true
+  }
+}

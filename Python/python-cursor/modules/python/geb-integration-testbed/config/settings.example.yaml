@@ -1,0 +1,9 @@
+paths:
+  contracts_dir: contracts
+  fixtures_dir: fixtures
+  reports_dir: geb-testbed-reports
+
+scenarios:
+  - maker_payments
+  - checker_payments
+  - single_user_payments

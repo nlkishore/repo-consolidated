@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaymentResponse>
+  <GrpHdr>
+    <MsgId>MSG-RESP-20260523-0001</MsgId>
+  </GrpHdr>
+  <TxInf>
+    <OrgnlEndToEndId>REF-PAY-20260523-0001</OrgnlEndToEndId>
+    <Sts>ACCP</Sts>
+    <StsRsn>
+      <AddtlInf>Accepted by EAI</AddtlInf>
+    </StsRsn>
+  </TxInf>
+</PaymentResponse>

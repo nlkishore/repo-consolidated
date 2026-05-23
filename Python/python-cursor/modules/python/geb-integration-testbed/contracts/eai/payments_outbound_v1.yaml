@@ -1,0 +1,36 @@
+message: PaymentsInitiation
+version: "1.0"
+direction: outbound
+format: xml
+root: "/PaymentInitiation"
+elements:
+  - id: EAI-PAY-001
+    xpath: "/PaymentInitiation/GrpHdr/MsgId"
+    name: MsgId
+    required: true
+    mapsFrom: IDB-PAY-001
+  - id: EAI-PAY-002
+    xpath: "/PaymentInitiation/CdtTrfTxInf/Amt/InstdAmt"
+    name: InstdAmt
+    required: true
+    mapsFrom: IDB-PAY-004
+  - id: EAI-PAY-003
+    xpath: "/PaymentInitiation/CdtTrfTxInf/Amt/Ccy"
+    name: Ccy
+    required: true
+    mapsFrom: IDB-PAY-005
+  - id: EAI-PAY-004
+    xpath: "/PaymentInitiation/CdtTrfTxInf/CdtrAcct/Id"
+    name: CdtrAcctId
+    required: true
+    mapsFrom: IDB-PAY-006
+  - id: EAI-PAY-005
+    xpath: "/PaymentInitiation/CdtTrfTxInf/Cdtr/Nm"
+    name: CdtrNm
+    required: true
+    mapsFrom: IDB-PAY-007
+  - id: EAI-PAY-006
+    xpath: "/PaymentInitiation/CdtTrfTxInf/PmtId/EndToEndId"
+    name: EndToEndId
+    required: true
+    mapsFrom: IDB-APR-001

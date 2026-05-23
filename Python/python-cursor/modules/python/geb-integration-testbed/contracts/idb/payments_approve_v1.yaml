@@ -1,0 +1,25 @@
+api: payments.approve
+version: "1.0"
+direction: inbound
+format: json
+elements:
+  - id: IDB-APR-001
+    path: "$.approval.referenceNumber"
+    name: referenceNumber
+    type: string
+    required: true
+    maxLength: 24
+    description: Transaction reference from Maker submit
+  - id: IDB-APR-002
+    path: "$.approval.action"
+    name: action
+    type: string
+    required: true
+    description: APPROVE or REJECT
+  - id: IDB-APR-003
+    path: "$.approval.checkerId"
+    name: checkerId
+    type: string
+    required: true
+    maxLength: 64
+    description: Checker login id

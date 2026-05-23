@@ -1,0 +1,8 @@
+{
+  "approval": {
+    "referenceNumber": "REF-PAY-20260523-0001",
+    "action": "APPROVE",
+    "checkerId": "pay-checker-c101",
+    "comments": "Approved for processing"
+  }
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>GEB Contract Matrix</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 1.5rem; }
+    h1 { color: #1a365d; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 2rem; font-size: 0.9rem; }
+    th, td { border: 1px solid #cbd5e0; padding: 0.4rem 0.6rem; text-align: left; }
+    th { background: #edf2f7; }
+    .PASS { color: #276749; font-weight: 600; }
+    .FAIL { color: #c53030; font-weight: 600; }
+    .WARN { color: #b7791f; }
+    .meta { color: #4a5568; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>GEB Integration Testbed — Contract Matrix</h1>
+  <p class="meta">Generated: {{ generated_at }} | Overall: {% if overall_ok %}<span class="PASS">PASS</span>{% else %}<span class="FAIL">FAIL</span>{% endif %}</p>
+
+  {% for s in scenarios %}
+  <h2>{{ s.name }} ({{ s.persona }}) — {% if s.ok %}<span class="PASS">PASS</span>{% else %}<span class="FAIL">FAIL</span>{% endif %}</h2>
+  <p>{{ s.description }}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Direction</th>
+        <th>Contract ID</th>
+        <th>Element</th>
+        <th>Required</th>
+        <th>Present</th>
+        <th>Status</th>
+        <th>Evidence</th>
+        <th>Errors</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in s.matrix %}
+      <tr>
+        <td>{{ row.direction }}</td>
+        <td>{{ row.contract_id }}</td>
+        <td>{{ row.element }}</td>
+        <td>{{ 'Y' if row.required else 'N' }}</td>
+        <td>{{ 'Y' if row.present else 'N' }}</td>
+        <td class="{{ row.status }}">{{ row.status }}</td>
+        <td><code>{{ row.evidence }}</code></td>
+        <td>{{ row.errors | join('; ') }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endfor %}
+</body>
+</html>

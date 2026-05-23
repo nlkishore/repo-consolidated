@@ -1,0 +1,18 @@
+{
+  "payment": {
+    "header": {
+      "companyId": 101,
+      "entityId": 1011,
+      "channel": "IDB",
+      "submittedBy": "pay-maker-c101"
+    },
+    "amount": {
+      "value": "1500.50",
+      "currency": "SGD"
+    },
+    "beneficiary": {
+      "accountNumber": "1234567890",
+      "name": "ACME SUPPLIES PTE LTD"
+    }
+  }
+}
