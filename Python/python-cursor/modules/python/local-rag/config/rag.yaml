@@ -1,0 +1,17 @@
+ollama:
+  base_url: http://localhost:11434
+  # Tuned for 16 GB RAM, CPU-only, ~5–6 GB free (Lenovo 21AK004BSG, no discrete GPU).
+  # Pull: ollama pull nomic-embed-text && ollama pull qwen2.5:3b
+  # Fallback (lower RAM): phi3:mini  Upgrade (8+ GB free): llama3.1:8b
+  embed_model: nomic-embed-text
+  chat_model: qwen2.5:3b
+
+chunking:
+  chunk_size: 800
+  chunk_overlap: 100
+
+retrieval:
+  top_k: 5
+
+excel:
+  max_rows_per_chunk: 80

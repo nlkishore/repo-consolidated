@@ -1,0 +1,29 @@
+# Initial index roots (Phase 1)
+# Requested: C:\Investments — that path does not exist; using C:\Investment instead.
+include_roots:
+  - C:\Investment
+  - C:\MyGeneratedProjects\GitRepoPlan\repo-consolidated\docs
+
+exclude_globs:
+  - "**/node_modules/**"
+  - "**/.git/**"
+  - "**/__pycache__/**"
+  - "**/.venv/**"
+  - "**/venv/**"
+  - "**/~$*"
+  - "**/*.tmp"
+  - "**/AppData/**"
+
+extensions:
+  - .pdf
+  - .docx
+  - .txt
+  - .md
+  - .xlsx
+  - .xls
+  - .csv
+  - .html
+  - .htm
+  - .rtf
+
+max_file_mb: 50
