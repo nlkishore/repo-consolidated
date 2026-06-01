@@ -135,3 +135,16 @@ source code to compile successfully.
    Tool: repo-consolidated/Python/python-cursor/modules/python/geb-integration-testbed/
    Run: scripts\run-geb-testbed.bat  or  python -m geb_testbed run-all
    Design: repo-consolidated/docs/review/GEB_INTEGRATION_TESTBED_DESIGN.md
+
+In my current application which is running in SIT , looking to collect logs and analyze using splunk Queries
+To come up with various splunk queires and criteria , had a challenge that SIT does n't have splunk
+and logs are captured in file system na deven generated logs file does n't have previlege to access directly to use 
+all unix commands , 
+
+SIT has only sudo access to userID ,we have below is the proposal to get all logs where Service/API request response 
+downloaded to Local Windows machine and using git bash , use unix commands and patterns to get 
+results in various formats or for fields to analyze .
+
+Come up with plan and create planning document for review and suggets ant better options available.
+-> SIT log collection & Splunk-query development (no Splunk in SIT; sudo-limited access; local Windows/Git Bash analysis).
+   Design: repo-consolidated/docs/SIT_LOG_ANALYSIS_PLAN.md
