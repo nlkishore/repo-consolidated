@@ -1,0 +1,5 @@
+index=app sourcetype=api_json OR sourcetype=log4j2
+status>=400
+| stats count by status, service
+| sort - count
+| rename count as error_count

@@ -6,6 +6,12 @@
 **Target:** SIT (System Integration Test) environment → analyst Windows workstation  
 **Traceability:** [Prompts.txt](collected_prompt_usecases/Prompts.txt) (lines 139–148)
 
+**Implementation (toolkit):**
+
+- Tool: `repo-consolidated/sit-log-analysis/` — fetch, normalize, Git Bash queries, SPL sidecars
+- Design: [review/SIT_LOG_ANALYSIS_IMPLEMENTATION.md](review/SIT_LOG_ANALYSIS_IMPLEMENTATION.md)
+- Run: `bash scripts/sit-log-analysis.sh pipeline --from-fixtures` (demo) or configure `config/sit.env` for SIT `scp`
+
 ---
 
 ## 1. Problem statement (reviewed)
@@ -15,7 +21,7 @@
 | **Goal** | Collect application logs from SIT and analyze them (latency, errors, correlation IDs, API payloads, business fields) using search patterns comparable to **Splunk SPL**. |
 | **Gap** | **SIT does not have Splunk** (or equivalent centralized log platform). Logs exist on **application server filesystems** only. |
 | **Access** | Interactive user cannot run arbitrary Unix tools on log files directly; **sudo** is available only for a **specific service user ID** (not the analyst’s daily account). |
-| **Proposal (baseline)** | Copy/download logs to a **local Windows** machine; use **Git Bash** (grep, awk, sed, jq) and saved scripts to emulate Splunk-style filters and field extraction. |
+| **Proposal (baseline)** | Copy/download logs to a **local Windows** machine; use **Git Bash** + **Python 3** (stdlib) and saved scripts to emulate Splunk-style filters and field extraction. |
 
 ### Refined success criteria
 
@@ -111,19 +117,19 @@ Before mimicking Splunk, **normalize** logs to **JSON Lines** (one JSON object p
 
 | Source format | Normalization |
 |---------------|---------------|
-| JSON per line | Pass-through; validate with `jq` |
+| JSON per line | Pass-through; validate with Python `json` |
 | Log4j2 pattern | Use `grok` patterns (see §6) → JSONL |
 | Multi-line stack traces | Stitch with `traceId` or timestamp window rules |
 | XML request/response | Extract with `xmlstarlet` or Python `lxml` → JSONL |
 
-Benefits: same **field names** as Splunk `field=value` searches; easier port of SPL to `jq` or small Python.
+Benefits: same **field names** as Splunk `field=value` searches; easier port of SPL to Python query runners.
 
 ### Phase 3 — Splunk query development loop
 
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────────────┐
 │  SIT export │────▶│  Normalize JSONL  │────▶│  Local query runner  │
-│  (tar/zip)  │     │  (grok / jq)      │     │  Git Bash / Python   │
+│  (tar/zip)  │     │  (grok / Python)  │     │  Git Bash + Python   │
 └─────────────┘     └──────────────────┘     └──────────┬──────────┘
                                                         │
                         ┌───────────────────────────────┼───────────────────────────────┐
@@ -152,7 +158,7 @@ For each intended Splunk search, maintain a **sidecar file**:
 | Option | Description | Pros | Cons | Verdict |
 |--------|-------------|------|------|---------|
 | **A. Manual sudo + copy** | Analyst SSH, sudo read, copy files | Fastest first time | Not repeatable; audit gaps; error-prone | **Pilot only** |
-| **B. Approved collector script + Windows Git Bash** (this plan) | Scripted export; local grep/jq/awk | Repeatable; works without Splunk; maps to SPL | Needs ops to install script; Windows tooling limits | **Recommended baseline** |
+| **B. Approved collector script + Windows Git Bash + Python** (this plan) | Scripted export; local Python/awk queries | Repeatable; works without Splunk; maps to SPL | Needs ops to install script; Windows tooling limits | **Recommended baseline** |
 | **C. Splunk Universal Forwarder on SIT** | Agent ships logs to corporate Splunk | Best parity with PROD; full SPL in SIT | Infra approval, licensing, firewall | **Best long-term** if policy allows |
 | **D. OpenSearch / ELK stack in SIT** | Stand up light stack in SIT K8s/VM | Rich UI, KQL/Lucene | Heavy ops cost; duplicate of Splunk | Only if enterprise standard is ELK not Splunk |
 | **E. Central log share + read-only mount** | NFS/SMB mount of rolled logs | No per-pull copy | Still need search stack or download | Good **companion** to B or C |
@@ -194,12 +200,12 @@ For each intended Splunk search, maintain a **sidecar file**:
 | `index=` / `source=` | Directory + filename glob | Document in manifest |
 | `sourcetype` | File pattern → grok profile | One profile per log type |
 | `search foo bar` | `grep -E` / `rg` | Prefer `rg` for speed on Windows |
-| `field extraction` | `grok` (Logstash) or `jq` for JSON | Store grok in repo |
-| `stats count by status` | `awk` aggregation or `jq -s 'group_by(...)'` | Python pandas for complex stats |
+| `field extraction` | `grok` (Logstash) or Python `json` for JSON | Store grok in repo |
+| `stats count by status` | Python `Counter` / `csv` or `awk` | Implemented in `sit_log_tool` |
 | `transaction` / `join` | `sort` + `awk` on correlation id | Python clearer for multi-key |
 | `timechart` | Python matplotlib or export CSV → Excel | |
 | `rex` | `grep -oP` (PCRE) | Git Bash supports `-P` |
-| `eval` | `awk` expressions or `jq` | |
+| `eval` | `awk` expressions or Python | |
 | `lookup` | `join` with CSV reference tables | Keep lookups in `data/` |
 | Saved search | `queries/*.sh` + config YAML | Version-controlled |
 
@@ -213,12 +219,12 @@ index=app sourcetype=api_json status>=400
 | sort - count
 ```
 
-**Local (JSONL + jq):**
+**Local (JSONL + Python):**
 
 ```bash
-jq -r 'select(.status >= 400) | [.status, .service] | @tsv' \
-  normalized/api.jsonl \
-  | sort | uniq -c | sort -rn
+python -m sit_log_tool run-query api-errors-by-status \
+  --events normalized/events.jsonl \
+  --out-dir out/api-errors-by-status
 ```
 
 Maintain both in sidecar files so reviewers can diff intent.
@@ -246,7 +252,7 @@ Maintain both in sidecar files so reviewers can diff intent.
 | Approved `collect-api-logs.sh` (or equivalent) | Platform | ☐ |
 | Sudo / export runbook (1 page) | Ops | ☐ |
 | Windows folder layout + `fetch-sit-logs.sh` | Analyst/dev | ☐ |
-| Grok / jq normalization profiles | Dev | ☐ |
+| Grok / Python normalization profiles | Dev | ☐ |
 | Query catalog: `.spl` + `.local.sh` pairs | Dev/QA | ☐ |
 | Sample redacted fixture for query tests | QA | ☐ |
 | ADR: forwarder vs local-only long term | Architect | ☐ |

@@ -1,0 +1,5 @@
+config/sit.env
+data/
+*.log
+*.tar.gz
+!fixtures/**

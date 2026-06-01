@@ -1,0 +1,4 @@
+index=app (sourcetype=api_json OR sourcetype=log4j2)
+latencyMs>=1000
+| table _time traceId service endpoint status latencyMs
+| sort - latencyMs

@@ -1,0 +1,4 @@
+index=app status>=400
+| eval hour=strftime(_time, "%Y-%m-%d %H:00")
+| stats count as error_count by hour
+| sort hour

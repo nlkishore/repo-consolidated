@@ -1,0 +1,3 @@
+index=app traceId="$trace_id$"
+| sort _time
+| table _time level service endpoint status latencyMs message

@@ -1,0 +1,3 @@
+2026-05-30 10:15:30,123 INFO [traceId=trace-001] com.example.Api - status=200 service=payments-api latencyMs=45 endpoint=/api/v1/payments
+2026-05-30 10:18:00,100 ERROR [traceId=trace-004] com.example.Api - status=500 service=payments-api latencyMs=2500 endpoint=/api/v1/payments/settle downstream timeout
+2026-05-30 10:20:30,300 ERROR [traceId=trace-006] com.example.Api - status=503 service=collections-api latencyMs=1100 endpoint=/api/v1/collections/retry circuit open

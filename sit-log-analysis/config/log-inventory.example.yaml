@@ -1,0 +1,19 @@
+# Document SIT log locations (for ops / collector script). Not used at runtime in v1.
+
+hosts:
+  - name: sit-app-01
+    logs:
+      - path: /var/log/app/application.log
+        format: log4j2
+        pattern: '%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [traceId=%X{traceId}] %c - %m'
+      - path: /var/log/app/api-access.json
+        format: jsonl
+
+services:
+  payments-api:
+    markers:
+      - 'service=payments-api'
+      - 'payments-api'
+  collections-api:
+    markers:
+      - 'service=collections-api'

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Delegates to Python (see python/sit_log_tool/queries.py). Invoked via run-query.sh.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../scripts/lib/common.sh
+source "${SCRIPT_DIR}/../scripts/lib/common.sh"
+: "${EVENTS:?}" "${OUT_DIR:?}"
+run_sit_log_python run-query api-errors-by-status --events "${EVENTS}" --out-dir "${OUT_DIR}"

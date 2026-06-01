@@ -148,3 +148,5 @@ results in various formats or for fields to analyze .
 Come up with plan and create planning document for review and suggets ant better options available.
 -> SIT log collection & Splunk-query development (no Splunk in SIT; sudo-limited access; local Windows/Git Bash analysis).
    Design: repo-consolidated/docs/SIT_LOG_ANALYSIS_PLAN.md
+   Tool: repo-consolidated/sit-log-analysis/  (bash scripts/sit-log-analysis.sh pipeline --from-fixtures)
+   Impl: repo-consolidated/docs/review/SIT_LOG_ANALYSIS_IMPLEMENTATION.md

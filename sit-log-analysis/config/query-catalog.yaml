@@ -1,0 +1,25 @@
+queries:
+  - id: api-errors-by-status
+    description: Count HTTP status >= 400 by status and service
+    local_runner: queries/api-errors-by-status.local.sh
+    spl_file: queries/api-errors-by-status.spl
+
+  - id: slow-requests
+    description: Requests with latencyMs above threshold (default 1000)
+    local_runner: queries/slow-requests.local.sh
+    spl_file: queries/slow-requests.spl
+
+  - id: requests-by-trace-id
+    description: All events for a traceId (env TRACE_ID required)
+    local_runner: queries/requests-by-trace-id.local.sh
+    spl_file: queries/requests-by-trace-id.spl
+
+  - id: error-timeline
+    description: Error count bucketed by hour
+    local_runner: queries/error-timeline.local.sh
+    spl_file: queries/error-timeline.spl
+
+  - id: top-endpoints-by-volume
+    description: Top API endpoints by request count
+    local_runner: queries/top-endpoints-by-volume.local.sh
+    spl_file: queries/top-endpoints-by-volume.spl

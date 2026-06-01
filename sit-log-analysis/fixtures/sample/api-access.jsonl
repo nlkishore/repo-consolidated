@@ -1,0 +1,7 @@
+{"@timestamp":"2026-05-30T10:15:30.123Z","level":"INFO","traceId":"trace-001","status":200,"service":"payments-api","latencyMs":45,"endpoint":"/api/v1/payments","sourcetype":"api_json"}
+{"@timestamp":"2026-05-30T10:16:01.456Z","level":"INFO","traceId":"trace-002","status":201,"service":"payments-api","latencyMs":120,"endpoint":"/api/v1/payments","sourcetype":"api_json"}
+{"@timestamp":"2026-05-30T10:17:22.789Z","level":"WARN","traceId":"trace-003","status":404,"service":"payments-api","latencyMs":30,"endpoint":"/api/v1/payments/unknown","sourcetype":"api_json"}
+{"@timestamp":"2026-05-30T10:18:00.100Z","level":"ERROR","traceId":"trace-004","status":500,"service":"payments-api","latencyMs":2500,"endpoint":"/api/v1/payments/settle","sourcetype":"api_json"}
+{"@timestamp":"2026-05-30T10:19:15.200Z","level":"INFO","traceId":"trace-005","status":200,"service":"collections-api","latencyMs":80,"endpoint":"/api/v1/collections","sourcetype":"api_json"}
+{"@timestamp":"2026-05-30T10:20:30.300Z","level":"ERROR","traceId":"trace-006","status":503,"service":"collections-api","latencyMs":1100,"endpoint":"/api/v1/collections/retry","sourcetype":"api_json"}
+{"@timestamp":"2026-05-30T11:05:00.000Z","level":"ERROR","traceId":"trace-007","status":500,"service":"payments-api","latencyMs":3200,"endpoint":"/api/v1/payments/settle","sourcetype":"api_json"}
