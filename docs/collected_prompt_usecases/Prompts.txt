@@ -150,3 +150,21 @@ Come up with plan and create planning document for review and suggets ant better
    Design: repo-consolidated/docs/SIT_LOG_ANALYSIS_PLAN.md
    Tool: repo-consolidated/sit-log-analysis/  (bash scripts/sit-log-analysis.sh pipeline --from-fixtures)
    Impl: repo-consolidated/docs/review/SIT_LOG_ANALYSIS_IMPLEMENTATION.md
+
+
+Given the context of projects related to Investment, there is a feature that captures List of Stocks completely sold , Sold Price and Current Market price 
+and there is a separate feature Whatsapp Notiification , looking for 
+a new feature to implement using Langchain and Lang graph with decisioning where 
+the sold stock current prices goes less than 5% send Notification. The out of feature of fetching
+completely sold list is fetched beyond 24 hours re-trigger that feature to re-execute to fetch fresh
+data and process for the notification.
+First prepare a plan document and then design the feature . post review
+will go for implementation.
+-> Completely sold price-drop WhatsApp alert (LangGraph; threshold from settings.yaml; single digest; NYSE market days only).
+   Plan: repo-consolidated/docs/COMPLETELY_SOLD_PRICE_ALERT_PLAN.md
+   Design: repo-consolidated/docs/review/COMPLETELY_SOLD_PRICE_ALERT_DESIGN.md
+   Tool: repo-consolidated/CompletelySoldAlert/  (also C:\Investment\CompletelySoldAlert\)
+   Run: python -m completely_sold_alert run  (see CompletelySoldAlert/README.md)
+   Data source: C:\Investment\IBKR-Flex-BuySell\ (Completely_Sold sheet)
+   WhatsApp: C:\Investment\AlertApp\ (Green API pattern)
+
