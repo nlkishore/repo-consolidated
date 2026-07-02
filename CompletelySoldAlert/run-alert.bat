@@ -7,4 +7,8 @@ if not exist ".venv\Scripts\python.exe" (
   exit /b 1
 )
 call .venv\Scripts\activate.bat
-python -m completely_sold_alert %*
+set "SUBCMD=run"
+if /I "%~1"=="status" (set "SUBCMD=status" & shift)
+if /I "%~1"=="refresh-only" (set "SUBCMD=refresh-only" & shift)
+if /I "%~1"=="run" (set "SUBCMD=run" & shift)
+python -m completely_sold_alert %SUBCMD% %*

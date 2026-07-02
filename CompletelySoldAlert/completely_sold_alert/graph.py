@@ -179,11 +179,15 @@ def build_graph(settings: AppSettings):
 
         candidates, skipped = evaluate_rows(rows, settings)
         cooldown_path = settings.data_dir / "alert_cooldown.json"
-        filtered, suppressed = filter_cooldown(
-            candidates,
-            cooldown_path,
-            settings.notify.cooldown_hours,
-        )
+        if settings.alert.notify_all_positions:
+            filtered = candidates
+            suppressed: list[str] = []
+        else:
+            filtered, suppressed = filter_cooldown(
+                candidates,
+                cooldown_path,
+                settings.notify.cooldown_hours,
+            )
 
         logs.append(
             log_event(
@@ -191,6 +195,7 @@ def build_graph(settings: AppSettings):
                 row_count=len(rows),
                 candidate_count=len(filtered),
                 suppressed=len(suppressed),
+                notify_all=settings.alert.notify_all_positions,
                 threshold=settings.alert.price_drop_threshold_pct,
             )
         )
@@ -213,6 +218,7 @@ def build_graph(settings: AppSettings):
             total_completely_sold=state.get("row_count", 0),
             cooldown_suppressed=state.get("cooldown_suppressed") or [],
             skipped_quote_count=len(state.get("skipped_rows") or []),
+            notify_all_positions=settings.alert.notify_all_positions,
             threshold_pct=settings.alert.price_drop_threshold_pct,
         )
         text = build_digest(candidates, settings, meta)
@@ -237,7 +243,7 @@ def build_graph(settings: AppSettings):
                 "errors": errors,
             }
 
-        if not dry:
+        if not dry and not settings.alert.notify_all_positions:
             symbols = [
                 str(r.get("Symbol")).upper()
                 for r in state.get("alert_candidates") or []

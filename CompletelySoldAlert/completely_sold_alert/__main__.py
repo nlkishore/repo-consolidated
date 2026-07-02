@@ -115,7 +115,17 @@ def main(argv: list[str] | None = None) -> int:
     ref_p = sub.add_parser("refresh-only", help="Run flex_buysell_report only")
     ref_p.set_defaults(func=_cmd_refresh_only)
 
-    args = parser.parse_args(argv)
+    known_commands = {"run", "status", "refresh-only"}
+    argv_list = list(argv) if argv is not None else sys.argv[1:]
+    # Default to the "run" command when no subcommand is present. Skip leading
+    # global flags (e.g. -v) when looking for an explicit command so they still work.
+    if not any(tok in known_commands for tok in argv_list):
+        insert_at = 0
+        while insert_at < len(argv_list) and argv_list[insert_at].startswith("-"):
+            insert_at += 1
+        argv_list = argv_list[:insert_at] + ["run"] + argv_list[insert_at:]
+
+    args = parser.parse_args(argv_list)
     setup_logging(args.verbose)
     return args.func(args)
 

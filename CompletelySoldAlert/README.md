@@ -2,13 +2,14 @@
 
 LangGraph-orchestrated monitor for **fully closed positions** from IBKR Flex Buy/Sell. Sends **one WhatsApp digest** when current price drops below a **configurable %** vs last sold price.
 
+**Full future reference:** [readme.txt](readme.txt) — setup, execution, troubleshooting, and related programs under `C:\Investment`.
+
 **Design:** `C:\MyGeneratedProjects\GitRepoPlan\repo-consolidated\docs\review\COMPLETELY_SOLD_PRICE_ALERT_DESIGN.md`
 
 ## Setup
 
 ```cmd
-cd CompletelySoldAlert
-REM Or: cd C:\Investment\CompletelySoldAlert
+cd C:\Investment\CompletelySoldAlert
 python -m venv .venv
 .venv\Scripts\activate.bat
 pip install -r requirements.txt

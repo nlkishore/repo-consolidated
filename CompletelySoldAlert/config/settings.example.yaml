@@ -1,6 +1,9 @@
 # Copy to settings.yaml and customize. Secrets can use env vars (see README).
 
 alert:
+  # true = WhatsApp lists ALL completely sold stocks with current prices (no -5% filter)
+  notify_all_positions: true
+  # used only when notify_all_positions is false
   price_drop_threshold_pct: -5.0
 
 data:
@@ -17,6 +20,7 @@ schedule:
 
 whatsapp:
   provider: green_api
+  # Leave empty to auto-load from C:/Investment/AutomatedTrading/config.ini (AlertApp / chart scripts)
   id_instance: ""
   api_token: ""
   target_phone: ""
