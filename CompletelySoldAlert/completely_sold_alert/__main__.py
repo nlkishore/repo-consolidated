@@ -117,12 +117,18 @@ def main(argv: list[str] | None = None) -> int:
 
     known_commands = {"run", "status", "refresh-only"}
     argv_list = list(argv) if argv is not None else sys.argv[1:]
-    # Default to the "run" command when no subcommand is present. Skip leading
-    # global flags (e.g. -v) when looking for an explicit command so they still work.
+    # Default to "run" when no subcommand is present. Only skip known global flags
+    # (--verbose, --config) so run-specific flags like --dry-run stay after "run".
     if not any(tok in known_commands for tok in argv_list):
         insert_at = 0
-        while insert_at < len(argv_list) and argv_list[insert_at].startswith("-"):
-            insert_at += 1
+        while insert_at < len(argv_list):
+            tok = argv_list[insert_at]
+            if tok in ("-v", "--verbose"):
+                insert_at += 1
+            elif tok == "--config" and insert_at + 1 < len(argv_list):
+                insert_at += 2
+            else:
+                break
         argv_list = argv_list[:insert_at] + ["run"] + argv_list[insert_at:]
 
     args = parser.parse_args(argv_list)
