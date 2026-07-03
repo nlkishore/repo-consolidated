@@ -18,6 +18,7 @@ import os
 import subprocess
 import sys
 import time
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
@@ -28,6 +29,15 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 AUTOMATED_TRADING_INI = SCRIPT_DIR.parent / "AutomatedTrading" / "config.ini"
 SOLD_ALERT_BAT = SCRIPT_DIR.parent / "CompletelySoldAlert" / "run-alert.bat"
 POLL_SECONDS = 2
+
+# External heartbeat (dead-man's switch). The listener periodically pings a URL
+# (e.g. a healthchecks.io check). If the machine dies / loses power / loses
+# internet, the pings stop and the EXTERNAL service alerts your phone — the only
+# reliable way to detect a fully-down machine, since a down machine cannot warn
+# you itself. Configure via LISTENER_HEARTBEAT_URL env var, heartbeat_url.txt in
+# this folder, or [monitoring] heartbeat_url in config.ini. Disabled if unset.
+HEARTBEAT_INTERVAL_SECONDS = 300
+_HEARTBEAT_URL_FILE = SCRIPT_DIR / "heartbeat_url.txt"
 
 # Green API allows only ONE active receiveNotification consumer per instance.
 # Two listeners polling the same instance cause "consumer closed" (502 RMQ_ERROR)
@@ -97,6 +107,38 @@ def _load_whatsapp_config() -> tuple[str, str, str]:
             f"{AUTOMATED_TRADING_INI} [trading] whatsapp_* keys."
         )
     return id_inst, token, phone
+
+
+def _load_heartbeat_url() -> str:
+    """Heartbeat ping URL from env, heartbeat_url.txt, or [monitoring] in ini."""
+    url = os.environ.get("LISTENER_HEARTBEAT_URL", "").strip()
+    if url:
+        return url
+    if _HEARTBEAT_URL_FILE.is_file():
+        url = _HEARTBEAT_URL_FILE.read_text(encoding="utf-8").strip()
+        if url:
+            return url
+    for ini_path in (SCRIPT_DIR / "config.ini", AUTOMATED_TRADING_INI):
+        if not ini_path.is_file():
+            continue
+        parser = configparser.ConfigParser()
+        parser.read(ini_path, encoding="utf-8")
+        if parser.has_section("monitoring"):
+            url = parser["monitoring"].get("heartbeat_url", "").strip()
+            if url:
+                return url
+    return ""
+
+
+def send_heartbeat(url: str) -> None:
+    """Best-effort GET to the heartbeat URL; never disrupts the listener."""
+    if not url:
+        return
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            resp.read()
+    except Exception as exc:  # noqa: BLE001 - heartbeat must not crash listener
+        print(f"[!] Heartbeat ping failed: {exc}", flush=True)
 
 
 _configure_stdio_utf8()
@@ -259,6 +301,21 @@ if __name__ == "__main__":
     print(f"    Instance: {ID_INSTANCE}  Target: {TARGET_PHONE}", flush=True)
     print("    WhatsApp commands: STATUS | SUPPORT SYMBOL | SOLD | SEND", flush=True)
     print("    Single-instance lock acquired.", flush=True)
+
+    heartbeat_url = _load_heartbeat_url()
+    if heartbeat_url:
+        print(f"    Heartbeat: enabled (every {HEARTBEAT_INTERVAL_SECONDS}s)", flush=True)
+        send_heartbeat(heartbeat_url)
+    else:
+        print(
+            "    Heartbeat: disabled (set LISTENER_HEARTBEAT_URL or heartbeat_url.txt)",
+            flush=True,
+        )
+    last_heartbeat = time.monotonic()
+
     while True:
         check_commands()
+        if heartbeat_url and (time.monotonic() - last_heartbeat) >= HEARTBEAT_INTERVAL_SECONDS:
+            send_heartbeat(heartbeat_url)
+            last_heartbeat = time.monotonic()
         time.sleep(POLL_SECONDS)

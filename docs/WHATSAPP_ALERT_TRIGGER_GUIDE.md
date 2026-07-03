@@ -158,6 +158,49 @@ cd C:\Investment\CompletelySoldAlert
 
 ---
 
+## 6a. Keeping it running (auto-start, watchdog, machine-down alerts)
+
+Three layers, because a fully-down machine cannot notify you itself:
+
+| Layer | Handles | Mechanism |
+|-------|---------|-----------|
+| **Auto-start** | PC reboot | Task Scheduler runs the watchdog at logon |
+| **Watchdog** | Process crash while PC is up | Task Scheduler runs `watchdog.py` every 5 min; restarts the listener (mutex-based check) and sends a WhatsApp "restarted" notice |
+| **External heartbeat** | Machine down / power loss / no internet | Listener pings an external dead-man's-switch (e.g. healthchecks.io); if pings stop, that service alerts your phone |
+
+**Install auto-start + watchdog (one time):**
+
+```cmd
+C:\Investment\AlertApp-IBKR\install-scheduled-tasks.bat
+```
+
+Creates `AlertApp-IBKR-Startup` (at logon) and `AlertApp-IBKR-Watchdog`
+(every 5 minutes). Remove with `uninstall-scheduled-tasks.bat`.
+
+Tasks run only while the user is logged on (this PC uses a per-user Python). For
+run-without-login, install an all-users Python and recreate the tasks with "Run
+whether user is logged on or not".
+
+**Enable machine-down alerts (external heartbeat):**
+
+1. Create a free check at <https://healthchecks.io> (Period 10 min, Grace 10 min).
+2. Add a phone notification (healthchecks.io app / Telegram / Pushover / email).
+3. Copy the ping URL (`https://hc-ping.com/<uuid>`).
+4. Save it for the listener — any one of:
+   - `C:\Investment\AlertApp-IBKR\heartbeat_url.txt` (URL only), or
+   - env var `LISTENER_HEARTBEAT_URL`, or
+   - `config.ini` `[monitoring] heartbeat_url = <url>`.
+5. Restart the listener — it logs `Heartbeat: enabled` and pings every 5 minutes.
+
+If the pings stop (machine off, no internet, process dead and not restarted),
+healthchecks.io notifies your phone after the grace period. Send `STATUS`
+anytime to actively confirm the listener is alive.
+
+Watchdog / heartbeat artifacts (`listener.log`, `heartbeat_url.txt`) are local
+and git-ignored.
+
+---
+
 ## 7. Troubleshooting
 
 | Symptom | Cause / Fix |
@@ -174,9 +217,12 @@ cd C:\Investment\CompletelySoldAlert
 ## 8. Files
 
 **`AlertApp-IBKR/`**
-- `backgroundAlert.py` — Green API listener + single-instance guard + command handling.
-- `run-green-api-listener.bat` — start script.
+- `backgroundAlert.py` — Green API listener + single-instance guard + command handling + heartbeat.
+- `watchdog.py` — restarts the listener if it is down; notifies via WhatsApp.
+- `run-green-api-listener.bat` — manual start script (console).
+- `install-scheduled-tasks.bat` / `uninstall-scheduled-tasks.bat` — auto-start + watchdog tasks.
 - `readme.txt` — listener reference.
+- (local, git-ignored) `listener.log`, `heartbeat_url.txt`, `config.ini`.
 
 **`CompletelySoldAlert/`**
 - `completely_sold_alert/` — LangGraph package (config, graph, services, adapters).

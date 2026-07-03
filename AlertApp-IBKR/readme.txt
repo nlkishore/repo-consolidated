@@ -69,9 +69,72 @@ SINGLE INSTANCE ONLY (RACE-CONDITION GUARD)
       $_.CommandLine -match 'backgroundAlert' } | Select-Object ProcessId, CreationDate
 
 --------------------------------------------------------------------------------
+AUTO-START ON REBOOT + SELF-HEALING WATCHDOG
+--------------------------------------------------------------------------------
+
+  Goal: keep the listener running after a PC restart and restart it if it dies.
+
+  One-time install (creates Windows scheduled tasks):
+
+    Double-click, or run from CMD:
+      install-scheduled-tasks.bat
+
+  This creates two Task Scheduler jobs (run only when you are logged on):
+    AlertApp-IBKR-Startup    -> runs the watchdog at logon (instant start)
+    AlertApp-IBKR-Watchdog   -> runs the watchdog every 5 minutes
+
+  watchdog.py:
+    - Checks if the listener is running (via its single-instance mutex).
+    - If DOWN: starts it detached (no window; output appended to listener.log)
+      and sends a WhatsApp message: "listener was DOWN and has been restarted".
+    - If UP: does nothing (mutex prevents duplicates).
+
+  Remove the tasks:
+    uninstall-scheduled-tasks.bat
+
+  Check tasks:
+    schtasks /Query /TN "AlertApp-IBKR-Watchdog"
+    schtasks /Query /TN "AlertApp-IBKR-Startup"
+
+  Note: tasks run only while you are logged on (this PC uses a per-user Python).
+  If you need it to run without logging in, install a real (all-users) Python
+  and recreate the tasks with "Run whether user is logged on or not".
+
+--------------------------------------------------------------------------------
+NOTIFY IF THE MACHINE ITSELF IS DOWN (EXTERNAL HEARTBEAT)
+--------------------------------------------------------------------------------
+
+  IMPORTANT: A watchdog can only recover the process while the PC is ON. If the
+  whole machine is down (power loss, no internet, OS crash), it cannot warn you
+  — a down machine cannot notify itself. The reliable pattern is an EXTERNAL
+  "dead-man's switch": the listener pings an outside service on a schedule, and
+  that service alerts your phone when the pings STOP.
+
+  Recommended: https://healthchecks.io (free)
+    1. Create an account and a new "Check".
+       Set Period = 10 minutes, Grace = 10 minutes.
+    2. Add a notification integration to your PHONE:
+       - healthchecks.io mobile app (push), or
+       - Telegram / Pushover / Signal / email / etc.
+    3. Copy the check's ping URL, e.g.:
+         https://hc-ping.com/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    4. Save it so the listener can find it (any ONE of these):
+       - Create file:  heartbeat_url.txt   (paste the URL, nothing else)
+       - OR set env var:  LISTENER_HEARTBEAT_URL
+       - OR config.ini [monitoring] heartbeat_url = <url>
+    5. Restart the listener. It logs "Heartbeat: enabled" and pings every 5 min.
+
+  Now: if the listener stops pinging (machine down, no net, process dead and not
+  restarted), healthchecks.io notifies your phone after the grace period.
+
+  This complements STATUS: send STATUS anytime to actively confirm it's alive.
+
+--------------------------------------------------------------------------------
 STOP THE LISTENER
 --------------------------------------------------------------------------------
 
-  Close the CMD window, or Ctrl+C, or end the python.exe process in Task Manager.
+  Close the CMD window, or Ctrl+C, or end the python.exe / pythonw.exe process.
+  If the watchdog tasks are installed, they will restart it within 5 minutes;
+  run uninstall-scheduled-tasks.bat first if you want it to stay stopped.
 
 ================================================================================
