@@ -13,6 +13,7 @@ Credentials: config.ini in this folder, or AutomatedTrading\\config.ini, or env 
 from __future__ import annotations
 
 import configparser
+import ctypes
 import os
 import subprocess
 import sys
@@ -27,6 +28,41 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 AUTOMATED_TRADING_INI = SCRIPT_DIR.parent / "AutomatedTrading" / "config.ini"
 SOLD_ALERT_BAT = SCRIPT_DIR.parent / "CompletelySoldAlert" / "run-alert.bat"
 POLL_SECONDS = 2
+
+# Green API allows only ONE active receiveNotification consumer per instance.
+# Two listeners polling the same instance cause "consumer closed" (502 RMQ_ERROR)
+# and dropped/delayed commands. Enforce a single instance with a named mutex
+# (auto-released by the OS if the process dies, so no stale-lock problem).
+_SINGLE_INSTANCE_MUTEX_NAME = "Global\\AlertApp_IBKR_GreenAPI_Listener"
+_ERROR_ALREADY_EXISTS = 183
+_single_instance_handle = None  # keep the handle alive for the process lifetime
+
+
+def _acquire_single_instance_lock() -> bool:
+    """Return True if this is the only listener; False if one already runs.
+
+    Uses a Windows named mutex. On non-Windows (or if the call fails), it
+    degrades gracefully and allows startup.
+    """
+    global _single_instance_handle
+    if os.name != "nt":
+        return True
+    try:
+        kernel32 = ctypes.windll.kernel32
+        handle = kernel32.CreateMutexW(None, False, _SINGLE_INSTANCE_MUTEX_NAME)
+        last_error = kernel32.GetLastError()
+    except Exception as exc:  # noqa: BLE001 - never block startup on lock errors
+        print(f"[!] Single-instance check skipped ({exc}).", flush=True)
+        return True
+
+    if not handle:
+        print("[!] Single-instance check skipped (no mutex handle).", flush=True)
+        return True
+    if last_error == _ERROR_ALREADY_EXISTS:
+        return False
+
+    _single_instance_handle = handle
+    return True
 
 
 def _configure_stdio_utf8() -> None:
@@ -102,8 +138,10 @@ def run_sold_alert() -> tuple[bool, str]:
     if not SOLD_ALERT_BAT.is_file():
         return False, f"run-alert.bat not found at {SOLD_ALERT_BAT}"
     try:
+        # --force-market-day: SOLD/SEND is an explicit on-demand request, so
+        # produce the price summary even on weekends / NYSE holidays.
         result = subprocess.run(
-            [str(SOLD_ALERT_BAT)],
+            [str(SOLD_ALERT_BAT), "run", "--force-market-day"],
             cwd=str(SOLD_ALERT_BAT.parent),
             capture_output=True,
             text=True,
@@ -209,9 +247,18 @@ def check_commands() -> None:
 
 
 if __name__ == "__main__":
+    if not _acquire_single_instance_lock():
+        print(
+            "[X] Another AlertApp-IBKR listener is already running. Exiting to "
+            "avoid a Green API race condition (only one consumer per instance).",
+            flush=True,
+        )
+        sys.exit(1)
+
     print("[*] AlertApp-IBKR Green API listener started.", flush=True)
     print(f"    Instance: {ID_INSTANCE}  Target: {TARGET_PHONE}", flush=True)
     print("    WhatsApp commands: STATUS | SUPPORT SYMBOL | SOLD | SEND", flush=True)
+    print("    Single-instance lock acquired.", flush=True)
     while True:
         check_commands()
         time.sleep(POLL_SECONDS)

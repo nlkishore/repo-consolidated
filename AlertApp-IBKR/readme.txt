@@ -48,6 +48,27 @@ CREDENTIALS (pick one)
   3. Local config.ini in this folder with same keys.
 
 --------------------------------------------------------------------------------
+SINGLE INSTANCE ONLY (RACE-CONDITION GUARD)
+--------------------------------------------------------------------------------
+
+  Green API allows only ONE active receiveNotification consumer per instance.
+  Running two listeners causes "consumer closed" (502 RMQ_ERROR) errors and
+  dropped / delayed commands.
+
+  This listener enforces a single instance using a Windows named mutex
+  ("Global\AlertApp_IBKR_GreenAPI_Listener"). If you start it while another
+  copy is already running, the new one prints:
+
+    [X] Another AlertApp-IBKR listener is already running. Exiting...
+
+  and exits immediately. The lock is released automatically by the OS when the
+  running listener stops (no stale-lock cleanup needed).
+
+  Check what is running:
+    Get-CimInstance Win32_Process | Where-Object { $_.Name -like 'python*' -and
+      $_.CommandLine -match 'backgroundAlert' } | Select-Object ProcessId, CreationDate
+
+--------------------------------------------------------------------------------
 STOP THE LISTENER
 --------------------------------------------------------------------------------
 

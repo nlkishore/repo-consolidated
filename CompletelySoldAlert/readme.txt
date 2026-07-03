@@ -368,6 +368,15 @@ Design document:      MyGeneratedProjects\GitRepoPlan\repo-consolidated\docs\rev
   Note: The listener and the alert share the SAME Green API instance and
   credentials (AutomatedTrading\config.ini [trading]).
 
+  SINGLE INSTANCE ONLY: Green API permits only one receiveNotification consumer
+  per instance. The listener enforces this with a Windows named mutex, so a
+  second copy refuses to start ("Another AlertApp-IBKR listener is already
+  running"). Running two would cause 502 "consumer closed" errors and
+  dropped / delayed SOLD commands. See AlertApp-IBKR\readme.txt.
+
+  The on-demand SOLD/SEND run uses --force-market-day, so it returns the price
+  summary even on weekends / NYSE holidays.
+
 
 ================================================================================
   END OF readme.txt
