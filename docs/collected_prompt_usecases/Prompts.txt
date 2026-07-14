@@ -168,3 +168,13 @@ will go for implementation.
    Data source: C:\Investment\IBKR-Flex-BuySell\ (Completely_Sold sheet)
    WhatsApp: C:\Investment\AlertApp\ (Green API pattern)
 
+
+-> Create a python program to extract   Label and field type against the label(Text Box , text area ..) from screen capture of web application.
+Ask is to extract screen element details in readable csv or excel format when there are too many screen shots captured from a banking web application.
+create this as separate project for automating Techincal Design Document , image to text extractor is starting point , progressively will generat eCSV files for API request/response and Database ER diagram to field
+extraction.
+Create as separate folder under C:\Python-Cursor
+   Project: C:\Python-Cursor\tdd-screen-extractor\
+   Run: python -m tdd_screen_extractor extract -i input/screenshots -o output
+   See: tdd-screen-extractor/README.md and docs/ROADMAP.md (API CSV + ER later)
+
