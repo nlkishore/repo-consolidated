@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "my-first-local-server": {
+      "command": "PATH_TO_VENV/Scripts/python.exe",
+      "args": ["PATH_TO_THIS_FOLDER/server.py"]
+    }
+  }
+}
