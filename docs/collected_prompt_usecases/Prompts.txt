@@ -178,3 +178,27 @@ Create as separate folder under C:\Python-Cursor
    Run: python -m tdd_screen_extractor extract -i input/screenshots -o output
    See: tdd-screen-extractor/README.md and docs/ROADMAP.md (API CSV + ER later)
 
+Point 1:
+-> process of Build and deployment of web application in Banking environment follwo below approach.
+  -The Target source code branch to generte incremental package is Release Branch.
+  -Change merge to release branch follows Pull Request approach so that designated revieweres can approve to merge the changes
+  -One changes merged to relase branch complete build happens and next process of selceted files packaging initiates
+  -Another Hotfix branch where team commits filesList.txt with the files to be picked from release branch binary and preparess a zip file
+  -After HitFix zip generates, bank deployment team use java based utility to update the Binary with Incremental changes
+  - final Binary is used to deploy to control environment
+Point 2:
+Same above approach want to replicate for Development teams binary testing beofre merging the changes
+  - Development branch where application team commits and push , complete build and fetch the full build binary
+  - Use HotFix generator utility run in local , using the development branhc full  inary to pick required files to be updated
+  - Download the old version binaries ear files from BitBucket repository to local
+  - Use HotFix update EAR utility to update the ear file.
+
+come up with Agentic Model approach implementation for above as there are 4 parallel activities incolved
+  1. Track Dev branch build completed and Full Binary Readiness
+  2. Trigger HotFix generator utility and check the filesList.txt is vailables before triggering HotFix generator.
+  3. Download previously deployed ear files to the environment which is part of BitBucket
+  4.  Run another utility which reads HotFix zip files and update the Binary.
+   Plan: repo-consolidated/docs/BANKING_HOTFIX_AGENTIC_DEPLOY_PLAN.md
+   Design/Implementation: repo-consolidated/docs/review/BANKING_HOTFIX_AGENTIC_DEPLOY_DESIGN.md
+   Related: git-tools/HOTFIX_BRANCH_VALIDATION_DESIGN.md , hotfix_validation CLI
+
