@@ -202,3 +202,16 @@ come up with Agentic Model approach implementation for above as there are 4 para
    Design/Implementation: repo-consolidated/docs/review/BANKING_HOTFIX_AGENTIC_DEPLOY_DESIGN.md
    Related: git-tools/HOTFIX_BRANCH_VALIDATION_DESIGN.md , hotfix_validation CLI
 
+-***----
+Context is to get List of Classes , method Hierachy in  modular web application , by taking Entry Class .
+Ex: for Spring Application one of the Entry Spring Controller Class method , which is dependant on other 
+classes and methods using Java parser.
+not limited to Spring Classes , any java based class this should work .
+Design and document teh solution with opensource tool like JavaParser.
+   Plan: repo-consolidated/docs/JAVA_CALL_HIERARCHY_PLAN.md
+   Design: repo-consolidated/docs/review/JAVA_CALL_HIERARCHY_DESIGN.md
+   Stack: JavaParser + JavaSymbolSolver (multi-module TypeSolver)
+   Emission: Excel (.xlsx) + CSV primary; also JSON, Mermaid, DOT, optional HTML
+   JARs: --jar / --lib-dir / --classpath-file (+ Maven/Gradle prepare-classpath); P1=resolve as leaf, P2=ASM expand
+   Related spikes: Java/.../ReverseHierarchy , PrintCallHierarchy (name-only; to be replaced by new analyzer)
+   Module: Java/call-hierarchy-analyzer/  (mvn test / package; see README.md)
