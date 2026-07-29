@@ -19,3 +19,28 @@ will go for implementation.
    Run: python -m completely_sold_alert run  (see CompletelySoldAlert/README.md)
    Data source: C:\Investment\IBKR-Flex-BuySell\ (Completely_Sold sheet)
    WhatsApp: C:\Investment\AlertApp\ (Green API pattern)
+
+Given the context of projects related to Investment , share a program to download all buy , sell and corporate actions on stocks being traded since 
+Account Opened . First time this report to be baselined and when ever requested for refres the report this should be incremental
+and this downloaded report shoudl be available for further analaysis , stock symbol wise report Bought and sold as well summary of the p&L by symobol wise.
+   Plan: repo-consolidated/docs/IBKR_TRADE_HISTORY_BASELINE_PLAN.md
+   Design: repo-consolidated/docs/review/IBKR_TRADE_HISTORY_BASELINE_DESIGN.md
+   Reuse: C:\Investment\IBKR-Flex-BuySell\  (Flex windows + cache + Completely_Sold)
+   Implemented: C:\Investment\IBKR-Flex-BuySell\trade_history\
+   Run: python -m trade_history baseline | refresh | status | export
+        (add --offline to use Flex cache + Activity/DIVIDEND CSVs only)
+   Outputs: reports/IBKR_TradeHistory.xlsx (Symbol_PnL, By_Symbol_Trades, Corporate_Actions)
+            data/store/trades.csv , corporate_actions.csv , data/state.json
+
+
+Review the "C:\Investment\IBKR-Download" folders AccountStatement and Realized Summary , come up with detailed document what all reports can be 
+generated with the data .Example using Account statement , Total Deposits and With drawals , Stock Symobol wise Buy , Sell , Corporate Actions , commission paid to  trade symbol wise,
+intrest paid to IBKR ..
+   Catalog: repo-consolidated/docs/IBKR_DOWNLOAD_REPORT_CATALOG.md
+   Data: C:\Investment\IBKR-Download\AccountStatement\ , RealizedSummary\
+   Priority reports: R01 deposits/withdrawals, R10 symbol buy/sell, R11 commission by symbol,
+                     R20 corporate actions, R21 dividends, R22 withholding tax, R30 interest paid to IBKR
+   P1 implemented: C:\Investment\IBKR-Download\ibkr_download_reports\
+   Run: python -m ibkr_download_reports
+   Output: reports/IBKR_AccountStatement_P1.xlsx
+           (includes Withholding_Tax, Withholding_By_Symbol, Dividends_Net_Of_Tax sheets)
