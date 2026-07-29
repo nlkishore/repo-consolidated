@@ -1,0 +1,31 @@
+# Category: Tooling (Java / Python utilities)
+
+---
+
+## TDD screen extractor (OCR → label / field type CSV)
+
+-> Create a python program to extract   Label and field type against the label(Text Box , text area ..) from screen capture of web application.
+Ask is to extract screen element details in readable csv or excel format when there are too many screen shots captured from a banking web application.
+create this as separate project for automating Techincal Design Document , image to text extractor is starting point , progressively will generat eCSV files for API request/response and Database ER diagram to field
+extraction.
+Create as separate folder under C:\Python-Cursor
+   Project: C:\Python-Cursor\tdd-screen-extractor\
+   Run: python -m tdd_screen_extractor extract -i input/screenshots -o output
+   See: tdd-screen-extractor/README.md and docs/ROADMAP.md (API CSV + ER later)
+
+
+## Java entry-class call hierarchy (JavaParser)
+
+-***----
+Context is to get List of Classes , method Hierachy in  modular web application , by taking Entry Class .
+Ex: for Spring Application one of the Entry Spring Controller Class method , which is dependant on other
+classes and methods using Java parser.
+not limited to Spring Classes , any java based class this should work .
+Design and document teh solution with opensource tool like JavaParser.
+   Plan: repo-consolidated/docs/JAVA_CALL_HIERARCHY_PLAN.md
+   Design: repo-consolidated/docs/review/JAVA_CALL_HIERARCHY_DESIGN.md
+   Stack: JavaParser + JavaSymbolSolver (multi-module TypeSolver)
+   Emission: Excel (.xlsx) + CSV primary; also JSON, Mermaid, DOT, optional HTML
+   JARs: --jar / --lib-dir / --classpath-file (+ Maven/Gradle prepare-classpath); P1=resolve as leaf, P2=ASM expand
+   Related spikes: Java/.../ReverseHierarchy , PrintCallHierarchy (name-only; to be replaced by new analyzer)
+   Module: Java/call-hierarchy-analyzer/  (mvn test / package; see README.md)

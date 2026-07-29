@@ -1,0 +1,5 @@
+# Category: AI enablement / team awareness
+
+---
+
+The context os to have awareness session with team on AI tools evolution and tools which are available at work now, and how to learn advanced AI tools so that team is ready for upcoming changes at organizational level to adopt the advnced tools with usecases of daily work team does . As of Today organization has Co-pilot which can take maximum 3 files and review summarize and suggets the changes , where team need to manually copy to teh project folder . second generation are given the prompt/usecase tool itself can do code , test , fix bugs and finalize tested code to commit , 3rd generation is to create Agents to integrate multiple usecases or featrures feed to the tool to generate the projects. with this context create a ppt along with notes to have session with team.

@@ -1,0 +1,217 @@
+1. Torque 3.x to 7.x Migration
+Torque ORM Changes in 3.x
+  - MapBuilder Classes generated for Metadata information line Schema Nwme, Table Name and Column Names
+  - Village Library is used to traverse the Resultset returned using ORM(Object Relation Mapping)
+  - Base Object Used which is removed in Torque 7.x
+
+Using Referance of My SQL Database created , details @C:\mysql81\uob-turbine7-portal-mm - for scema details and table details , create
+Schema.xml , and a Java Class to perform CRUD oprations using Torque ORM , should use Village Library and MapBuilders as well
+so that Legacy application behavior can be re-produced .
+
+
+For the same create another projectto make functional Equivalent Java classes with CRUD oerations , Schema generation using Torque 7.x .
+If there is oprion to re-use MapBuilder though its not available in Torque 7 , replicating Legacy behavior of MapBuilder approach pof Metadata retrival
+to minimize migration impact .
+
+Once both projet generated , shoudl create Structural comparision on Functional Transformation to retain funcional behavior , this document 
+should serve as guide for Medium skilled Java developer to complete the Migration activitty from Torque 3.x to Torque 7.x.
+
+Looking for feedback , on the approach to do Upgarde of Legacy web application using  Torque 3.x , Turbine 2.x , Spring 4.x , Customized Jetspeed component with ECS ((No Javax.servlet usage), Java EE  , JDK 8.x
+
+To be migrated to Torque 7.x , Turbine 7.x , Spring 6.x , Jetspeed upgarde to support JDK17 , Jakarta EE .
+
+Approach Thought : Capture all Java Imports from all Java files used in Legacy , then create dummy project with all Turbine 7.x, Torque 7.x, Soring 6.x ,Jetspeed component for cursor or AI tool to review all the imports and create valid  OpenRewrite Recipe so that  import can be migrated to support latest Tech Stack , then functional upgrade can be progressively do manual upgrade where required .
+
+From Torque3-legacy-demo , how to map the turbine User to gtp_user class , create service class to do crud operations .create additional calss and modify teh schema if required to map turbine user interface with gtp_user. project path : C:\Users\nlaxm\TurbineProjectWorkspace\StructuralMigration\torque3-legacy-demo
+
+
+Giveen a scenario , where there is a report that some of the libraries are vulnerable due to CVE , in a BAU Web Application , when Identified next version of libraries which are not having any CVE , to analyze the effort required to upgrade those libraries , my approach is as below .
+
+1. Scan theough the BAU application and list all imports across all Java projects , scan against the libraries to map each ofteh import belongs to which Library/jar file , then have another folder where the upgrade version downloaded and run the same report to map those new libraries are having the same imports . This will give an idea that the package structures are not changed in new Library . Whether this approach works or will there be any other quick option to identify teh impact.
+
+Similarly List down all methods with signature and exceptions being thrown , do the sam eexercise of mapping those methods belong to which library and scan aginst new library as well.
+
+Given a scenario  , where there ar etoo many repositories and branches how to consolidate and remove duplicate files and create new repository and commit all the changes avoiding duplicates. First analyze and provide summary report.
+
+
+The context os to have awareness session with team on AI tools evolution and tools which are available at work now, and how to learn advanced AI tools so that team is ready for upcoming changes at organizational level to adopt the advnced tools with usecases of daily work team does . As of Today organization has Co-pilot which can take maximum 3 files and review summarize and suggets the changes , where team need to manually copy to teh project folder . second generation are given the prompt/usecase tool itself can do code , test , fix bugs and finalize tested code to commit , 3rd generation is to create Agents to integrate multiple usecases or featrures feed to the tool to generate the projects. with this context create a ppt along with notes to have session with team.
+
+We do follow these steps for Build and Deployment of ear file.
+
+1. We ahve Running ear deployed in production.
+2. For any new development we follow HotFix Model instead of full build to incrmentally update the ear.
+3. Our HotFix build utility only has option to modify the files or add new file to ear for given path.
+4. FOr a case where we need to update 3rd party libraries , to be deleted due to security upgrades , how to approach removing 
+   the library from ear file (Ex: Jar file that resides in WEB-INF/lib/abc.jar)
+5. Share detailed view on how to address for short term and long term option  
+
+
+The context - Organization follows below source code management and binary generation 
+Uses Bitbucket server model , main build happened using release Branch . Developer create 
+Dev bracnh from release and do code changes and commit , then raise pull request to get approval and merge to release branch.
+Post PR merge build trigger automaticaly and fulle build binary gets generated.
+
+Another branch which is HotFix build branch , has buildScripts.sh  and fileLists.txt 
+with list of files to be picked from the full build binary and create zip file with incremental file only to be 
+deployed as Hotfix instead of full build.
+
+Here team do mistakes in committing fileList.txt - while follwoing guigelines of 
+fileLists.txt content , buildScripst.sh content . How to enforce systemation validations 
+before committing the changes to hot fix branch
+ -> fileLists.txt to be validated for formatting of the content added to follwo standard yaml structure
+  and mandatory  validation whether full build in release branch completed as that is mandatory to picked
+  the file for HotFix Generation.
+
+Also enforce both buildScripts.sh and filesList.txt to be committed together .
+
+I am software developer and support engineer, organization use java based web application with properties files 
+for configuretaions , and these configuration to be validated while planning for production
+deployment , compare against UAT environment to understand what ar ethe new properties being added
+, any exiting properties modified unnecessarily , let me given usecase for one Country Referance
+
+1. Take an Example Singapore as market to deply , has Multiple instance of Server , serving different customer Segment for online
+and different daemon process to be initiated with different JVM , Example instance for Singapore as
+GEBCUSG01A , GEBCUSG02A ,GEBCUSG01F, GEBCUSG01V - This is for Customer Webapplication
+GEBBASG01A , GEBBASG02A, GEBBASG01F.
+2. Taken above various instance for a country as referance , we want to compare property files
+Having 
+1. Newly Added keys with referance to Production copy of the files 
+2. Keys value being overriden for each instance , withrefernce to production copy against that specific instance on Server
+
+Consider scenario for a reviewer , where Development team has reposiroty 1- where multiple CR changes are being committed with
+and commits happen each CR  has separate set of PullRequests , suddenly when there is request to decouple one of the
+CR and team had those CR - pull requests , normal approach is to create anothe base line branch and merge the CR changes
+to go to production will be merged . As a reviewer how do we make sure team has take care of all the changes.
+
+-> Automation: CR slice reconciliation (manifest + git diff vs slice branch). Design:
+   repo-consolidated/docs/review/CR_SLICE_REVIEW_AUTOMATION_DESIGN.md
+   Runbook: repo-consolidated/docs/review/CR_SLICE_REVIEW_RUNBOOK.md
+   Tool: git-tools/main/modules/python/cr_slice_validation/  (python -m cr_slice_validation run-all)
+
+Our development team follows this approach , when decoupling is required , the will collect all
+the file List of the PR which is planned to go live , will be collected and merge
+those changes to baselined prod new branch , and then raise another PR capturing all consolidtaed
+files . In such case what would be the better option to compare . would List of files and file content copy 
+will help to detect any file missed merging or any wrong merges.
+
+-> Use BOTH, against the same production baseline (not PR-to-PR):
+   1) File list union from all source PRs vs consolidated PR/slice branch -> catches missed/extra FILES.
+   2) Per-file content (git diff baseline..expected vs baseline..slice per path) -> catches wrong merge,
+      partial cherry-pick, conflict resolution drops; file list alone misses same-path wrong content.
+   Optional: line-level diff for high-risk paths. Maintain cr-manifest.yaml (PR ids + baseline_ref +
+   expected_ref integration branch OR union of PR branches). Automate: cr_slice_validation run-all.
+   See CR_SLICE_REVIEW_AUTOMATION_DESIGN.md section 4.2-4.3.
+
+
+Context is to Automate Code review of a Pull Request raised by Development resource,
+for best practice coding , Null Pointer Handling , critical Java Exception handling exact
+by integrating with Sonar CLI , PMD and other better freeware scanning tools.
+
+1. Given a PRID , connect to Bitbucket Server to get files committed with that PR.
+2. Connect to jenkin build tool to check the build completed or not.
+3. connect to Artifactory to download the binary to extract all libraries to support the 
+source code to compile successfully.
+4. Prepare ANT project , as well as Maven project to integrate with PMD , Sonar Lint CLI.
+
+ review the promopt and prepare oimplementation plan using python
+
+
+ Explain About teh concept of Testbed using claude in the context of a corporate web application 
+ that had features of payments , collections and Trade to support  Group , Entities
+
+ Build a working Testbed artifact for Company , Entity , User , Group , role and permission
+
+-> Testbed: one-command seed + validate for GEB/GTP domain (Company, Entity, User, Group, Role, Permission).
+   Scenarios: admin | payments | collections | trade | entity_user.
+   Claude role: scenario design-time authoring; Python executes deterministically (no AI at runtime).
+   Tool: C:\Python-Cursor\testbed\  (testbed run-all --config config/settings.yaml)
+   Design: repo-consolidated/docs/review/TESTBED_DESIGN.md
+   Synced: repo-consolidated/Python/python-cursor/modules/python/testbed/
+-> GEB integration testbed plan (IDB JSON + EAI XML/MQ contract validation; Maker / Checker / Single-user flows).
+   Layer 0 (data/RBAC): repo-consolidated/Python/python-cursor/modules/python/testbed/  (implemented)
+   Layer 1-3 (contracts + message validation): repo-consolidated/docs/review/GEB_INTEGRATION_TESTBED_DESIGN.md
+
+-> GEB integration testbed tool (Layer 1-3 scaffold + sample contracts/fixtures):
+   Tool: repo-consolidated/Python/python-cursor/modules/python/geb-integration-testbed/
+   Run: scripts\run-geb-testbed.bat  or  python -m geb_testbed run-all
+   Design: repo-consolidated/docs/review/GEB_INTEGRATION_TESTBED_DESIGN.md
+
+In my current application which is running in SIT , looking to collect logs and analyze using splunk Queries
+To come up with various splunk queires and criteria , had a challenge that SIT does n't have splunk
+and logs are captured in file system na deven generated logs file does n't have previlege to access directly to use 
+all unix commands , 
+
+SIT has only sudo access to userID ,we have below is the proposal to get all logs where Service/API request response 
+downloaded to Local Windows machine and using git bash , use unix commands and patterns to get 
+results in various formats or for fields to analyze .
+
+Come up with plan and create planning document for review and suggets ant better options available.
+-> SIT log collection & Splunk-query development (no Splunk in SIT; sudo-limited access; local Windows/Git Bash analysis).
+   Design: repo-consolidated/docs/SIT_LOG_ANALYSIS_PLAN.md
+   Tool: repo-consolidated/sit-log-analysis/  (bash scripts/sit-log-analysis.sh pipeline --from-fixtures)
+   Impl: repo-consolidated/docs/review/SIT_LOG_ANALYSIS_IMPLEMENTATION.md
+
+
+Given the context of projects related to Investment, there is a feature that captures List of Stocks completely sold , Sold Price and Current Market price 
+and there is a separate feature Whatsapp Notiification , looking for 
+a new feature to implement using Langchain and Lang graph with decisioning where 
+the sold stock current prices goes less than 5% send Notification. The out of feature of fetching
+completely sold list is fetched beyond 24 hours re-trigger that feature to re-execute to fetch fresh
+data and process for the notification.
+First prepare a plan document and then design the feature . post review
+will go for implementation.
+-> Completely sold price-drop WhatsApp alert (LangGraph; threshold from settings.yaml; single digest; NYSE market days only).
+   Plan: repo-consolidated/docs/COMPLETELY_SOLD_PRICE_ALERT_PLAN.md
+   Design: repo-consolidated/docs/review/COMPLETELY_SOLD_PRICE_ALERT_DESIGN.md
+   Tool: repo-consolidated/CompletelySoldAlert/  (also C:\Investment\CompletelySoldAlert\)
+   Run: python -m completely_sold_alert run  (see CompletelySoldAlert/README.md)
+   Data source: C:\Investment\IBKR-Flex-BuySell\ (Completely_Sold sheet)
+   WhatsApp: C:\Investment\AlertApp\ (Green API pattern)
+
+
+-> Create a python program to extract   Label and field type against the label(Text Box , text area ..) from screen capture of web application.
+Ask is to extract screen element details in readable csv or excel format when there are too many screen shots captured from a banking web application.
+create this as separate project for automating Techincal Design Document , image to text extractor is starting point , progressively will generat eCSV files for API request/response and Database ER diagram to field
+extraction.
+Create as separate folder under C:\Python-Cursor
+   Project: C:\Python-Cursor\tdd-screen-extractor\
+   Run: python -m tdd_screen_extractor extract -i input/screenshots -o output
+   See: tdd-screen-extractor/README.md and docs/ROADMAP.md (API CSV + ER later)
+
+Point 1:
+-> process of Build and deployment of web application in Banking environment follwo below approach.
+  -The Target source code branch to generte incremental package is Release Branch.
+  -Change merge to release branch follows Pull Request approach so that designated revieweres can approve to merge the changes
+  -One changes merged to relase branch complete build happens and next process of selceted files packaging initiates
+  -Another Hotfix branch where team commits filesList.txt with the files to be picked from release branch binary and preparess a zip file
+  -After HitFix zip generates, bank deployment team use java based utility to update the Binary with Incremental changes
+  - final Binary is used to deploy to control environment
+Point 2:
+Same above approach want to replicate for Development teams binary testing beofre merging the changes
+  - Development branch where application team commits and push , complete build and fetch the full build binary
+  - Use HotFix generator utility run in local , using the development branhc full  inary to pick required files to be updated
+  - Download the old version binaries ear files from BitBucket repository to local
+  - Use HotFix update EAR utility to update the ear file.
+
+come up with Agentic Model approach implementation for above as there are 4 parallel activities incolved
+  1. Track Dev branch build completed and Full Binary Readiness
+  2. Trigger HotFix generator utility and check the filesList.txt is vailables before triggering HotFix generator.
+  3. Download previously deployed ear files to the environment which is part of BitBucket
+  4.  Run another utility which reads HotFix zip files and update the Binary.
+   Plan: repo-consolidated/docs/BANKING_HOTFIX_AGENTIC_DEPLOY_PLAN.md
+   Design/Implementation: repo-consolidated/docs/review/BANKING_HOTFIX_AGENTIC_DEPLOY_DESIGN.md
+   Related: git-tools/HOTFIX_BRANCH_VALIDATION_DESIGN.md , hotfix_validation CLI
+
+-***----
+Context is to get List of Classes , method Hierachy in  modular web application , by taking Entry Class .
+Ex: for Spring Application one of the Entry Spring Controller Class method , which is dependant on other 
+classes and methods using Java parser.
+not limited to Spring Classes , any java based class this should work .
+Design and document teh solution with opensource tool like JavaParser.
+   Plan: repo-consolidated/docs/JAVA_CALL_HIERARCHY_PLAN.md
+   Design: repo-consolidated/docs/review/JAVA_CALL_HIERARCHY_DESIGN.md
+   Stack: JavaParser + JavaSymbolSolver (multi-module TypeSolver)
+   Emission: Excel (.xlsx) + CSV primary; also JSON, Mermaid, DOT, optional HTML
+   JARs: --jar / --lib-dir / --classpath-file (+ Maven/Gradle prepare-classpath); P1=resolve as leaf, P2=ASM expand
+   Related spikes: Java/.../ReverseHierarchy , PrintCallHierarchy (name-only; to be replaced by new analyzer)
+   Module: Java/call-hierarchy-analyzer/  (mvn test / package; see README.md)

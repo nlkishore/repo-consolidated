@@ -1,0 +1,9 @@
+# Category: Security / dependency CVE upgrade impact
+
+---
+
+Giveen a scenario , where there is a report that some of the libraries are vulnerable due to CVE , in a BAU Web Application , when Identified next version of libraries which are not having any CVE , to analyze the effort required to upgrade those libraries , my approach is as below .
+
+1. Scan theough the BAU application and list all imports across all Java projects , scan against the libraries to map each ofteh import belongs to which Library/jar file , then have another folder where the upgrade version downloaded and run the same report to map those new libraries are having the same imports . This will give an idea that the package structures are not changed in new Library . Whether this approach works or will there be any other quick option to identify teh impact.
+
+Similarly List down all methods with signature and exceptions being thrown , do the sam eexercise of mapping those methods belong to which library and scan aginst new library as well.

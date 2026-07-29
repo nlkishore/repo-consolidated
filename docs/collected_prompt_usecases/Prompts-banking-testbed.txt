@@ -1,0 +1,23 @@
+# Category: Banking — GEB / GTP testbed
+
+---
+
+ Explain About teh concept of Testbed using claude in the context of a corporate web application
+ that had features of payments , collections and Trade to support  Group , Entities
+
+ Build a working Testbed artifact for Company , Entity , User , Group , role and permission
+
+-> Testbed: one-command seed + validate for GEB/GTP domain (Company, Entity, User, Group, Role, Permission).
+   Scenarios: admin | payments | collections | trade | entity_user.
+   Claude role: scenario design-time authoring; Python executes deterministically (no AI at runtime).
+   Tool: C:\Python-Cursor\testbed\  (testbed run-all --config config/settings.yaml)
+   Design: repo-consolidated/docs/review/TESTBED_DESIGN.md
+   Synced: repo-consolidated/Python/python-cursor/modules/python/testbed/
+-> GEB integration testbed plan (IDB JSON + EAI XML/MQ contract validation; Maker / Checker / Single-user flows).
+   Layer 0 (data/RBAC): repo-consolidated/Python/python-cursor/modules/python/testbed/  (implemented)
+   Layer 1-3 (contracts + message validation): repo-consolidated/docs/review/GEB_INTEGRATION_TESTBED_DESIGN.md
+
+-> GEB integration testbed tool (Layer 1-3 scaffold + sample contracts/fixtures):
+   Tool: repo-consolidated/Python/python-cursor/modules/python/geb-integration-testbed/
+   Run: scripts\run-geb-testbed.bat  or  python -m geb_testbed run-all
+   Design: repo-consolidated/docs/review/GEB_INTEGRATION_TESTBED_DESIGN.md

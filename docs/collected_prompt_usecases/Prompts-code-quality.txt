@@ -1,0 +1,17 @@
+# Category: Code quality / PR review automation
+
+---
+
+Context is to Automate Code review of a Pull Request raised by Development resource,
+for best practice coding , Null Pointer Handling , critical Java Exception handling exact
+by integrating with Sonar CLI , PMD and other better freeware scanning tools.
+
+1. Given a PRID , connect to Bitbucket Server to get files committed with that PR.
+2. Connect to jenkin build tool to check the build completed or not.
+3. connect to Artifactory to download the binary to extract all libraries to support the
+source code to compile successfully.
+4. Prepare ANT project , as well as Maven project to integrate with PMD , Sonar Lint CLI.
+
+ review the promopt and prepare oimplementation plan using python
+
+-> Related: Python/python-cursor/docs/pr-code-review-automation/

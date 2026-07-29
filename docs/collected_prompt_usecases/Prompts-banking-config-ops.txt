@@ -1,0 +1,37 @@
+# Category: Banking — configuration and operations
+
+---
+
+## Multi-instance properties comparison (e.g. Singapore)
+
+I am software developer and support engineer, organization use java based web application with properties files
+for configuretaions , and these configuration to be validated while planning for production
+deployment , compare against UAT environment to understand what ar ethe new properties being added
+, any exiting properties modified unnecessarily , let me given usecase for one Country Referance
+
+1. Take an Example Singapore as market to deply , has Multiple instance of Server , serving different customer Segment for online
+and different daemon process to be initiated with different JVM , Example instance for Singapore as
+GEBCUSG01A , GEBCUSG02A ,GEBCUSG01F, GEBCUSG01V - This is for Customer Webapplication
+GEBBASG01A , GEBBASG02A, GEBBASG01F.
+2. Taken above various instance for a country as referance , we want to compare property files
+Having
+1. Newly Added keys with referance to Production copy of the files
+2. Keys value being overriden for each instance , withrefernce to production copy against that specific instance on Server
+
+
+## SIT log collection (no Splunk in SIT)
+
+In my current application which is running in SIT , looking to collect logs and analyze using splunk Queries
+To come up with various splunk queires and criteria , had a challenge that SIT does n't have splunk
+and logs are captured in file system na deven generated logs file does n't have previlege to access directly to use
+all unix commands ,
+
+SIT has only sudo access to userID ,we have below is the proposal to get all logs where Service/API request response
+downloaded to Local Windows machine and using git bash , use unix commands and patterns to get
+results in various formats or for fields to analyze .
+
+Come up with plan and create planning document for review and suggets ant better options available.
+-> SIT log collection & Splunk-query development (no Splunk in SIT; sudo-limited access; local Windows/Git Bash analysis).
+   Design: repo-consolidated/docs/SIT_LOG_ANALYSIS_PLAN.md
+   Tool: repo-consolidated/sit-log-analysis/  (bash scripts/sit-log-analysis.sh pipeline --from-fixtures)
+   Impl: repo-consolidated/docs/review/SIT_LOG_ANALYSIS_IMPLEMENTATION.md
